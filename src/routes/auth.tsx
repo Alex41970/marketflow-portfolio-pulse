@@ -33,23 +33,26 @@ function AuthPage() {
     e.preventDefault();
     setBusy(true);
     try {
+      const fd = new FormData(e.currentTarget as HTMLFormElement);
+      const email = String(fd.get("email") ?? f.email).trim();
+      const password = String(fd.get("password") ?? f.password);
       if (mode === "signup") {
         if (!/^[a-zA-Z0-9_]{3,20}$/.test(f.username)) throw new Error("Username: 3–20 letters, numbers or _");
         const { error } = await supabase.auth.signUp({
-          email: f.email,
-          password: f.password,
+          email,
+          password,
           options: { emailRedirectTo: window.location.origin + "/dashboard", data: { username: f.username } },
         });
         if (error) throw error;
         setSent("Check your email to confirm your account, then log in.");
       } else if (mode === "forgot") {
-        const { error } = await supabase.auth.resetPasswordForEmail(f.email, {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: window.location.origin + "/reset-password",
         });
         if (error) throw error;
         setSent("If that email has an account, a reset link is on its way.");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: f.email, password: f.password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         navigate({ to: "/dashboard" });
       }
@@ -82,17 +85,17 @@ function AuthPage() {
                 {mode === "signup" && (
                   <div className="space-y-1.5">
                     <Label htmlFor="u">Username</Label>
-                    <Input id="u" required value={f.username} onChange={(e) => setF({ ...f, username: e.target.value })} />
+                    <Input id="u" name="username" autoComplete="username" required value={f.username} onChange={(e) => setF({ ...f, username: e.target.value })} />
                   </div>
                 )}
                 <div className="space-y-1.5">
                   <Label htmlFor="e">Email</Label>
-                  <Input id="e" type="email" required value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
+                  <Input id="e" name="email" type="email" autoComplete="email" required value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
                 </div>
                 {mode !== "forgot" && (
                   <div className="space-y-1.5">
                     <Label htmlFor="p">Password</Label>
-                    <Input id="p" type="password" required minLength={8} value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} />
+                    <Input id="p" name="password" type="password" autoComplete={mode === "signup" ? "new-password" : "current-password"} required minLength={8} value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} />
                   </div>
                 )}
                 <Button type="submit" className="w-full" disabled={busy}>
