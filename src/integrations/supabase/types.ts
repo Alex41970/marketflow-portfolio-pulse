@@ -14,16 +14,173 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_id: string
+          amount: number | null
+          created_at: string
+          id: string
+          reason: string
+          target_user_id: string
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          amount?: number | null
+          created_at?: string
+          id?: string
+          reason: string
+          target_user_id: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          amount?: number | null
+          created_at?: string
+          id?: string
+          reason?: string
+          target_user_id?: string
+        }
+        Relationships: []
+      }
+      holdings: {
+        Row: {
+          avg_cost: number
+          id: string
+          quantity: number
+          symbol: string
+          user_id: string
+        }
+        Insert: {
+          avg_cost?: number
+          id?: string
+          quantity?: number
+          symbol: string
+          user_id: string
+        }
+        Update: {
+          avg_cost?: number
+          id?: string
+          quantity?: number
+          symbol?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          bonus: number
+          created_at: string
+          email: string
+          id: string
+          must_change_password: boolean
+          username: string
+          virtual_balance: number
+        }
+        Insert: {
+          bonus?: number
+          created_at?: string
+          email: string
+          id: string
+          must_change_password?: boolean
+          username: string
+          virtual_balance?: number
+        }
+        Update: {
+          bonus?: number
+          created_at?: string
+          email?: string
+          id?: string
+          must_change_password?: boolean
+          username?: string
+          virtual_balance?: number
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          kind: string
+          note: string | null
+          price: number | null
+          quantity: number | null
+          symbol: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          kind: string
+          note?: string | null
+          price?: number | null
+          quantity?: number | null
+          symbol?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind?: string
+          note?: string | null
+          price?: number | null
+          quantity?: number | null
+          symbol?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_adjust: {
+        Args: {
+          _delta: number
+          _field: string
+          _reason: string
+          _target: string
+        }
+        Returns: undefined
+      }
+      clear_password_flag: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      place_trade: {
+        Args: { _price: number; _qty: number; _side: string; _symbol: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +307,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
