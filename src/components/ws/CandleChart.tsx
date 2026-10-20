@@ -2,8 +2,15 @@ import { useEffect, useRef } from "react";
 import { createChart, CandlestickSeries, HistogramSeries, LineSeries, ColorType, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
 import { candles, type Range } from "@/lib/market";
 
-function cssVar(el: HTMLElement, name: string) {
-  return getComputedStyle(el).getPropertyValue(name).trim();
+function cssVar(el: HTMLElement, name: string, alpha = 1) {
+  const raw = getComputedStyle(el).getPropertyValue(name).trim();
+  const c = document.createElement("canvas");
+  c.width = c.height = 1;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = raw;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+  return `rgba(${r},${g},${b},${((a ?? 255) / 255) * alpha})`;
 }
 
 export default function CandleChart({ symbol, range, price, height = 360 }: { symbol: string; range: Range; price: number; height?: number }) {
@@ -18,6 +25,8 @@ export default function CandleChart({ symbol, range, price, height = 360 }: { sy
     const grid = cssVar(el, "--border");
     const gain = cssVar(el, "--gain");
     const loss = cssVar(el, "--loss");
+    const gainSoft = cssVar(el, "--gain", 0.35);
+    const lossSoft = cssVar(el, "--loss", 0.35);
     const chart = createChart(el, {
       autoSize: true,
       layout: { background: { type: ColorType.Solid, color: "transparent" }, textColor: fg, fontFamily: "IBM Plex Mono", fontSize: 11 },
@@ -31,7 +40,7 @@ export default function CandleChart({ symbol, range, price, height = 360 }: { sy
     s.setData(data.map((c) => ({ ...c, time: c.time as UTCTimestamp })));
     const v = chart.addSeries(HistogramSeries, { priceFormat: { type: "volume" }, priceScaleId: "" });
     v.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
-    v.setData(data.map((c) => ({ time: c.time as UTCTimestamp, value: c.volume, color: c.close >= c.open ? gain + "55" : loss + "55" })));
+    v.setData(data.map((c) => ({ time: c.time as UTCTimestamp, value: c.volume, color: c.close >= c.open ? gainSoft : lossSoft })));
     const ma = chart.addSeries(LineSeries, { color: cssVar(el, "--primary"), lineWidth: 1, priceLineVisible: false, lastValueVisible: false });
     ma.setData(data.slice(19).map((c, i) => ({ time: c.time as UTCTimestamp, value: data.slice(i, i + 20).reduce((a, b) => a + b.close, 0) / 20 })));
     chart.timeScale().fitContent();
