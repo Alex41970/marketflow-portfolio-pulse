@@ -44,6 +44,54 @@ export type Database = {
         }
         Relationships: []
       }
+      funding_requests: {
+        Row: {
+          admin_note: string | null
+          amount: number
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          details: Json
+          id: string
+          kind: string
+          method: string
+          network: string | null
+          reference: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          admin_note?: string | null
+          amount: number
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          details?: Json
+          id?: string
+          kind: string
+          method: string
+          network?: string | null
+          reference?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          admin_note?: string | null
+          amount?: number
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          details?: Json
+          id?: string
+          kind?: string
+          method?: string
+          network?: string | null
+          reference?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       holdings: {
         Row: {
           avg_cost: number
@@ -104,6 +152,39 @@ export type Database = {
           status?: string
           symbol?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      payment_methods: {
+        Row: {
+          active: boolean
+          created_at: string
+          details: Json
+          id: string
+          kind: string
+          label: string
+          network: string | null
+          sort: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          details?: Json
+          id?: string
+          kind: string
+          label: string
+          network?: string | null
+          sort?: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          details?: Json
+          id?: string
+          kind?: string
+          label?: string
+          network?: string | null
+          sort?: number
         }
         Relationships: []
       }
@@ -213,6 +294,21 @@ export type Database = {
         Returns: undefined
       }
       clear_password_flag: { Args: never; Returns: undefined }
+      create_funding_request: {
+        Args: {
+          _amount: number
+          _details: Json
+          _kind: string
+          _method: string
+          _network: string
+          _reference: string
+        }
+        Returns: string
+      }
+      decide_funding_request: {
+        Args: { _approve: boolean; _id: string; _note: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
