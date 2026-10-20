@@ -47,7 +47,7 @@ export function BalanceHistory({ tx }: { tx: Tx[] }) {
               <defs><linearGradient id="balg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.35} /><stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0} /></linearGradient></defs>
               <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
               <XAxis dataKey="d" tick={axis} axisLine={false} tickLine={false} minTickGap={24} />
-              <YAxis width={56} tick={axis} axisLine={false} tickLine={false} tickFormatter={k} domain={["auto", "auto"]} />
+              <YAxis width={56} tick={axis} axisLine={false} tickLine={false} tickFormatter={k} domain={[(m: number) => Math.floor(m * 0.9), (m: number) => Math.ceil(m * 1.05)]} />
               <Tooltip formatter={(v: number) => [fmt(v), "Balance"]} contentStyle={tip} />
               <Area dataKey="v" type="stepAfter" stroke="var(--chart-1)" strokeWidth={2.5} fill="url(#balg)" animationDuration={900} />
             </AreaChart>
