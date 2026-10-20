@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Balance/bonus/trade changes go only through SECURITY DEFINER SQL functions (place_trade, admin_adjust); profiles has no client UPDATE grant so users can't edit their own funds.
+- Admin password ops run in createServerFn with requireSupabaseAuth + has_role check before loading supabaseAdmin.
+- All market prices are client-side simulations of fictional tickers; never present them as real market data.
+- The app must keep an original brand and a visible "virtual funds only" banner; never imitate a real broker.
