@@ -30,7 +30,8 @@ function AdminLayout() {
   const { data: acct, isLoading } = useAccount();
   if (isLoading) return null;
   if (!acct?.isAdmin) return <div className="ws-panel p-8 text-center text-sm text-muted-foreground">You don't have access to this page.</div>;
-  return match({ to: "/admin/audit" }) ? <Outlet /> : <Admin />;
+  const isChild = match({ to: "/admin/audit" }) || match({ to: "/admin/requests" }) || match({ to: "/admin/payments" });
+  return isChild ? <Outlet /> : <Admin />;
 }
 
 type SortKey = "username" | "virtual_balance" | "bonus" | "created_at";
