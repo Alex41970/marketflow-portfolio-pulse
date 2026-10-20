@@ -20,7 +20,11 @@ export function SiteHeader() {
       <DemoBanner />
       <div className="hidden border-b bg-navy text-navy-muted md:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1.5 text-xs">
-          <div className="flex gap-5"><span>Individuals</span><span>Advisors</span><span>Institutions</span><span>Education</span></div>
+          <div className="flex gap-5">
+            {([["Individuals", "/individuals"], ["Advisors", "/advisors"], ["Institutions", "/institutions"], ["Education", "/education"]] as const).map(([l, to]) => (
+              <Link key={to} to={to} className="hover:text-navy-foreground" activeProps={{ className: "text-navy-foreground" }}>{l}</Link>
+            ))}
+          </div>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1"><Globe className="h-3 w-3" />English</span>
             <span className="rounded-full bg-navy-accent px-2 py-0.5 text-navy-foreground">Demo environment</span>
@@ -78,11 +82,11 @@ export function TickerTape() {
 
 export function SiteFooter() {
   const cols = {
-    Platform: ["Workstation", "Mobile", "Risk tools", "API (sim)"],
-    Markets: ["Stocks", "ETFs", "Forex", "Crypto"],
-    Company: ["About", "Careers", "Press", "Contact"],
-    Support: ["Help centre", "Education", "Status", "Security"],
-  };
+    Platform: [["Workstation", "/platform/workstation"], ["Mobile", "/platform/mobile"], ["Risk tools", "/platform/risk-tools"], ["API (sim)", "/platform/api"]],
+    Markets: [["Stocks", "/markets/stocks"], ["ETFs", "/markets/etfs"], ["Forex", "/markets/forex"], ["Crypto", "/markets/crypto"]],
+    Company: [["About", "/about"], ["Careers", "/careers"], ["Press", "/press"], ["Contact", "/contact"]],
+    Support: [["Help centre", "/help"], ["Education", "/education"], ["Status", "/status"], ["Security", "/security"]],
+  } as const;
   return (
     <footer className="bg-navy text-navy-muted">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-5">
@@ -90,7 +94,7 @@ export function SiteFooter() {
         {Object.entries(cols).map(([h, ls]) => (
           <div key={h}>
             <div className="text-sm font-semibold text-navy-foreground">{h}</div>
-            <ul className="mt-3 space-y-2 text-sm">{ls.map((l) => <li key={l}>{l}</li>)}</ul>
+            <ul className="mt-3 space-y-2 text-sm">{ls.map(([l, to]) => <li key={l}><Link to={to} className="hover:text-navy-foreground">{l}</Link></li>)}</ul>
           </div>
         ))}
       </div>

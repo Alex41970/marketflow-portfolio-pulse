@@ -2,15 +2,16 @@ import { useState } from "react";
 import { Sparkline, SimTag } from "@/components/Brand";
 import { CLASSES, TICKERS, useQuotes, quoteOf, fmtP, pct, signed, dpOf, spark, type AssetClass } from "@/lib/market";
 
-export function MarketsTable({ limit }: { limit?: number }) {
-  const [cls, setCls] = useState<AssetClass>("Stocks");
+export function MarketsTable({ limit, fixedClass }: { limit?: number; fixedClass?: AssetClass }) {
+  const [picked, setCls] = useState<AssetClass>("Stocks");
+  const cls = fixedClass ?? picked;
   const q = useQuotes();
   const rows = TICKERS.filter((t) => t.cls === cls).slice(0, limit);
   return (
     <div className="panel overflow-hidden">
       <div className="flex items-center justify-between border-b px-4">
         <div className="flex">
-          {CLASSES.map((c) => (
+          {(fixedClass ? [fixedClass] : CLASSES).map((c) => (
             <button key={c} onClick={() => setCls(c)} className={`border-b-2 px-4 py-3 text-sm font-medium ${cls === c ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>{c}</button>
           ))}
         </div>
