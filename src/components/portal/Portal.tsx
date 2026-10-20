@@ -16,7 +16,7 @@ export function PageTitle({ title, sub, right }: { title: string; sub?: string; 
 
 export function Card({ title, right, children, className = "" }: { title?: string; right?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={`rounded-xl border bg-card shadow-sm ${className}`}>
+    <section className={`rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md ${className}`}>
       {title && (
         <div className="flex items-center justify-between border-b px-5 py-4">
           <h2 className="text-sm font-semibold">{title}</h2>
@@ -28,15 +28,16 @@ export function Card({ title, right, children, className = "" }: { title?: strin
   );
 }
 
-export function StatCard({ label, value, hint, icon: I, accent }: { label: string; value: string; hint?: string; icon: LucideIcon; accent?: boolean }) {
+export function StatCard({ label, value, hint, icon: I, accent, children }: { label: string; value: string; hint?: string; icon: LucideIcon; accent?: boolean; children?: ReactNode }) {
   return (
-    <div className={`rounded-xl border p-5 shadow-sm ${accent ? "bg-navy text-navy-foreground" : "bg-card"}`}>
+    <div className={`relative overflow-hidden rounded-xl border p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${accent ? "bg-hero text-navy-foreground" : "bg-card"}`}>
       <div className="flex items-center justify-between">
         <span className={`text-xs font-medium uppercase tracking-wider ${accent ? "text-navy-muted" : "text-muted-foreground"}`}>{label}</span>
         <span className={`grid h-8 w-8 place-items-center rounded-lg ${accent ? "bg-navy-accent" : "bg-accent text-accent-foreground"}`}><I className="h-4 w-4" /></span>
       </div>
       <div className="num mt-3 text-2xl font-semibold">{value}</div>
       {hint && <div className={`mt-1 text-xs ${accent ? "text-navy-muted" : "text-muted-foreground"}`}>{hint}</div>}
+      {children && <div className="-mx-5 -mb-5 mt-3">{children}</div>}
     </div>
   );
 }
