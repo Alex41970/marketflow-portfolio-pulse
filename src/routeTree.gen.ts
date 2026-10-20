@@ -26,6 +26,14 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
+import { Route as MarketsCryptoRouteImport } from './routes/markets_.crypto'
+import { Route as MarketsEtfsRouteImport } from './routes/markets_.etfs'
+import { Route as MarketsForexRouteImport } from './routes/markets_.forex'
+import { Route as MarketsStocksRouteImport } from './routes/markets_.stocks'
+import { Route as PlatformApiRouteImport } from './routes/platform_.api'
+import { Route as PlatformMobileRouteImport } from './routes/platform_.mobile'
+import { Route as PlatformRiskToolsRouteImport } from './routes/platform_.risk-tools'
+import { Route as PlatformWorkstationRouteImport } from './routes/platform_.workstation'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -112,6 +120,46 @@ const AuthenticatedPortfolioRoute = AuthenticatedPortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const MarketsCryptoRoute = MarketsCryptoRouteImport.update({
+  id: '/markets_/crypto',
+  path: '/markets/crypto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsEtfsRoute = MarketsEtfsRouteImport.update({
+  id: '/markets_/etfs',
+  path: '/markets/etfs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsForexRoute = MarketsForexRouteImport.update({
+  id: '/markets_/forex',
+  path: '/markets/forex',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsStocksRoute = MarketsStocksRouteImport.update({
+  id: '/markets_/stocks',
+  path: '/markets/stocks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformApiRoute = PlatformApiRouteImport.update({
+  id: '/platform_/api',
+  path: '/platform/api',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformMobileRoute = PlatformMobileRouteImport.update({
+  id: '/platform_/mobile',
+  path: '/platform/mobile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRiskToolsRoute = PlatformRiskToolsRouteImport.update({
+  id: '/platform_/risk-tools',
+  path: '/platform/risk-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformWorkstationRoute = PlatformWorkstationRouteImport.update({
+  id: '/platform_/workstation',
+  path: '/platform/workstation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -135,6 +183,14 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
+  '/markets/crypto': typeof MarketsCryptoRoute
+  '/markets/etfs': typeof MarketsEtfsRoute
+  '/markets/forex': typeof MarketsForexRoute
+  '/markets/stocks': typeof MarketsStocksRoute
+  '/platform/api': typeof PlatformApiRoute
+  '/platform/mobile': typeof PlatformMobileRoute
+  '/platform/risk-tools': typeof PlatformRiskToolsRoute
+  '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRoutesByTo {
@@ -154,6 +210,14 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
+  '/markets/crypto': typeof MarketsCryptoRoute
+  '/markets/etfs': typeof MarketsEtfsRoute
+  '/markets/forex': typeof MarketsForexRoute
+  '/markets/stocks': typeof MarketsStocksRoute
+  '/platform/api': typeof PlatformApiRoute
+  '/platform/mobile': typeof PlatformMobileRoute
+  '/platform/risk-tools': typeof PlatformRiskToolsRoute
+  '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRoutesById {
@@ -175,6 +239,14 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
+  '/markets_/crypto': typeof MarketsCryptoRoute
+  '/markets_/etfs': typeof MarketsEtfsRoute
+  '/markets_/forex': typeof MarketsForexRoute
+  '/markets_/stocks': typeof MarketsStocksRoute
+  '/platform_/api': typeof PlatformApiRoute
+  '/platform_/mobile': typeof PlatformMobileRoute
+  '/platform_/risk-tools': typeof PlatformRiskToolsRoute
+  '/platform_/workstation': typeof PlatformWorkstationRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRouteTypes {
@@ -196,6 +268,14 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/history'
     | '/portfolio'
+    | '/markets/crypto'
+    | '/markets/etfs'
+    | '/markets/forex'
+    | '/markets/stocks'
+    | '/platform/api'
+    | '/platform/mobile'
+    | '/platform/risk-tools'
+    | '/platform/workstation'
     | '/admin/audit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -215,6 +295,14 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/history'
     | '/portfolio'
+    | '/markets/crypto'
+    | '/markets/etfs'
+    | '/markets/forex'
+    | '/markets/stocks'
+    | '/platform/api'
+    | '/platform/mobile'
+    | '/platform/risk-tools'
+    | '/platform/workstation'
     | '/admin/audit'
   id:
     | '__root__'
@@ -235,6 +323,14 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/history'
     | '/_authenticated/portfolio'
+    | '/markets_/crypto'
+    | '/markets_/etfs'
+    | '/markets_/forex'
+    | '/markets_/stocks'
+    | '/platform_/api'
+    | '/platform_/mobile'
+    | '/platform_/risk-tools'
+    | '/platform_/workstation'
     | '/_authenticated/admin/audit'
   fileRoutesById: FileRoutesById
 }
@@ -251,6 +347,14 @@ export interface RootRouteChildren {
   PlatformRoute: typeof PlatformRoute
   PricingRoute: typeof PricingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  MarketsCryptoRoute: typeof MarketsCryptoRoute
+  MarketsEtfsRoute: typeof MarketsEtfsRoute
+  MarketsForexRoute: typeof MarketsForexRoute
+  MarketsStocksRoute: typeof MarketsStocksRoute
+  PlatformApiRoute: typeof PlatformApiRoute
+  PlatformMobileRoute: typeof PlatformMobileRoute
+  PlatformRiskToolsRoute: typeof PlatformRiskToolsRoute
+  PlatformWorkstationRoute: typeof PlatformWorkstationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -374,6 +478,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortfolioRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/markets_/crypto': {
+      id: '/markets_/crypto'
+      path: '/markets/crypto'
+      fullPath: '/markets/crypto'
+      preLoaderRoute: typeof MarketsCryptoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets_/etfs': {
+      id: '/markets_/etfs'
+      path: '/markets/etfs'
+      fullPath: '/markets/etfs'
+      preLoaderRoute: typeof MarketsEtfsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets_/forex': {
+      id: '/markets_/forex'
+      path: '/markets/forex'
+      fullPath: '/markets/forex'
+      preLoaderRoute: typeof MarketsForexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets_/stocks': {
+      id: '/markets_/stocks'
+      path: '/markets/stocks'
+      fullPath: '/markets/stocks'
+      preLoaderRoute: typeof MarketsStocksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform_/api': {
+      id: '/platform_/api'
+      path: '/platform/api'
+      fullPath: '/platform/api'
+      preLoaderRoute: typeof PlatformApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform_/mobile': {
+      id: '/platform_/mobile'
+      path: '/platform/mobile'
+      fullPath: '/platform/mobile'
+      preLoaderRoute: typeof PlatformMobileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform_/risk-tools': {
+      id: '/platform_/risk-tools'
+      path: '/platform/risk-tools'
+      fullPath: '/platform/risk-tools'
+      preLoaderRoute: typeof PlatformRiskToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform_/workstation': {
+      id: '/platform_/workstation'
+      path: '/platform/workstation'
+      fullPath: '/platform/workstation'
+      preLoaderRoute: typeof PlatformWorkstationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/audit': {
       id: '/_authenticated/admin/audit'
       path: '/audit'
@@ -427,6 +587,14 @@ const rootRouteChildren: RootRouteChildren = {
   PlatformRoute: PlatformRoute,
   PricingRoute: PricingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  MarketsCryptoRoute: MarketsCryptoRoute,
+  MarketsEtfsRoute: MarketsEtfsRoute,
+  MarketsForexRoute: MarketsForexRoute,
+  MarketsStocksRoute: MarketsStocksRoute,
+  PlatformApiRoute: PlatformApiRoute,
+  PlatformMobileRoute: PlatformMobileRoute,
+  PlatformRiskToolsRoute: PlatformRiskToolsRoute,
+  PlatformWorkstationRoute: PlatformWorkstationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
