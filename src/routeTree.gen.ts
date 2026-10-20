@@ -14,13 +14,19 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdvisorsRouteImport } from './routes/advisors'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EducationRouteImport } from './routes/education'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as IndividualsRouteImport } from './routes/individuals'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as PressRouteImport } from './routes/press'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SecurityRouteImport } from './routes/security'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -60,9 +66,24 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EducationRoute = EducationRouteImport.update({
   id: '/education',
   path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndividualsRoute = IndividualsRouteImport.update({
@@ -85,6 +106,11 @@ const PlatformRoute = PlatformRouteImport.update({
   path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -93,6 +119,16 @@ const PricingRoute = PricingRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
@@ -171,13 +207,19 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/careers': typeof CareersRoute
+  '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
+  '/help': typeof HelpRoute
   '/individuals': typeof IndividualsRoute
   '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
+  '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/security': typeof SecurityRoute
+  '/status': typeof StatusRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -198,13 +240,19 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/careers': typeof CareersRoute
+  '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
+  '/help': typeof HelpRoute
   '/individuals': typeof IndividualsRoute
   '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
+  '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/security': typeof SecurityRoute
+  '/status': typeof StatusRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -227,13 +275,19 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/careers': typeof CareersRoute
+  '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
+  '/help': typeof HelpRoute
   '/individuals': typeof IndividualsRoute
   '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
+  '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/security': typeof SecurityRoute
+  '/status': typeof StatusRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -256,13 +310,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/advisors'
     | '/auth'
+    | '/careers'
+    | '/contact'
     | '/education'
+    | '/help'
     | '/individuals'
     | '/institutions'
     | '/markets'
     | '/platform'
+    | '/press'
     | '/pricing'
     | '/reset-password'
+    | '/security'
+    | '/status'
     | '/account'
     | '/admin'
     | '/dashboard'
@@ -283,13 +343,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/advisors'
     | '/auth'
+    | '/careers'
+    | '/contact'
     | '/education'
+    | '/help'
     | '/individuals'
     | '/institutions'
     | '/markets'
     | '/platform'
+    | '/press'
     | '/pricing'
     | '/reset-password'
+    | '/security'
+    | '/status'
     | '/account'
     | '/admin'
     | '/dashboard'
@@ -311,13 +377,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/advisors'
     | '/auth'
+    | '/careers'
+    | '/contact'
     | '/education'
+    | '/help'
     | '/individuals'
     | '/institutions'
     | '/markets'
     | '/platform'
+    | '/press'
     | '/pricing'
     | '/reset-password'
+    | '/security'
+    | '/status'
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
@@ -340,13 +412,19 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdvisorsRoute: typeof AdvisorsRoute
   AuthRoute: typeof AuthRoute
+  CareersRoute: typeof CareersRoute
+  ContactRoute: typeof ContactRoute
   EducationRoute: typeof EducationRoute
+  HelpRoute: typeof HelpRoute
   IndividualsRoute: typeof IndividualsRoute
   InstitutionsRoute: typeof InstitutionsRoute
   MarketsRoute: typeof MarketsRoute
   PlatformRoute: typeof PlatformRoute
+  PressRoute: typeof PressRoute
   PricingRoute: typeof PricingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SecurityRoute: typeof SecurityRoute
+  StatusRoute: typeof StatusRoute
   MarketsCryptoRoute: typeof MarketsCryptoRoute
   MarketsEtfsRoute: typeof MarketsEtfsRoute
   MarketsForexRoute: typeof MarketsForexRoute
@@ -394,11 +472,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/education': {
       id: '/education'
       path: '/education'
       fullPath: '/education'
       preLoaderRoute: typeof EducationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/individuals': {
@@ -429,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -441,6 +547,20 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/account': {
@@ -580,13 +700,19 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AdvisorsRoute: AdvisorsRoute,
   AuthRoute: AuthRoute,
+  CareersRoute: CareersRoute,
+  ContactRoute: ContactRoute,
   EducationRoute: EducationRoute,
+  HelpRoute: HelpRoute,
   IndividualsRoute: IndividualsRoute,
   InstitutionsRoute: InstitutionsRoute,
   MarketsRoute: MarketsRoute,
   PlatformRoute: PlatformRoute,
+  PressRoute: PressRoute,
   PricingRoute: PricingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SecurityRoute: SecurityRoute,
+  StatusRoute: StatusRoute,
   MarketsCryptoRoute: MarketsCryptoRoute,
   MarketsEtfsRoute: MarketsEtfsRoute,
   MarketsForexRoute: MarketsForexRoute,
