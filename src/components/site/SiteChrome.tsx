@@ -13,7 +13,7 @@ const NAV = [
   { to: "/about", label: "About" },
 ] as const;
 
-const SUBNAV: Partial<Record<string, readonly (readonly ["string" | string, "/platform/workstation" | "/platform/mobile" | "/platform/risk-tools" | "/platform/api" | "/markets/stocks" | "/markets/etfs" | "/markets/forex" | "/markets/crypto"])[]>> = {
+const SUBNAV: Partial<Record<string, readonly (readonly [string, "/platform/workstation" | "/platform/mobile" | "/platform/risk-tools" | "/platform/api" | "/markets/stocks" | "/markets/etfs" | "/markets/forex" | "/markets/crypto"])[]>> = {
   "/platform": [["Workstation", "/platform/workstation"], ["Mobile", "/platform/mobile"], ["Risk tools", "/platform/risk-tools"], ["API (sim)", "/platform/api"]],
   "/markets": [["Stocks", "/markets/stocks"], ["ETFs", "/markets/etfs"], ["Forex", "/markets/forex"], ["Crypto", "/markets/crypto"]],
 };
