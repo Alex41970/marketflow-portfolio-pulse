@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Apple, ArrowRight, Clock, Gift, Landmark, Monitor, Smartphone, Wallet } from "lucide-react";
 import { useAccount, useTransactions } from "@/hooks/use-account";
-import { Card, PageTitle, StatCard, TX_LABELS, accountNo, balanceCurve } from "@/components/portal/Portal";
+import { Card, PageTitle, StatCard, TX_LABELS, TxTable, accountNo, balanceCurve } from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { fmt } from "@/lib/market";
 
@@ -81,23 +81,3 @@ function Overview() {
   );
 }
 
-export function TxTable({ rows }: { rows: { id: string; created_at: string; kind: string; note: string | null; amount: number | string }[] }) {
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="text-left text-xs text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="font-medium">Type</th><th className="font-medium">Reference</th><th className="px-5 text-right font-medium">Amount</th></tr></thead>
-        <tbody>
-          {rows.map((t) => (
-            <tr key={t.id} className="border-t">
-              <td className="num px-5 py-3 text-muted-foreground">{new Date(t.created_at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</td>
-              <td>{TX_LABELS[t.kind] ?? t.kind}</td>
-              <td className="max-w-xs truncate text-muted-foreground">{t.note ?? "—"}</td>
-              <td className={`num px-5 text-right font-medium ${Number(t.amount) >= 0 ? "text-gain" : "text-loss"}`}>{Number(t.amount) >= 0 ? "+" : ""}{fmt(Number(t.amount))}</td>
-            </tr>
-          ))}
-          {rows.length === 0 && <tr><td colSpan={4} className="py-10 text-center text-muted-foreground">No transactions yet.</td></tr>}
-        </tbody>
-      </table>
-    </div>
-  );
-}

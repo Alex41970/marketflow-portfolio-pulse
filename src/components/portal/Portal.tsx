@@ -1,3 +1,4 @@
+import { fmt } from "@/lib/market";
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
@@ -57,4 +58,25 @@ export function balanceCurve(tx: { kind: string; amount: number | string; create
     .sort((a, b) => a.created_at.localeCompare(b.created_at))
     .filter((t) => t.kind !== "admin_bonus")
     .map((t) => { bal += Number(t.amount); return { d: new Date(t.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }), v: bal }; });
+}
+
+export function TxTable({ rows }: { rows: { id: string; created_at: string; kind: string; note: string | null; amount: number | string }[] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead className="text-left text-xs text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="font-medium">Type</th><th className="font-medium">Reference</th><th className="px-5 text-right font-medium">Amount</th></tr></thead>
+        <tbody>
+          {rows.map((t) => (
+            <tr key={t.id} className="border-t">
+              <td className="num px-5 py-3 text-muted-foreground">{new Date(t.created_at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</td>
+              <td>{TX_LABELS[t.kind] ?? t.kind}</td>
+              <td className="max-w-xs truncate text-muted-foreground">{t.note ?? "—"}</td>
+              <td className={`num px-5 text-right font-medium ${Number(t.amount) >= 0 ? "text-gain" : "text-loss"}`}>{Number(t.amount) >= 0 ? "+" : ""}{fmt(Number(t.amount))}</td>
+            </tr>
+          ))}
+          {rows.length === 0 && <tr><td colSpan={4} className="py-10 text-center text-muted-foreground">No transactions yet.</td></tr>}
+        </tbody>
+      </table>
+    </div>
+  );
 }

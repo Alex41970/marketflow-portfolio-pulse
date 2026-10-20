@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Download } from "lucide-react";
 import { useTransactions } from "@/hooks/use-account";
-import { Card, PageTitle } from "@/components/portal/Portal";
-import { TxTable } from "./dashboard";
+import { Card, PageTitle, TxTable } from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
