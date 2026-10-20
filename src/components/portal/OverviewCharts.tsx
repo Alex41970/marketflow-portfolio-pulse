@@ -174,7 +174,7 @@ export function FundingGauge({ reqs }: { reqs: Req[] }) {
         ))}
       </div>
       <div className="space-y-1.5 border-t px-5 py-3 text-xs">
-        <div className="flex justify-between"><span className="text-muted-foreground">Approved top-ups</span><span className="num font-medium text-gain">{fmt(sum("topup"))}</span></div>
+        <div className="flex justify-between"><span className="text-muted-foreground">Approved top-ups</span><span className="num font-medium text-gain">{fmt(sum("deposit"))}</span></div>
         <div className="flex justify-between"><span className="text-muted-foreground">Approved withdrawals</span><span className="num font-medium text-loss">{fmt(sum("withdrawal"))}</span></div>
       </div>
     </Card>
@@ -195,5 +195,101 @@ export function Sparkline({ values, color = "var(--chart-1)" }: { values: number
         </AreaChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+/** Balance and bonus stacked over time. */
+export function EquityStack({ tx }: { tx: Tx[] }) {
+  const data = useMemo(() => {
+    let b = 0, x = 0;
+    const pts = [...tx].sort((a, z) => a.created_at.localeCompare(z.created_at)).map((t) => {
+      if (t.kind === "admin_bonus") x += Number(t.amount); else b += Number(t.amount);
+      return { d: new Date(t.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }), b, x };
+    });
+    if (pts.length) pts.push({ ...pts.at(-1)!, d: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short" }) });
+    return pts;
+  }, [tx]);
+  return (
+    <Card title="Equity over time" className="lg:col-span-2" right={<div className="flex gap-3 text-xs text-muted-foreground"><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-chart-1" />Balance</span><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-chart-4" />Bonus</span></div>}>
+      <div className="h-72 p-3">
+        {data.length > 1 ? (
+          <ResponsiveContainer>
+            <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="eqb" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.35} /><stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0.02} /></linearGradient>
+                <linearGradient id="eqx" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--chart-4)" stopOpacity={0.5} /><stop offset="100%" stopColor="var(--chart-4)" stopOpacity={0.05} /></linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
+              <XAxis dataKey="d" tick={axis} axisLine={false} tickLine={false} minTickGap={24} />
+              <YAxis width={56} tick={axis} axisLine={false} tickLine={false} tickFormatter={k} />
+              <Tooltip formatter={(v: number, n) => [fmt(v), n === "b" ? "Balance" : "Bonus"]} contentStyle={tip} />
+              <Area dataKey="b" stackId="1" type="stepAfter" stroke="var(--chart-1)" strokeWidth={2} fill="url(#eqb)" />
+              <Area dataKey="x" stackId="1" type="stepAfter" stroke="var(--chart-4)" strokeWidth={2} fill="url(#eqx)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        ) : empty("Equity history appears after your first account movement.")}
+      </div>
+    </Card>
+  );
+}
+
+type FReq = Req & { method: string; created_at: string };
+
+export function FundingFlow({ reqs }: { reqs: FReq[] }) {
+  const data = useMemo(() => {
+    const months = Array.from({ length: 6 }, (_, i) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - (5 - i)); return { key: `${d.getFullYear()}-${d.getMonth()}`, m: d.toLocaleDateString("en-GB", { month: "short" }), dep: 0, wd: 0 }; });
+    for (const r of reqs) {
+      if (r.status !== "approved") continue;
+      const d = new Date(r.created_at); const row = months.find((m) => m.key === `${d.getFullYear()}-${d.getMonth()}`);
+      if (row) { if (r.kind === "deposit") row.dep += Number(r.amount); else row.wd += Number(r.amount); }
+    }
+    return months;
+  }, [reqs]);
+  const has = data.some((d) => d.dep || d.wd);
+  return (
+    <Card title="Approved top-ups vs withdrawals" className="lg:col-span-2" right={<span className="text-xs text-muted-foreground">Last 6 months</span>}>
+      <div className="h-64 p-3">
+        {has ? (
+          <ResponsiveContainer>
+            <BarChart data={data} barGap={4} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
+              <XAxis dataKey="m" tick={axis} axisLine={false} tickLine={false} />
+              <YAxis width={56} tick={axis} axisLine={false} tickLine={false} tickFormatter={k} />
+              <Tooltip formatter={(v: number, n) => [fmt(v), n === "dep" ? "Top-ups" : "Withdrawals"]} contentStyle={tip} cursor={{ fill: "var(--muted)" }} />
+              <Legend iconType="circle" iconSize={8} formatter={(v) => <span className="text-xs text-muted-foreground">{v === "dep" ? "Top-ups" : "Withdrawals"}</span>} />
+              <Bar dataKey="dep" fill="var(--chart-2)" radius={[6, 6, 0, 0]} maxBarSize={28} />
+              <Bar dataKey="wd" fill="var(--chart-3)" radius={[6, 6, 0, 0]} maxBarSize={28} />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : empty("Once requests are approved, monthly top-ups and withdrawals are charted here.")}
+      </div>
+    </Card>
+  );
+}
+
+export function MethodSplit({ reqs }: { reqs: FReq[] }) {
+  const crypto = reqs.filter((r) => r.method === "crypto").length;
+  const wire = reqs.filter((r) => r.method === "wire").length;
+  const data = [{ name: "Crypto", v: crypto, c: "var(--chart-4)" }, { name: "Bank wire", v: wire, c: "var(--chart-1)" }];
+  const total = crypto + wire;
+  return (
+    <Card title="Payment methods">
+      <div className="relative h-48">
+        {total ? (
+          <>
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie data={data} dataKey="v" innerRadius="66%" outerRadius="92%" paddingAngle={crypto && wire ? 3 : 0} stroke="none">{data.map((d) => <Cell key={d.name} fill={d.c} />)}</Pie>
+                <Tooltip formatter={(v: number) => [v, "Requests"]} contentStyle={tip} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="pointer-events-none absolute inset-0 grid place-items-center text-center"><div><div className="num text-xl font-semibold">{total}</div><div className="text-[11px] text-muted-foreground">requests</div></div></div>
+          </>
+        ) : empty("No requests yet.")}
+      </div>
+      <div className="grid grid-cols-2 gap-px border-t bg-border">
+        {data.map((d) => <div key={d.name} className="bg-card px-5 py-3"><div className="flex items-center gap-2 text-xs text-muted-foreground"><span className="h-2 w-2 rounded-full" style={{ background: d.c }} />{d.name}</div><div className="num mt-1 text-sm font-semibold">{d.v}</div></div>)}
+      </div>
+    </Card>
   );
 }
