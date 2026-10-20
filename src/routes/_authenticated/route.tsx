@@ -1,8 +1,8 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { History, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText } from "lucide-react";
+import { CreditCard, History, Inbox, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText, Wallet } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { DemoBanner } from "@/components/Brand";
 import { useAccount } from "@/hooks/use-account";
@@ -43,13 +43,22 @@ function Shell() {
   const links = [
     { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
     { to: "/portfolio", label: "Portfolio", icon: PieChart },
+    { to: "/funding", label: "Funding", icon: Wallet },
     { to: "/history", label: "Transactions", icon: History },
     { to: "/account", label: "Account", icon: User },
   ] as const;
   const adminLinks = [
     { to: "/admin", label: "Users & funds", icon: Shield },
+    { to: "/admin/requests", label: "Funding requests", icon: Inbox },
+    { to: "/admin/payments", label: "Payment settings", icon: CreditCard },
     { to: "/admin/audit", label: "Audit log", icon: ScrollText },
   ] as const;
+  const { data: pendingCount } = useQuery({
+    queryKey: ["funding-pending-count"],
+    enabled: !!data?.isAdmin,
+    refetchInterval: 30000,
+    queryFn: async () => (await supabase.from("funding_requests").select("id", { count: "exact", head: true }).eq("status", "pending")).count ?? 0,
+  });
   const navCls = "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-navy-muted transition-colors hover:bg-navy-accent hover:text-navy-foreground";
   const name = data?.profile?.username ?? "";
 
@@ -74,6 +83,7 @@ function Shell() {
                 {adminLinks.map(({ to, label, icon: I }) => (
                   <Link key={to} to={to} activeOptions={{ exact: true }} className={navCls} activeProps={{ className: "bg-navy-accent !text-navy-foreground" }}>
                     <I className="h-4 w-4 shrink-0" /><span className="hidden md:inline">{label}</span>
+                    {to === "/admin/requests" && !!pendingCount && <span className="ml-auto hidden rounded-full bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground md:inline">{pendingCount}</span>}
                   </Link>
                 ))}
               </>

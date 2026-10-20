@@ -43,6 +43,8 @@ export function StatCard({ label, value, hint, icon: I, accent }: { label: strin
 
 export const TX_LABELS: Record<string, string> = {
   deposit: "Opening balance",
+  topup: "Top-up",
+  withdrawal: "Withdrawal",
   admin_balance: "Balance adjustment",
   admin_bonus: "Bonus adjustment",
   buy: "Legacy trade",
