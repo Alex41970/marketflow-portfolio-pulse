@@ -84,9 +84,9 @@ function ForceChange() {
   const [pw, setPw] = useState("");
   const qc = useQueryClient();
   async function save() {
-    if (pw.length < 8) return toast.error("At least 8 characters");
+    if (pw.length < 8) { toast.error("At least 8 characters"); return; }
     const { error } = await supabase.auth.updateUser({ password: pw });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await supabase.rpc("clear_password_flag");
     qc.invalidateQueries({ queryKey: ["account"] });
     toast.success("Password updated");

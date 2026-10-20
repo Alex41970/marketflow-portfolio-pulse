@@ -77,11 +77,11 @@ function ManageDialog({ user, onClose }: { user: Profile; onClose: () => void })
     const delta = sign * Number(amount);
     const current = Number(field === "balance" ? user.virtual_balance : user.bonus);
     const check = applyAdjustment(current, delta, reason);
-    if (!check.ok) return toast.error(check.error);
+    if (!check.ok) { toast.error(check.error); return; }
     setBusy(true);
     const { error } = await supabase.rpc("admin_adjust", { _target: user.id, _field: field, _delta: delta, _reason: reason });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Updated");
     qc.invalidateQueries();
     onClose();
@@ -89,12 +89,12 @@ function ManageDialog({ user, onClose }: { user: Profile; onClose: () => void })
 
   async function sendReset() {
     const { error } = await supabase.auth.resetPasswordForEmail(user.email, { redirectTo: window.location.origin + "/reset-password" });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`Reset link sent to ${user.email}`);
   }
 
   async function issueTemp() {
-    if (temp.length < 8) return toast.error("Temporary password needs 8+ characters");
+    if (temp.length < 8) { toast.error("Temporary password needs 8+ characters"); return; }
     setBusy(true);
     try {
       await setTemp({ data: { userId: user.id, password: temp } });

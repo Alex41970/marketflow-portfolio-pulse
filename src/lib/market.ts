@@ -45,8 +45,9 @@ export function useLivePrices() {
       setPrices((prev) => {
         const next = { ...prev };
         for (const k of Object.keys(next)) {
-          const p = next[k].price * (1 + (Math.random() - 0.5) * 0.004);
-          next[k] = { ...next[k], price: +p.toFixed(2) };
+          const cur = next[k]!;
+          const p = cur.price * (1 + (Math.random() - 0.5) * 0.004);
+          next[k] = { ...cur, price: +p.toFixed(2) };
         }
         return next;
       });
@@ -58,3 +59,7 @@ export function useLivePrices() {
 
 export const fmt = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
+
+export function px(prices: Record<string, { price: number; open: number }>, sym: string) {
+  return prices[sym] ?? { price: 0, open: 1 };
+}

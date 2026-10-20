@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { TICKERS, history, useLivePrices, fmt } from "@/lib/market";
+import { TICKERS, history, useLivePrices, fmt, px } from "@/lib/market";
 import { canBuy } from "@/lib/rules";
 import { useAccount, useHoldings } from "@/hooks/use-account";
 import { Button } from "@/components/ui/button";
@@ -17,12 +17,12 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function Dashboard() {
   const prices = useLivePrices();
-  const [sel, setSel] = useState(TICKERS[0].symbol);
+  const [sel, setSel] = useState(TICKERS[0]!.symbol);
   const { data: acct } = useAccount();
   const { data: holdings = [] } = useHoldings();
   const ticker = TICKERS.find((t) => t.symbol === sel)!;
   const chart = useMemo(() => history(ticker), [ticker]);
-  const live = prices[sel];
+  const live = px(prices, sel);
   const cash = Number(acct?.profile?.virtual_balance ?? 0);
   const bonus = Number(acct?.profile?.bonus ?? 0);
   const invested = holdings.reduce((s, h) => s + Number(h.quantity) * (prices[h.symbol]?.price ?? 0), 0);
@@ -76,8 +76,8 @@ function Dashboard() {
                   <div className="text-xs text-muted-foreground">{t.name}</div>
                 </div>
                 <div className="text-right">
-                  <div className="num">{prices[t.symbol].price.toFixed(2)}</div>
-                  <Change price={prices[t.symbol].price} open={prices[t.symbol].open} />
+                  <div className="num">{px(prices, t.symbol).price.toFixed(2)}</div>
+                  <Change price={px(prices, t.symbol).price} open={px(prices, t.symbol).open} />
                 </div>
               </button>
             </li>
@@ -114,12 +114,12 @@ function OrderTicket({ symbol, price, cash, owned }: { symbol: string; price: nu
   const qc = useQueryClient();
   const q = Number(qty);
   async function place(side: "buy" | "sell") {
-    if (side === "buy" && !canBuy(cash, q, price)) return toast.error("Not enough virtual cash");
-    if (side === "sell" && q > owned) return toast.error("Not enough shares");
+    if (side === "buy" && !canBuy(cash, q, price)) { toast.error("Not enough virtual cash"); return; }
+    if (side === "sell" && q > owned) { toast.error("Not enough shares"); return; }
     setBusy(true);
     const { error } = await supabase.rpc("place_trade", { _symbol: symbol, _side: side, _qty: q, _price: price });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`${side === "buy" ? "Bought" : "Sold"} ${q} ${symbol} @ ${price.toFixed(2)}`);
     qc.invalidateQueries();
   }
