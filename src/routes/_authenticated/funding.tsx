@@ -178,6 +178,6 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
   );
 }
 
-function F({ label, v, on }: { label: string; v?: string; on: (v: string) => void }) {
+function F({ label, v, on }: { label: string; v?: string | undefined; on: (v: string) => void }) {
   return <div><Label className="text-xs">{label}</Label><Input value={v ?? ""} onChange={(e) => on(e.target.value)} /></div>;
 }
