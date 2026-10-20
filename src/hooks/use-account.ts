@@ -27,7 +27,14 @@ export function useTransactions() {
   return useQuery({
     queryKey: ["transactions"],
     queryFn: async () =>
-      (await supabase.from("transactions").select("*").order("created_at", { ascending: false }).limit(200))
-        .data ?? [],
+      (await supabase.from("transactions").select("*").order("created_at", { ascending: false }).limit(500)).data ?? [],
+  });
+}
+
+export function useOrders() {
+  return useQuery({
+    queryKey: ["orders"],
+    queryFn: async () =>
+      (await supabase.from("orders").select("*").order("created_at", { ascending: false }).limit(100)).data ?? [],
   });
 }
