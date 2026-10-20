@@ -29,7 +29,7 @@ export function BalanceHistory({ tx }: { tx: Tx[] }) {
     if (out.length) out.push({ t: Date.now(), v: out.at(-1)!.v });
     return out.map((p) => ({ ...p, d: new Date(p.t).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }) }));
   }, [tx, range]);
-  const change = data.length > 1 ? data.at(-1)!.v - data[0].v : 0;
+  const change = data.length > 1 ? data.at(-1)!.v - data[0]!.v : 0;
   return (
     <Card title="Balance history" className="xl:col-span-2" right={
       <div className="flex rounded-lg bg-muted p-0.5 text-xs">
@@ -150,10 +150,10 @@ export function ActivityMix({ tx }: { tx: Tx[] }) {
 }
 
 export function FundingGauge({ reqs }: { reqs: Req[] }) {
-  const c = { approved: 0, pending: 0, declined: 0 } as Record<string, number>;
+  const c: Record<string, number> = { approved: 0, pending: 0, declined: 0 };
   for (const r of reqs) c[r.status] = (c[r.status] ?? 0) + 1;
   const total = reqs.length;
-  const rate = total ? Math.round((c.approved / total) * 100) : 0;
+  const rate = total ? Math.round(((c["approved"] ?? 0) / total) * 100) : 0;
   const sum = (kind: string) => reqs.filter((r) => r.kind === kind && r.status === "approved").reduce((s, r) => s + Number(r.amount), 0);
   return (
     <Card title="Funding requests">
