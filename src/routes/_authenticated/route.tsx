@@ -1,14 +1,16 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { History, LayoutDashboard, LogOut, Menu, PieChart, Shield } from "lucide-react";
+import { History, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Brand, DemoBanner } from "@/components/Brand";
-import { useAccount } from "@/hooks/use-account";
-import { fmt } from "@/lib/market";
+import { useAccount, useHoldings } from "@/hooks/use-account";
+import { useQuotes, quoteOf, fmt } from "@/lib/market";
+import { BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -20,11 +22,35 @@ export const Route = createFileRoute("/_authenticated")({
   component: Shell,
 });
 
+function Clock() {
+  const [t, setT] = useState(() => new Date());
+  useEffect(() => { const i = setInterval(() => setT(new Date()), 1000); return () => clearInterval(i); }, []);
+  return <span className="num">{t.toLocaleTimeString("en-GB")}</span>;
+}
+
+function Metric({ label, value, tone }: { label: string; value: string; tone?: number }) {
+  return (
+    <div className="hidden px-4 lg:block">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className={`num text-sm ${tone === undefined ? "" : tone >= 0 ? "text-gain" : "text-loss"}`}>{value}</div>
+    </div>
+  );
+}
+
 function Shell() {
   const { data } = useAccount();
-  const [open, setOpen] = useState(false);
+  const { data: holdings = [] } = useHoldings();
+  const q = useQuotes();
+  const [dark, setDark] = useState(true);
   const qc = useQueryClient();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const v = localStorage.getItem("ws-theme");
+    if (v === "light") setDark(false);
+    void supabase.rpc("touch_seen");
+  }, []);
+  const toggle = () => { setDark(!dark); localStorage.setItem("ws-theme", dark ? "light" : "dark"); };
 
   async function signOut() {
     await qc.cancelQueries();
@@ -33,50 +59,84 @@ function Shell() {
     navigate({ to: "/auth", replace: true });
   }
 
+  const cash = Number(data?.profile?.virtual_balance ?? 0);
+  const mv = holdings.reduce((s, h) => s + Number(h.quantity) * quoteOf(q, h.symbol).price, 0);
+  const dayPnl = holdings.reduce((s, h) => { const x = quoteOf(q, h.symbol); return s + Number(h.quantity) * (x.price - x.open); }, 0);
+
   const links = [
     { to: "/dashboard", label: "Trade", icon: LayoutDashboard },
     { to: "/portfolio", label: "Portfolio", icon: PieChart },
-    { to: "/history", label: "History", icon: History },
-    ...(data?.isAdmin ? [{ to: "/admin", label: "Admin", icon: Shield }] : []),
+    { to: "/history", label: "Activity", icon: History },
+    { to: "/account", label: "Account", icon: User },
+    ...(data?.isAdmin ? [{ to: "/admin", label: "Admin", icon: Shield }, { to: "/admin/audit", label: "Audit", icon: ScrollText }] : []),
   ] as const;
 
-  const nav = (
-    <nav className="flex flex-col gap-1 px-3">
-      {links.map(({ to, label, icon: I }) => (
-        <Link key={to} to={to} onClick={() => setOpen(false)}
-          className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-navy-muted transition-colors hover:bg-navy-accent hover:text-navy-foreground"
-          activeProps={{ className: "bg-navy-accent text-navy-foreground" }}>
-          <I className="h-4 w-4" />{label}
-        </Link>
-      ))}
-    </nav>
-  );
-
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className={`${dark ? "dark" : ""} flex h-screen flex-col bg-background text-foreground`}>
       <DemoBanner />
-      <div className="flex flex-1">
-        <aside className={`${open ? "fixed inset-y-0 left-0 z-40 flex" : "hidden"} w-60 flex-col bg-navy py-5 text-navy-foreground md:static md:flex`}>
-          <div className="px-6 pb-6"><Brand /></div>
-          {nav}
-          <div className="mt-auto px-6 pt-6 text-xs text-navy-muted">
-            <div className="truncate">{data?.profile?.username}</div>
-            <button onClick={signOut} className="mt-2 flex items-center gap-2 hover:text-navy-foreground"><LogOut className="h-3.5 w-3.5" />Sign out</button>
-          </div>
-        </aside>
-        <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex items-center justify-between border-b bg-card px-4 py-3 md:px-6">
-            <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Menu"><Menu className="h-5 w-5" /></button>
-            <div className="text-sm text-muted-foreground">Virtual account</div>
-            <div className="num text-sm">
-              <span className="text-muted-foreground">Cash </span>{fmt(Number(data?.profile?.virtual_balance ?? 0))}
-            </div>
-          </header>
-          <main className="flex-1 p-4 md:p-6"><Outlet /></main>
+      <header className="flex h-12 shrink-0 items-center border-b bg-card">
+        <div className="flex w-14 justify-center md:w-48 md:justify-start md:px-4">
+          <Link to="/" className="hidden md:block"><Brand /></Link>
+          <span className="grid h-7 w-7 place-items-center rounded-sm bg-primary num text-sm text-primary-foreground md:hidden">{BRAND.mark}</span>
         </div>
+        <div className="hidden items-center gap-2 border-l px-4 text-xs md:flex">
+          <span className="text-muted-foreground">Account</span>
+          <span className="num rounded-sm bg-muted px-2 py-1">DU{(data?.user.id ?? "").slice(0, 6).toUpperCase()} · SIM</span>
+        </div>
+        <div className="flex divide-x border-l">
+          <Metric label="Net liq." value={fmt(cash + mv)} />
+          <Metric label="Day P&L" value={fmt(dayPnl)} tone={dayPnl} />
+          <Metric label="Buying power" value={fmt(cash * 2)} />
+          <Metric label="Cash" value={fmt(cash)} />
+        </div>
+        <div className="ml-auto flex items-center gap-3 px-4 text-xs text-muted-foreground">
+          <Clock />
+          <button onClick={toggle} aria-label="Toggle theme" className="rounded-sm p-1.5 hover:bg-muted">{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
+          <span className="hidden sm:inline">{data?.profile?.username}</span>
+          <button onClick={signOut} aria-label="Sign out" className="rounded-sm p-1.5 hover:bg-muted"><LogOut className="h-4 w-4" /></button>
+        </div>
+      </header>
+      <div className="flex min-h-0 flex-1">
+        <nav className="flex w-14 shrink-0 flex-col gap-1 border-r bg-card py-2 md:w-48">
+          {links.map(({ to, label, icon: I }) => (
+            <Link key={to} to={to} activeOptions={{ exact: true }}
+              className="mx-2 flex items-center gap-3 rounded-sm px-2.5 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+              activeProps={{ className: "bg-accent text-accent-foreground" }}>
+              <I className="h-4 w-4 shrink-0" /><span className="hidden md:inline">{label}</span>
+            </Link>
+          ))}
+        </nav>
+        <main className="min-w-0 flex-1 overflow-auto p-2 md:p-3"><Outlet /></main>
       </div>
-      {data?.profile?.must_change_password && <ForceChange />}
+      {data?.profile && !data.profile.disclaimer_accepted_at && <DisclaimerGate />}
+      {data?.profile?.disclaimer_accepted_at && data.profile.must_change_password && <ForceChange />}
     </div>
+  );
+}
+
+function DisclaimerGate() {
+  const [ok, setOk] = useState(false);
+  const qc = useQueryClient();
+  async function accept() {
+    await supabase.rpc("accept_disclaimer");
+    qc.invalidateQueries({ queryKey: ["account"] });
+  }
+  return (
+    <Dialog open>
+      <DialogContent onInteractOutside={(e) => e.preventDefault()} className="[&>button]:hidden">
+        <DialogHeader>
+          <DialogTitle>Before you start: this is a simulator</DialogTitle>
+          <DialogDescription>{BRAND.disclaimer}</DialogDescription>
+        </DialogHeader>
+        <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <li>Your $100,000 balance is virtual and has no cash value.</li>
+          <li>Instruments, prices and news are generated by software.</li>
+          <li>No deposits or withdrawals are possible.</li>
+        </ul>
+        <label className="flex items-center gap-2 text-sm"><Checkbox checked={ok} onCheckedChange={(v) => setOk(!!v)} />I understand this is a demo with virtual funds only.</label>
+        <Button disabled={!ok} onClick={accept}>Enter workstation</Button>
+      </DialogContent>
+    </Dialog>
   );
 }
 
