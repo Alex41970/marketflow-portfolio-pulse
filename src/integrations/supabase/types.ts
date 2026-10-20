@@ -68,12 +68,53 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          created_at: string
+          filled_at: string | null
+          id: string
+          limit_price: number | null
+          order_type: string
+          quantity: number
+          side: string
+          status: string
+          symbol: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          filled_at?: string | null
+          id?: string
+          limit_price?: number | null
+          order_type?: string
+          quantity: number
+          side: string
+          status?: string
+          symbol: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          filled_at?: string | null
+          id?: string
+          limit_price?: number | null
+          order_type?: string
+          quantity?: number
+          side?: string
+          status?: string
+          symbol?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           bonus: number
           created_at: string
+          disclaimer_accepted_at: string | null
           email: string
           id: string
+          last_seen_at: string | null
           must_change_password: boolean
           username: string
           virtual_balance: number
@@ -81,8 +122,10 @@ export type Database = {
         Insert: {
           bonus?: number
           created_at?: string
+          disclaimer_accepted_at?: string | null
           email: string
           id: string
+          last_seen_at?: string | null
           must_change_password?: boolean
           username: string
           virtual_balance?: number
@@ -90,8 +133,10 @@ export type Database = {
         Update: {
           bonus?: number
           created_at?: string
+          disclaimer_accepted_at?: string | null
           email?: string
           id?: string
+          last_seen_at?: string | null
           must_change_password?: boolean
           username?: string
           virtual_balance?: number
@@ -157,6 +202,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_disclaimer: { Args: never; Returns: undefined }
       admin_adjust: {
         Args: {
           _delta: number
@@ -178,6 +224,7 @@ export type Database = {
         Args: { _price: number; _qty: number; _side: string; _symbol: string }
         Returns: undefined
       }
+      touch_seen: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"
