@@ -7,8 +7,8 @@ import { QRCodeSVG } from "qrcode.react";
 import { ArrowDownToLine, ArrowUpFromLine, Clock, Wallet, CheckCircle2, Bitcoin, Copy, Landmark } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccount } from "@/hooks/use-account";
-import { PageTitle, Card, StatCard, accountNo }
-import { FundingFlow, FundingGauge, MethodSplit } from "@/components/portal/OverviewCharts"; from "@/components/portal/Portal";
+import { PageTitle, Card, StatCard, accountNo } from "@/components/portal/Portal";
+import { FundingFlow, FundingGauge, MethodSplit } from "@/components/portal/OverviewCharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
