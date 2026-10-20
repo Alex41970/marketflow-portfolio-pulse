@@ -17,10 +17,12 @@ import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -61,6 +63,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -81,6 +88,11 @@ const AuthenticatedPortfolioRoute = AuthenticatedPortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -90,10 +102,12 @@ export interface FileRoutesByFullPath {
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -103,10 +117,12 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -118,10 +134,12 @@ export interface FileRoutesById {
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,10 +151,12 @@ export interface FileRouteTypes {
     | '/platform'
     | '/pricing'
     | '/reset-password'
+    | '/account'
     | '/admin'
     | '/dashboard'
     | '/history'
     | '/portfolio'
+    | '/admin/audit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -146,10 +166,12 @@ export interface FileRouteTypes {
     | '/platform'
     | '/pricing'
     | '/reset-password'
+    | '/account'
     | '/admin'
     | '/dashboard'
     | '/history'
     | '/portfolio'
+    | '/admin/audit'
   id:
     | '__root__'
     | '/'
@@ -160,10 +182,12 @@ export interface FileRouteTypes {
     | '/platform'
     | '/pricing'
     | '/reset-password'
+    | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/history'
     | '/_authenticated/portfolio'
+    | '/_authenticated/admin/audit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -235,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -263,18 +294,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortfolioRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
