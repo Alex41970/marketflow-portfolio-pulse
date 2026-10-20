@@ -41,6 +41,7 @@ import { Route as PlatformMobileRouteImport } from './routes/platform_.mobile'
 import { Route as PlatformRiskToolsRouteImport } from './routes/platform_.risk-tools'
 import { Route as PlatformWorkstationRouteImport } from './routes/platform_.workstation'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as MarketsQuoteSymbolRouteImport } from './routes/markets_.quote.$symbol'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -201,6 +202,11 @@ const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const MarketsQuoteSymbolRoute = MarketsQuoteSymbolRouteImport.update({
+  id: '/markets_/quote/$symbol',
+  path: '/markets/quote/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -302,6 +310,7 @@ export interface FileRoutesById {
   '/platform_/risk-tools': typeof PlatformRiskToolsRoute
   '/platform_/workstation': typeof PlatformWorkstationRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/markets_/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -337,6 +346,7 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/markets/quote/$symbol'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -370,6 +380,7 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/markets/quote/$symbol'
   id:
     | '__root__'
     | '/'
@@ -404,6 +415,7 @@ export interface FileRouteTypes {
     | '/platform_/risk-tools'
     | '/platform_/workstation'
     | '/_authenticated/admin/audit'
+    | '/markets_/quote/$symbol'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -433,6 +445,7 @@ export interface RootRouteChildren {
   PlatformMobileRoute: typeof PlatformMobileRoute
   PlatformRiskToolsRoute: typeof PlatformRiskToolsRoute
   PlatformWorkstationRoute: typeof PlatformWorkstationRoute
+  MarketsQuoteSymbolRoute: typeof MarketsQuoteSymbolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -661,6 +674,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/markets_/quote/$symbol': {
+      id: '/markets_/quote/$symbol'
+      path: '/markets/quote/$symbol'
+      fullPath: '/markets/quote/$symbol'
+      preLoaderRoute: typeof MarketsQuoteSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -721,6 +741,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlatformMobileRoute: PlatformMobileRoute,
   PlatformRiskToolsRoute: PlatformRiskToolsRoute,
   PlatformWorkstationRoute: PlatformWorkstationRoute,
+  MarketsQuoteSymbolRoute: MarketsQuoteSymbolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

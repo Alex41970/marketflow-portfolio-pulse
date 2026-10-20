@@ -45,7 +45,7 @@ export function SiteHeader() {
                 const subs = SUBNAV[n.to];
                 return (
                   <div key={n.to} className="group relative py-2">
-                    <Link to={n.to} activeOptions={{ exact: true }} className="text-foreground/80 hover:text-primary" activeProps={{ className: "text-primary" }}>{n.label}</Link>
+                    <Link to={n.to} className="text-foreground/80 hover:text-primary" activeProps={{ className: "text-primary" }}>{n.label}</Link>
                     {subs && (
                       <div className="invisible absolute left-0 top-full z-40 min-w-52 rounded-md border bg-popover p-2 text-popover-foreground opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                         <Link to={n.to} activeOptions={{ exact: true }} className="block rounded px-3 py-2 hover:bg-muted" activeProps={{ className: "text-primary" }}>{n.label} overview</Link>
