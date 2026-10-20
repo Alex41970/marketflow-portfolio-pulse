@@ -30,6 +30,7 @@ import { Route as StatusRouteImport } from './routes/status'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedFundingRouteImport } from './routes/_authenticated/funding'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as MarketsCryptoRouteImport } from './routes/markets_.crypto'
@@ -41,6 +42,8 @@ import { Route as PlatformMobileRouteImport } from './routes/platform_.mobile'
 import { Route as PlatformRiskToolsRouteImport } from './routes/platform_.risk-tools'
 import { Route as PlatformWorkstationRouteImport } from './routes/platform_.workstation'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as MarketsQuoteSymbolRouteImport } from './routes/markets_.quote.$symbol'
 
 const IndexRoute = IndexRouteImport.update({
@@ -147,6 +150,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFundingRoute = AuthenticatedFundingRouteImport.update({
+  id: '/funding',
+  path: '/funding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -202,6 +210,18 @@ const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminRequestsRoute =
+  AuthenticatedAdminRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const MarketsQuoteSymbolRoute = MarketsQuoteSymbolRouteImport.update({
   id: '/markets_/quote/$symbol',
   path: '/markets/quote/$symbol',
@@ -229,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/funding': typeof AuthenticatedFundingRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/markets/crypto': typeof MarketsCryptoRoute
@@ -240,6 +261,8 @@ export interface FileRoutesByFullPath {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRoutesByTo {
@@ -263,6 +286,7 @@ export interface FileRoutesByTo {
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/funding': typeof AuthenticatedFundingRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/markets/crypto': typeof MarketsCryptoRoute
@@ -274,6 +298,8 @@ export interface FileRoutesByTo {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRoutesById {
@@ -299,6 +325,7 @@ export interface FileRoutesById {
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/funding': typeof AuthenticatedFundingRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/markets_/crypto': typeof MarketsCryptoRoute
@@ -310,6 +337,8 @@ export interface FileRoutesById {
   '/platform_/risk-tools': typeof PlatformRiskToolsRoute
   '/platform_/workstation': typeof PlatformWorkstationRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets_/quote/$symbol': typeof MarketsQuoteSymbolRoute
 }
 export interface FileRouteTypes {
@@ -335,6 +364,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/dashboard'
+    | '/funding'
     | '/history'
     | '/portfolio'
     | '/markets/crypto'
@@ -346,6 +376,8 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/admin/payments'
+    | '/admin/requests'
     | '/markets/quote/$symbol'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -369,6 +401,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/dashboard'
+    | '/funding'
     | '/history'
     | '/portfolio'
     | '/markets/crypto'
@@ -380,6 +413,8 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/admin/payments'
+    | '/admin/requests'
     | '/markets/quote/$symbol'
   id:
     | '__root__'
@@ -404,6 +439,7 @@ export interface FileRouteTypes {
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/funding'
     | '/_authenticated/history'
     | '/_authenticated/portfolio'
     | '/markets_/crypto'
@@ -415,6 +451,8 @@ export interface FileRouteTypes {
     | '/platform_/risk-tools'
     | '/platform_/workstation'
     | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/payments'
+    | '/_authenticated/admin/requests'
     | '/markets_/quote/$symbol'
   fileRoutesById: FileRoutesById
 }
@@ -597,6 +635,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/funding': {
+      id: '/_authenticated/funding'
+      path: '/funding'
+      fullPath: '/funding'
+      preLoaderRoute: typeof AuthenticatedFundingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/history': {
       id: '/_authenticated/history'
       path: '/history'
@@ -674,6 +719,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/requests': {
+      id: '/_authenticated/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/markets_/quote/$symbol': {
       id: '/markets_/quote/$symbol'
       path: '/markets/quote/$symbol'
@@ -686,10 +745,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
+  AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
+  AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
@@ -699,6 +762,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedFundingRoute: typeof AuthenticatedFundingRoute
   AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
 }
@@ -707,6 +771,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedFundingRoute: AuthenticatedFundingRoute,
   AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
 }
