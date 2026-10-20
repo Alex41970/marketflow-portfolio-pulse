@@ -29,6 +29,7 @@ export default function CandleChart({ symbol, range, price, height = 360 }: { sy
     const lossSoft = cssVar(el, "--loss", 0.35);
     const chart = createChart(el, {
       autoSize: true,
+      localization: { locale: "en-US" },
       layout: { background: { type: ColorType.Solid, color: "transparent" }, textColor: fg, fontFamily: "IBM Plex Mono", fontSize: 11 },
       grid: { vertLines: { color: grid }, horzLines: { color: grid } },
       rightPriceScale: { borderColor: grid },
