@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdvisorsRouteImport } from './routes/advisors'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EducationRouteImport } from './routes/education'
+import { Route as IndividualsRouteImport } from './routes/individuals'
+import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -38,9 +42,29 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdvisorsRoute = AdvisorsRouteImport.update({
+  id: '/advisors',
+  path: '/advisors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationRoute = EducationRouteImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndividualsRoute = IndividualsRouteImport.update({
+  id: '/individuals',
+  path: '/individuals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstitutionsRoute = InstitutionsRouteImport.update({
+  id: '/institutions',
+  path: '/institutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketsRoute = MarketsRouteImport.update({
@@ -97,7 +121,11 @@ const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/education': typeof EducationRoute
+  '/individuals': typeof IndividualsRoute
+  '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
@@ -112,7 +140,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/education': typeof EducationRoute
+  '/individuals': typeof IndividualsRoute
+  '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
@@ -129,7 +161,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/advisors': typeof AdvisorsRoute
   '/auth': typeof AuthRoute
+  '/education': typeof EducationRoute
+  '/individuals': typeof IndividualsRoute
+  '/institutions': typeof InstitutionsRoute
   '/markets': typeof MarketsRoute
   '/platform': typeof PlatformRoute
   '/pricing': typeof PricingRoute
@@ -146,7 +182,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/advisors'
     | '/auth'
+    | '/education'
+    | '/individuals'
+    | '/institutions'
     | '/markets'
     | '/platform'
     | '/pricing'
@@ -161,7 +201,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/advisors'
     | '/auth'
+    | '/education'
+    | '/individuals'
+    | '/institutions'
     | '/markets'
     | '/platform'
     | '/pricing'
@@ -177,7 +221,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/about'
+    | '/advisors'
     | '/auth'
+    | '/education'
+    | '/individuals'
+    | '/institutions'
     | '/markets'
     | '/platform'
     | '/pricing'
@@ -194,7 +242,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AdvisorsRoute: typeof AdvisorsRoute
   AuthRoute: typeof AuthRoute
+  EducationRoute: typeof EducationRoute
+  IndividualsRoute: typeof IndividualsRoute
+  InstitutionsRoute: typeof InstitutionsRoute
   MarketsRoute: typeof MarketsRoute
   PlatformRoute: typeof PlatformRoute
   PricingRoute: typeof PricingRoute
@@ -224,11 +276,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/advisors': {
+      id: '/advisors'
+      path: '/advisors'
+      fullPath: '/advisors'
+      preLoaderRoute: typeof AdvisorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/individuals': {
+      id: '/individuals'
+      path: '/individuals'
+      fullPath: '/individuals'
+      preLoaderRoute: typeof IndividualsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutions': {
+      id: '/institutions'
+      path: '/institutions'
+      fullPath: '/institutions'
+      preLoaderRoute: typeof InstitutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/markets': {
@@ -338,7 +418,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AdvisorsRoute: AdvisorsRoute,
   AuthRoute: AuthRoute,
+  EducationRoute: EducationRoute,
+  IndividualsRoute: IndividualsRoute,
+  InstitutionsRoute: InstitutionsRoute,
   MarketsRoute: MarketsRoute,
   PlatformRoute: PlatformRoute,
   PricingRoute: PricingRoute,
