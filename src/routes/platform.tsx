@@ -47,7 +47,7 @@ function Platform() {
           <div key={t}><I className="h-6 w-6 text-primary" /><h3 className="mt-3 font-semibold">{t}</h3><p className="mt-1 text-sm text-muted-foreground">{d}</p></div>
         ))}
       </section>
-      <div className="pb-20 text-center"><Button asChild size="lg"><Link to="/auth" search={{ mode: "signup" }}>Launch the workstation</Link></Button></div>
+      <div className="pb-20 text-center"><Button asChild size="lg"><Link to="/auth" search={{ mode: "signup" }}>Open an account</Link></Button></div>
       <SiteFooter />
     </div>
   );

@@ -4,8 +4,8 @@ import { CLASSES, TICKERS, quoteOf, fmtP, pct, signed, dpOf, spark, tickerOf, ty
 
 export function PanelHead({ title, right }: { title: string; right?: React.ReactNode }) {
   return (
-    <div className="flex h-8 items-center justify-between border-b px-3">
-      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{title}</span>
+    <div className="flex min-h-12 items-center justify-between gap-3 border-b px-5 py-2">
+      <span className="text-sm font-semibold">{title}</span>
       {right}
     </div>
   );
