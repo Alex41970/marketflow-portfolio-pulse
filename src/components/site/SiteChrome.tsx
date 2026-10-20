@@ -13,6 +13,11 @@ const NAV = [
   { to: "/about", label: "About" },
 ] as const;
 
+const SUBNAV: Partial<Record<string, readonly (readonly [string, "/platform/workstation" | "/platform/mobile" | "/platform/risk-tools" | "/platform/api" | "/markets/stocks" | "/markets/etfs" | "/markets/forex" | "/markets/crypto"])[]>> = {
+  "/platform": [["Workstation", "/platform/workstation"], ["Mobile", "/platform/mobile"], ["Risk tools", "/platform/risk-tools"], ["API (sim)", "/platform/api"]],
+  "/markets": [["Stocks", "/markets/stocks"], ["ETFs", "/markets/etfs"], ["Forex", "/markets/forex"], ["Crypto", "/markets/crypto"]],
+};
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
@@ -36,9 +41,22 @@ export function SiteHeader() {
           <div className="flex items-center gap-10">
             <Link to="/"><Brand /></Link>
             <nav className="hidden gap-7 text-sm font-medium md:flex">
-              {NAV.map((n) => (
-                <Link key={n.to} to={n.to} className="text-foreground/80 hover:text-primary" activeProps={{ className: "text-primary" }}>{n.label}</Link>
-              ))}
+              {NAV.map((n) => {
+                const subs = SUBNAV[n.to];
+                return (
+                  <div key={n.to} className="group relative py-2">
+                    <Link to={n.to} activeOptions={{ exact: true }} className="text-foreground/80 hover:text-primary" activeProps={{ className: "text-primary" }}>{n.label}</Link>
+                    {subs && (
+                      <div className="invisible absolute left-0 top-full z-40 min-w-52 rounded-md border bg-popover p-2 text-popover-foreground opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                        <Link to={n.to} activeOptions={{ exact: true }} className="block rounded px-3 py-2 hover:bg-muted" activeProps={{ className: "text-primary" }}>{n.label} overview</Link>
+                        {subs.map(([l, to]) => (
+                          <Link key={to} to={to} className="block rounded px-3 py-2 hover:bg-muted" activeProps={{ className: "text-primary" }}>{l}</Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </nav>
           </div>
           <div className="hidden items-center gap-2 md:flex">

@@ -5,6 +5,7 @@ import { LazyChart } from "@/components/ws/LazyChart";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { useQuotes, quoteOf } from "@/lib/market";
+import { IMG } from "@/lib/images";
 
 export const Route = createFileRoute("/platform")({
   head: () => ({
@@ -24,9 +25,14 @@ function Platform() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <PageHero eyebrow="Workstation" title="Everything on one screen" sub="A desk-grade layout designed for speed and clarity, with every price simulated." />
-      <section className="mx-auto max-w-7xl px-6 py-14">
-        <div className="dark rounded-lg border bg-background p-3 text-foreground shadow-2xl">
-          <LazyChart symbol="LUMA" range="6M" price={q.price} height={380} />
+      <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 lg:grid-cols-2">
+        <img src={IMG.traderDesk} alt="Illustrative trading desk with multiple screens" className="aspect-[4/3] w-full rounded-lg object-cover shadow-xl" loading="lazy" />
+        <div>
+          <p className="num text-xs uppercase tracking-[0.2em] text-primary">Live preview · LUMA (simulated)</p>
+          <h2 className="mt-2 text-2xl font-semibold">Charts that update every tick</h2>
+          <div className="mt-4 rounded-lg border bg-card p-3 shadow-sm">
+            <LazyChart symbol="LUMA" range="6M" price={q.price} height={300} />
+          </div>
         </div>
       </section>
       <section className="mx-auto grid max-w-7xl gap-8 px-6 pb-20 md:grid-cols-3">
