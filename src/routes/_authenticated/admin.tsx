@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Back office — Admin" }, { name: "description", content: "Manage demo accounts." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Users & funds" }, { name: "description", content: "Manage demo accounts." }] }),
   component: AdminLayout,
 });
 
@@ -71,14 +71,15 @@ function Admin() {
   );
 
   return (
-    <div className="space-y-2">
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-        {kpis.map(([l, v]) => <div key={l} className="ws-panel p-3"><div className="text-[10px] uppercase tracking-wider text-muted-foreground">{l}</div><div className="num mt-1 text-xl">{v}</div></div>)}
+    <div className="space-y-6">
+      <div><h1 className="text-2xl font-semibold tracking-tight">Users & funds</h1><p className="mt-1 text-sm text-muted-foreground">Manage balances, bonuses and passwords for every registered account.</p></div>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {kpis.map(([l, v]) => <div key={l} className="ws-panel p-5"><div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{l}</div><div className="num mt-2 text-2xl font-semibold">{v}</div></div>)}
       </div>
       <div className="ws-panel overflow-x-auto">
-        <PanelHead title="Demo accounts" right={<Input placeholder="Search username or email" className="h-6 w-56 text-xs" value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} />} />
-        <table className="w-full text-xs">
-          <thead className="text-[10px] uppercase text-muted-foreground">
+        <PanelHead title="Registered users" right={<Input placeholder="Search username or email" className="h-8 w-64" value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} />} />
+        <table className="w-full text-sm">
+          <thead className="text-xs text-muted-foreground">
             <tr><H k="username">User</H><th className="px-3 text-left font-medium">Email</th><H k="virtual_balance">Balance</H><H k="bonus">Bonus</H><th className="px-3 text-left font-medium">Status</th><H k="created_at">Joined</H><th /></tr>
           </thead>
           <tbody>
@@ -86,7 +87,7 @@ function Admin() {
               const active = u.last_seen_at && new Date(u.last_seen_at).getTime() > dayAgo;
               return (
                 <tr key={u.id} className="cursor-pointer border-t hover:bg-muted" onClick={() => setTarget(u)}>
-                  <td className="px-3 py-2 font-semibold">{u.username}</td>
+                  <td className="px-3 py-3 font-semibold">{u.username}</td>
                   <td className="px-3 text-muted-foreground">{u.email}</td>
                   <td className="num px-3">{fmt(Number(u.virtual_balance))}</td>
                   <td className="px-3">{Number(u.bonus) > 0 ? <Badge className="num">{fmt(Number(u.bonus))}</Badge> : <span className="text-muted-foreground">None</span>}</td>

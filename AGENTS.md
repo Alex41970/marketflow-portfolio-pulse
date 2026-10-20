@@ -15,3 +15,4 @@
 - All market prices are client-side simulations of fictional tickers; never present them as real market data.
 - The app must keep an original brand and a visible "virtual funds only" banner; never imitate a real broker.
 - Brand name/disclaimer live in src/lib/brand.ts so the pilot can be rebranded in one place.
+- Signed-in area is a view-only client portal (balance, bonus, transactions, account, admin); all trading happens externally in MT4/MT5, so no web trading UI. place_trade, orders and holdings are deprecated/unused.

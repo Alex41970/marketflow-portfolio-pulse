@@ -108,9 +108,9 @@ function Quote() {
             </dl>
           </div>
           <div className="panel space-y-2 p-4">
-            <Button asChild className="w-full"><Link to="/dashboard"><LineChart className="mr-2 h-4 w-4" />Trade in the demo</Link></Button>
+            <Button asChild className="w-full"><Link to="/dashboard"><LineChart className="mr-2 h-4 w-4" />Client portal</Link></Button>
             <Button variant="outline" className="w-full" onClick={() => toast.success(`${symbol} added to your demo watchlist`)}><Star className="mr-2 h-4 w-4" />Add to watchlist</Button>
-            <p className="pt-1 text-xs text-muted-foreground">Sign in or open a free demo account to place simulated orders. No real money is involved.</p>
+            <p className="pt-1 text-xs text-muted-foreground">Trading takes place in MetaTrader 4 / 5. Use the client portal to view your balance and history.</p>
           </div>
         </aside>
       </section>
