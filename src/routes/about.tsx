@@ -27,7 +27,7 @@ function Page() {
         <div className="grid gap-6 md:grid-cols-4">
           {[["A. Morgan", "Chief Executive"], ["R. Patel", "Head of Product"], ["J. Kim", "Head of Engineering"], ["L. Duarte", "Head of Education"]].map(([n, r]) => (
             <div key={n} className="panel p-6 text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent text-lg font-semibold text-accent-foreground">{n.split(" ").map((x) => x[0]).join("")}</div>
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent text-lg font-semibold text-accent-foreground">{(n ?? "").split(" ").map((x) => x[0]).join("")}</div>
               <div className="mt-3 font-semibold">{n}</div><div className="text-sm text-muted-foreground">{r}</div>
             </div>
           ))}
