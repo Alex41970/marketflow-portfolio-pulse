@@ -4,10 +4,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { QRCodeSVG } from "qrcode.react";
-import { ArrowDownToLine, ArrowUpFromLine, Bitcoin, Copy, Landmark } from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine, Clock, Wallet, CheckCircle2, Bitcoin, Copy, Landmark } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccount } from "@/hooks/use-account";
-import { PageTitle, Card, accountNo } from "@/components/portal/Portal";
+import { PageTitle, Card, StatCard, accountNo }
+import { FundingFlow, FundingGauge, MethodSplit } from "@/components/portal/OverviewCharts"; from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,9 +47,25 @@ function Funding() {
           <Button onClick={() => setMode("deposit")}><ArrowDownToLine className="mr-2 h-4 w-4" />Top up</Button>
           <Button variant="outline" onClick={() => setMode("withdrawal")}><ArrowUpFromLine className="mr-2 h-4 w-4" />Withdraw</Button>
         </div>} />
-      <div className="mb-6 grid gap-4 sm:grid-cols-2">
-        <Card><div className="p-5"><div className="text-xs uppercase tracking-wider text-muted-foreground">Balance</div><div className="num mt-2 text-2xl font-semibold">{fmt(bal)}</div></div></Card>
-        <Card><div className="p-5"><div className="text-xs uppercase tracking-wider text-muted-foreground">Available to withdraw</div><div className="num mt-2 text-2xl font-semibold">{fmt(Math.max(0, bal - pending))}</div>{pending > 0 && <div className="mt-1 text-xs text-muted-foreground">{fmt(pending)} in pending withdrawals</div>}</div></Card>
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard accent icon={Wallet} label="Balance" value={fmt(bal)} hint="Current account balance" />
+        <StatCard icon={ArrowUpFromLine} label="Available to withdraw" value={fmt(Math.max(0, bal - pending))} hint={pending > 0 ? `${fmt(pending)} in pending withdrawals` : "No pending withdrawals"} />
+        <StatCard icon={Clock} label="Pending requests" value={String(mine.filter((r) => r.status === "pending").length)} hint="Awaiting review" />
+        <StatCard icon={CheckCircle2} label="Approved top-ups" value={fmt(mine.filter((r) => r.kind === "deposit" && r.status === "approved").reduce((s, r) => s + Number(r.amount), 0))} hint="All time" />
+      </div>
+      <div className="mb-6 grid gap-6 lg:grid-cols-3">
+        <FundingFlow reqs={mine} />
+        <div className="grid gap-6"><MethodSplit reqs={mine} /></div>
+      </div>
+      <div className="mb-6 grid gap-6 lg:grid-cols-3">
+        <FundingGauge reqs={mine} />
+        <Card title="How funding works" className="lg:col-span-2">
+          <ol className="grid gap-px bg-border sm:grid-cols-3">
+            {[["1", "Submit a request", "Choose top up or withdraw, then crypto or bank wire."], ["2", "We review it", "Our team checks the payment or withdrawal details."], ["3", "Balance updates", "Once approved, your balance changes instantly."]].map(([n, t, d]) => (
+              <li key={n} className="bg-card p-5"><span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">{n}</span><div className="mt-3 text-sm font-semibold">{t}</div><p className="mt-1 text-xs text-muted-foreground">{d}</p></li>
+            ))}
+          </ol>
+        </Card>
       </div>
       <Card title="Your requests">
         <div className="overflow-x-auto">
