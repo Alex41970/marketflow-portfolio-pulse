@@ -22,12 +22,13 @@ export function pageHead(title: string, description: string, path: string) {
   };
 }
 
-export function ContentPage({ eyebrow, title, sub, crumbs, children, cta = true }: { eyebrow: string; title: string; sub: string; crumbs?: string[]; children: ReactNode; cta?: boolean }) {
+export function ContentPage({ eyebrow, title, sub, crumbs, children, cta = true, image }: { eyebrow: string; title: string; sub: string; crumbs?: string[]; children: ReactNode; cta?: boolean; image?: string }) {
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <section className="bg-hero text-navy-foreground">
-        <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className={`mx-auto max-w-7xl px-6 py-16 ${image ? "grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]" : ""}`}>
+          <div>
           {crumbs && (
             <div className="mb-6 flex items-center gap-1 text-xs text-navy-muted">
               <Link to="/" className="hover:text-navy-foreground">Home</Link>
@@ -37,6 +38,8 @@ export function ContentPage({ eyebrow, title, sub, crumbs, children, cta = true 
           <p className="num text-xs uppercase tracking-[0.2em] text-navy-muted">{eyebrow}</p>
           <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight md:text-5xl">{title}</h1>
           <p className="mt-4 max-w-2xl text-lg text-navy-muted">{sub}</p>
+          </div>
+          {image && <img src={image} alt="" width={1280} height={832} className="aspect-[16/10] w-full rounded-lg object-cover shadow-2xl ring-1 ring-sidebar-border" />}
         </div>
       </section>
       {children}
@@ -159,4 +162,49 @@ export function CtaBand() {
 
 export function SampleNote({ children }: { children: ReactNode }) {
   return <p className="mt-4 rounded-md border border-dashed p-3 text-xs text-muted-foreground">{children}</p>;
+}
+
+export function Photo({ src, alt }: { src: string; alt: string }) {
+  return <img src={src} alt={alt} loading="lazy" width={1280} height={832} className="aspect-[16/10] w-full rounded-lg object-cover shadow-lg" />;
+}
+
+export function Testimonials({ items }: { items: [string, string, string][] }) {
+  return (
+    <div className="grid gap-6 md:grid-cols-3">
+      {items.map(([q, n, r]) => (
+        <figure key={n} className="panel flex flex-col p-6">
+          <div className="text-3xl leading-none text-primary">“</div>
+          <blockquote className="mt-2 flex-1 text-sm leading-relaxed">{q}</blockquote>
+          <figcaption className="mt-4 border-t pt-4 text-sm"><div className="font-semibold">{n}</div><div className="text-xs text-muted-foreground">{r} · Sample testimonial</div></figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+export function ImageCards({ items }: { items: { img: string; tag: string; title: string; body: string; meta?: string }[] }) {
+  return (
+    <div className="grid gap-6 md:grid-cols-3">
+      {items.map((c) => (
+        <article key={c.title} className="panel overflow-hidden transition-shadow hover:shadow-lg">
+          <img src={c.img} alt="" loading="lazy" width={1280} height={832} className="aspect-[16/9] w-full object-cover" />
+          <div className="p-5">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary">{c.tag}</span>
+            <h3 className="mt-2 font-semibold leading-snug">{c.title}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{c.body}</p>
+            {c.meta && <p className="mt-3 text-xs text-muted-foreground">{c.meta}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+export function Quote({ text, by }: { text: string; by: string }) {
+  return (
+    <figure className="mx-auto max-w-3xl text-center">
+      <blockquote className="text-2xl font-medium leading-snug md:text-3xl">“{text}”</blockquote>
+      <figcaption className="mt-4 text-sm text-muted-foreground">{by}</figcaption>
+    </figure>
+  );
 }

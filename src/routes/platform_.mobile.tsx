@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Fingerprint, LayoutGrid, Moon, Smartphone, Zap } from "lucide-react";
-import { ContentPage, FeatureGrid, Section, Split, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, Photo, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 import { useQuotes, quoteOf, fmtP, pct, signed } from "@/lib/market";
 
 export const Route = createFileRoute("/platform_/mobile")({
@@ -28,7 +29,7 @@ function Phone() {
 
 function Page() {
   return (
-    <ContentPage eyebrow="Platform · Mobile" title="Your desk, in your pocket" sub="The same account, the same live simulated prices — reorganised for a phone or tablet." crumbs={["Platform", "Mobile"]}>
+    <ContentPage image={IMG.mobileHand} eyebrow="Platform · Mobile" title="Your desk, in your pocket" sub="The same account, the same live simulated prices — reorganised for a phone or tablet." crumbs={["Platform", "Mobile"]}>
       <Section>
         <Split title="Designed for one hand" body="The workstation collapses into a compact navigation rail, stacks panels vertically and keeps the order ticket within thumb reach." bullets={["Watchlists with live price flashes", "Full order ticket with confirmation", "Positions, orders and activity on the go"]} visual={<Phone />} />
       </Section>
@@ -42,6 +43,8 @@ function Page() {
           { icon: Fingerprint, title: "Secure sign-in", body: "Protected login with password reset by email." },
         ]} />
       </Section>
+    <Section><Split reverse title="Trade from anywhere" body="Commuting, travelling or away from your desk — your watchlists, positions and order ticket go with you." visual={<Photo src={IMG.mobileHand} alt="Phone with trading chart" />} /></Section>
+      <Section title="What users say" muted><Testimonials items={[["I check my demo portfolio on the train every morning. It's so smooth.", "Leah P.", "Learner"],["The mobile order ticket is clearer than most real apps I've used.", "Marco D.", "Active trader"],["Perfect for practising during lunch breaks.", "Hannah S.", "Student"]]} /></Section>
     </ContentPage>
   );
 }

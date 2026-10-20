@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Layers, LineChart, ListOrdered, Newspaper, Table2 } from "lucide-react";
-import { ContentPage, FeatureGrid, Section, Split, MockPanel, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, MockPanel, Photo, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 import { LazyChart } from "@/components/ws/LazyChart";
 import { useQuotes, quoteOf } from "@/lib/market";
 
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/platform_/workstation")({
 function Page() {
   const q = quoteOf(useQuotes(), "QNTM");
   return (
-    <ContentPage eyebrow="Platform · Workstation" title="A desk-grade workstation in your browser" sub="Every panel a professional trader expects, arranged for speed and updating live with simulated data." crumbs={["Platform", "Workstation"]}>
+    <ContentPage image={IMG.traderDesk} eyebrow="Platform · Workstation" title="A desk-grade workstation in your browser" sub="Every panel a professional trader expects, arranged for speed and updating live with simulated data." crumbs={["Platform", "Workstation"]}>
       <Section>
         <div className="dark rounded-lg border bg-background p-3 text-foreground shadow-2xl"><LazyChart symbol="QNTM" range="5D" price={q.price} height={400} /></div>
       </Section>
@@ -30,6 +31,8 @@ function Page() {
         <Split title="The blotter keeps you in control" body="Tabs along the bottom show open positions with live P&L, working limit orders you can cancel, recent trades and a full account summary." visual={<MockPanel title="Positions (sample)" rows={[["NOVA · 50", "+$412.50"], ["WLD500 · 20", "+$188.20"], ["EUR.USD · 10,000", "−$34.00"], ["BTC.SIM · 0.4", "+$1,096.00"]]} />} />
         <Split reverse title="Top bar metrics" body="Net liquidation, day P&L, buying power and cash are always visible, alongside your account ID and a live clock." visual={<MockPanel title="Top bar (sample)" rows={[["Net liq.", "$103,920.15"], ["Day P&L", "+$662.70"], ["Buying power", "$158,410.00"], ["Cash", "$79,205.00"]]} />} />
       </Section>
+    <Section muted><Split title="Designed for long sessions" body="A dense, high-contrast dark theme reduces eye strain, while a light theme is one click away for daytime use." visual={<Photo src={IMG.traderDesk} alt="Trader at multi-monitor desk" />} /></Section>
+      <Section title="Who uses the workstation"><ImageCards items={[{ img: IMG.educationStudy, tag: "Learners", title: "First trades", body: "Practise the full order flow end to end." },{ img: IMG.advisorMeeting, tag: "Advisors", title: "Client demos", body: "Walk clients through live simulated portfolios." },{ img: IMG.institutionTower, tag: "Firms", title: "Team training", body: "Onboard staff on a realistic platform." }]} /></Section>
     </ContentPage>
   );
 }

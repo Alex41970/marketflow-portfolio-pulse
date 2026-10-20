@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { Briefcase, FileBarChart, Layers, RefreshCw, Users, ClipboardCheck } from "lucide-react";
-import { ContentPage, FeatureGrid, Faq, Section, Split, Steps, MockPanel, pageHead } from "@/components/site/Sections";
+import { ContentPage, Faq, FeatureGrid, ImageCards, MockPanel, Photo, Section, Split, Steps, Testimonials, pageHead } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/advisors")({
   head: () => pageHead("For advisors", "Model portfolios, client demo accounts and rebalancing practice for financial advisors.", "/advisors"),
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/advisors")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="Advisors" title="Show clients what a plan looks like before it's real" sub="Use demo accounts to model portfolios, walk clients through trade-offs and train new team members — all with virtual funds.">
+    <ContentPage image={IMG.advisorMeeting} eyebrow="Advisors" title="Show clients what a plan looks like before it's real" sub="Use demo accounts to model portfolios, walk clients through trade-offs and train new team members — all with virtual funds.">
       <Section title="Tools for advisory practices">
         <FeatureGrid items={[
           { icon: Users, title: "Client demo accounts", body: "Set up a separate virtual account for each client conversation and keep their scenarios apart." },
@@ -38,6 +39,8 @@ function Page() {
           ["Can we brand it for our firm?", "Yes. The pilot is built to be white-labelled with your firm's name and colours."],
         ]} />
       </Section>
+    <Section><Split title="Turn conversations into demonstrations" body="Instead of describing risk, show it. Build a model with your client, then let them watch it react to simulated market moves in real time." visual={<Photo src={IMG.advisorMeeting} alt="Advisor meeting with clients" />} /><Split reverse title="Train your team safely" body="New hires learn the order flow, account views and reporting on a realistic platform before working with real client processes." visual={<Photo src={IMG.teamOffice} alt="Team collaborating at a whiteboard" />} /></Section>
+      <Section title="What advisors say" muted><Testimonials items={[["My clients finally understand what a balanced portfolio feels like day to day.", "J. Hartley", "Independent advisor"],["We onboard every junior analyst on the simulator now. It saves weeks.", "S. Coleman", "Practice manager"],["Being able to model scenarios live in meetings has changed our conversations.", "R. Nguyen", "Wealth planner"]]} /></Section>
     </ContentPage>
   );
 }

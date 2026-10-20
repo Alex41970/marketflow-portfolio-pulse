@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Database, Eye, KeyRound, Lock, ScrollText } from "lucide-react";
-import { ContentPage, FeatureGrid, Section, Faq, pageHead } from "@/components/site/Sections";
+import { ContentPage, Faq, FeatureGrid, ImageCards, Photo, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 import { BRAND } from "@/lib/brand";
 
 export const Route = createFileRoute("/security")({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/security")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="Support" title="Security and data protection" sub="How we keep demo accounts safe, and what you can do to help." crumbs={["Support", "Security"]}>
+    <ContentPage image={IMG.securityLock} eyebrow="Support" title="Security and data protection" sub="How we keep demo accounts safe, and what you can do to help." crumbs={["Support", "Security"]}>
       <Section title="Account protection">
         <FeatureGrid items={[
           { icon: KeyRound, title: "Secure passwords", body: "Passwords are hashed and never visible to anyone — including administrators." },
@@ -38,6 +39,7 @@ function Page() {
           ["Is my data shared?", "No. Demo account data is used only to run the simulator."],
         ]} />
       </Section>
+    <Section><Split title="Defence in depth" body="Protection happens at every layer: secure sign-in, server-side checks on every request, database-level access rules and an audit trail for admin actions." visual={<Photo src={IMG.securityLock} alt="Glowing padlock" />} /></Section>
     </ContentPage>
   );
 }

@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { Code2, KeyRound, Radio, Webhook } from "lucide-react";
-import { ContentPage, FeatureGrid, KeyValueTable, Section, SampleNote, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, KeyValueTable, Photo, SampleNote, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/platform_/api")({
   head: () => pageHead("API (simulated)", "Illustrative overview of a trading API for the simulator.", "/platform/api"),
@@ -26,7 +27,7 @@ const STREAM = `{ "type": "quote", "symbol": "EUR.USD",
 
 function Page() {
   return (
-    <ContentPage eyebrow="Platform · API" title="Automate your strategies (simulated)" sub="A preview of how programmatic access could work. Endpoints shown here are illustrative and not live in the pilot." crumbs={["Platform", "API"]}>
+    <ContentPage image={IMG.marketsGlobe} eyebrow="Platform · API" title="Automate your strategies (simulated)" sub="A preview of how programmatic access could work. Endpoints shown here are illustrative and not live in the pilot." crumbs={["Platform", "API"]}>
       <Section title="Capabilities">
         <FeatureGrid cols={4} items={[
           { icon: Code2, title: "REST orders", body: "Place, modify and cancel simulated orders." },
@@ -44,6 +45,7 @@ function Page() {
       <Section title="Endpoints (illustrative)">
         <KeyValueTable head={["Method", "Path", "Description"]} rows={[["GET", "/v1/account", "Balances and buying power"], ["GET", "/v1/positions", "Open positions"], ["POST", "/v1/orders", "Submit an order"], ["DELETE", "/v1/orders/:id", "Cancel a working order"], ["GET", "/v1/quotes/:symbol", "Latest simulated quote"]]} />
       </Section>
+    <Section muted><Split title="Built for developers (roadmap)" body="In a production rollout, a documented API would let firms connect their own tools, dashboards and learning platforms to the simulator." visual={<Photo src={IMG.teamOffice} alt="Engineering team at a whiteboard" />} /></Section>
     </ContentPage>
   );
 }
