@@ -19,7 +19,7 @@ function Requests() {
   const qc = useQueryClient();
   const [kind, setKind] = useState<"withdrawal" | "deposit">("withdrawal");
   const [status, setStatus] = useState("pending");
-  const [notes, setNotes] = useState<Det>({});
+  const [notes, setNotes] = useState<Record<string, string>>({});
   const { data } = useQuery({
     queryKey: ["funding-admin"],
     queryFn: async () => {

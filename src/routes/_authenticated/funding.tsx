@@ -111,7 +111,7 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
   }
 
   const copy = (v: string) => { void navigator.clipboard.writeText(v); toast.success("Copied"); };
-  const Row = ({ k, v }: { k: string; v?: string }) => v ? (
+  const Row = ({ k, v }: { k: string; v?: string | undefined }) => v ? (
     <div className="flex items-center justify-between gap-3 border-t py-2 text-sm first:border-t-0"><span className="text-muted-foreground">{k}</span><button onClick={() => copy(v)} className="num flex items-center gap-1.5 break-all text-right font-medium hover:text-primary">{v}<Copy className="h-3 w-3 shrink-0" /></button></div>
   ) : null;
 
