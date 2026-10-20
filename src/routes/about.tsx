@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { Compass, Eye, Lock, Users } from "lucide-react";
-import { ContentPage, FeatureGrid, Section, Split, Stats, MockPanel, SampleNote, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, MockPanel, Photo, SampleNote, Section, Split, Stats, Testimonials, pageHead } from "@/components/site/Sections";
 import { BRAND } from "@/lib/brand";
 
 export const Route = createFileRoute("/about")({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/about")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="About" title="Making professional trading tools accessible to everyone" sub={`${BRAND.name} ${BRAND.suffix} brings the depth of an institutional platform to anyone who wants to learn — without putting a single real dollar at risk.`}>
+    <ContentPage image={IMG.teamOffice} eyebrow="About" title="Making professional trading tools accessible to everyone" sub={`${BRAND.name} ${BRAND.suffix} brings the depth of an institutional platform to anyone who wants to learn — without putting a single real dollar at risk.`}>
       <Stats items={[["2026", "Founded (sample)"], ["4", "Asset classes"], ["24", "Instruments"], ["0", "Real dollars at risk"]]} />
       <Section>
         <Split title="Our story" body="We started with a simple observation: the best way to learn trading is to do it, but the cost of mistakes in real markets is high. So we built a simulator that looks and behaves like the platforms professionals use, and made it free to practise on." bullets={["Professional-grade interface", "Realistic, live-moving simulated markets", "Transparent, educational by design"]} visual={<MockPanel title="Milestones (sample)" rows={[["Q1", "Pilot design"], ["Q2", "Workstation launch"], ["Q3", "Back-office console"], ["Q4", "White-label partners"]]} />} />
@@ -34,6 +35,8 @@ function Page() {
         </div>
         <SampleNote>Names and milestones are placeholders for the pilot and will be replaced with the client's real details.</SampleNote>
       </Section>
+    <Section muted><Split title="How we work" body="Small, cross-functional teams own features end to end — from design and engineering to education content — so every part of the platform feels consistent." visual={<Photo src={IMG.teamOffice} alt="Team collaborating" />} /><Split reverse title="Where we're going" body="Next up: certificates, classroom competitions and deeper analytics, plus white-label rollouts with institutional partners." visual={<Photo src={IMG.pressStage} alt="Executive speaking at a conference" />} /></Section>
+      <Section title="What people say"><Testimonials items={[["The most professional-looking trading simulator I've used.", "Chris L.", "Learner"],["A genuinely useful training tool for our analysts.", "Operations Lead", "Partner firm (sample)"],["Clear, honest and beautifully designed.", "Nadia F.", "Educator"]]} /></Section>
     </ContentPage>
   );
 }

@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, KeyRound, Lock, Palette, ScrollText, ServerCog, GraduationCap, Shield } from "lucide-react";
-import { ContentPage, FeatureGrid, Section, Split, Stats, MockPanel, KeyValueTable, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, KeyValueTable, MockPanel, Photo, Section, Split, Stats, Testimonials, pageHead } from "@/components/site/Sections";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/institutions")({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/institutions")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="Institutions" title="A white-label trading platform, ready to pilot" sub="Give your customers or staff a polished brokerage experience under your brand, backed by a full back-office console and audit trail.">
+    <ContentPage image={IMG.institutionTower} eyebrow="Institutions" title="A white-label trading platform, ready to pilot" sub="Give your customers or staff a polished brokerage experience under your brand, backed by a full back-office console and audit trail.">
       <Stats items={[["4", "Asset classes"], ["100%", "Admin actions logged"], ["1 file", "To rebrand"], ["24/7", "Simulated markets"]]} />
       <Section title="What's included">
         <FeatureGrid cols={4} items={[
@@ -39,6 +40,9 @@ function Page() {
           <Button asChild size="lg"><Link to="/contact">Contact us</Link></Button>
         </div>
       </Section>
+    <Section><Split title="Built for scale" body="The pilot runs on managed cloud infrastructure with row-level data isolation, so thousands of demo accounts stay separate and secure." visual={<Photo src={IMG.institutionTower} alt="Financial district towers" />} /><Split reverse title="Your team, your brand" body="Present the platform to customers or staff under your own name, colours and domain. Rebranding is a single configuration change." visual={<Photo src={IMG.teamOffice} alt="Team working together" />} /></Section>
+      <Section title="Use cases" muted><ImageCards items={[{ img: IMG.traderDesk, tag: "Brokers", title: "Customer acquisition", body: "Let prospects try a branded demo before they open a real account." },{ img: IMG.educationStudy, tag: "Universities", title: "Finance education", body: "Run classroom competitions with practice bonuses and leaderboards." },{ img: IMG.advisorMeeting, tag: "Wealth firms", title: "Advisor training", body: "Onboard advisors and analysts on a realistic platform." }]} /></Section>
+      <Section title="What partners say"><Testimonials items={[["We had a branded demo in front of customers within days.", "Head of Digital", "Brokerage (sample)"],["The audit log gave our compliance team exactly what they needed.", "Operations Director", "Wealth firm (sample)"],["Our students love it. Engagement in the trading module doubled.", "Course Lead", "University (sample)"]]} /></Section>
     </ContentPage>
   );
 }

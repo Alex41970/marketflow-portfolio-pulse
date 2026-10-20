@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, CheckCircle2, Gauge, Percent, ShieldCheck, Wallet } from "lucide-react";
-import { ContentPage, FeatureGrid, KeyValueTable, Section, Split, MockPanel, pageHead } from "@/components/site/Sections";
+import { ContentPage, FeatureGrid, ImageCards, KeyValueTable, MockPanel, Photo, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/platform_/risk-tools")({
   head: () => pageHead("Risk tools", "Margin, buying power, position checks and order confirmations in the simulator.", "/platform/risk-tools"),
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/platform_/risk-tools")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="Platform · Risk tools" title="Understand risk before it matters" sub="Learn how professional platforms protect traders — with checks that run on every simulated order." crumbs={["Platform", "Risk tools"]}>
+    <ContentPage image={IMG.securityLock} eyebrow="Platform · Risk tools" title="Understand risk before it matters" sub="Learn how professional platforms protect traders — with checks that run on every simulated order." crumbs={["Platform", "Risk tools"]}>
       <Section title="Built-in protections">
         <FeatureGrid items={[
           { icon: Wallet, title: "Cash checks", body: "A buy order can't exceed your available virtual cash. The check runs before and after you confirm." },
@@ -26,6 +27,8 @@ function Page() {
       <Section title="Illustrative margin rates">
         <KeyValueTable head={["Asset class", "Initial", "Maintenance"]} rows={[["Stocks", "25%", "20%"], ["ETFs", "25%", "20%"], ["Forex", "3%", "2%"], ["Crypto", "50%", "40%"]]} note="Educational illustration only. Margin isn't extended in the demo." />
       </Section>
+    <Section muted><Split title="Learn the habits that protect capital" body="The simulator encourages good practice: confirm every order, size positions sensibly, and keep an eye on excess liquidity." visual={<Photo src={IMG.traderDesk} alt="Trader reviewing charts" />} /></Section>
+      <Section title="Further reading"><ImageCards items={[{ img: IMG.educationStudy, tag: "Course", title: "Position sizing and risk", body: "How much to trade, and how to cap your downside." },{ img: IMG.marketsGlobe, tag: "Course", title: "Understanding margin", body: "Buying power, maintenance margin and leverage." },{ img: IMG.mobileHand, tag: "Article", title: "Why limit orders protect you", body: "Avoiding unexpected fills in fast markets." }]} /></Section>
     </ContentPage>
   );
 }

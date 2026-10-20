@@ -1,6 +1,7 @@
+import { IMG } from "@/lib/images";
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, BookOpen, Gauge, LineChart, ShieldCheck, Smartphone } from "lucide-react";
-import { ContentPage, FeatureGrid, Faq, Section, Split, Stats, Steps, MockPanel, pageHead } from "@/components/site/Sections";
+import { ContentPage, Faq, FeatureGrid, ImageCards, MockPanel, Photo, Section, Split, Stats, Steps, Testimonials, pageHead } from "@/components/site/Sections";
 import { MarketsTable } from "@/components/site/MarketsTable";
 
 export const Route = createFileRoute("/individuals")({
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/individuals")({
 
 function Page() {
   return (
-    <ContentPage eyebrow="Individuals" title="Build real trading skills with zero real risk" sub="Whether you're placing your first order or testing an advanced strategy, our simulator gives you a professional workstation and $100,000 in virtual capital.">
+    <ContentPage image={IMG.traderDesk} eyebrow="Individuals" title="Build real trading skills with zero real risk" sub="Whether you're placing your first order or testing an advanced strategy, our simulator gives you a professional workstation and $100,000 in virtual capital.">
       <Stats items={[["$100K", "Virtual starting capital"], ["24", "Simulated instruments"], ["1.5s", "Quote refresh"], ["$0", "Cost to practise"]]} />
       <Section title="Who it's for">
         <FeatureGrid items={[
@@ -46,6 +47,9 @@ function Page() {
           ["Does it cost anything?", "No. The demo is free to use."],
         ]} />
       </Section>
+    <Section title="What our users say"><Testimonials items={[["I went from not knowing what a limit order was to running a diversified portfolio in a month.", "Daniel K.", "Learner, Manchester"],["The workstation feels exactly like the platforms I see in finance videos. Brilliant for practice.", "Aisha M.", "Student"],["Testing strategies with virtual money took the fear out of learning.", "Tom W.", "Part-time trader"]]} /></Section>
+      <Section muted><Split title="Practise on the go" body="Check positions, place orders and follow simulated prices from your phone with the same account." visual={<Photo src={IMG.mobileHand} alt="Phone showing a trading chart" />} /><Split reverse title="Learn alongside the simulator" body="Free courses and articles link straight to exercises in the workstation, so every lesson turns into practice." visual={<Photo src={IMG.educationStudy} alt="Student studying charts on a laptop" />} /></Section>
+      <Section title="Explore more"><ImageCards items={[{ img: IMG.marketsGlobe, tag: "Markets", title: "Four asset classes", body: "Stocks, ETFs, forex and crypto — all simulated and live-moving." },{ img: IMG.educationStudy, tag: "Education", title: "Free course library", body: "Nine courses from beginner to advanced." },{ img: IMG.securityLock, tag: "Security", title: "Your account, protected", body: "How we keep demo accounts safe." }]} /></Section>
     </ContentPage>
   );
 }
