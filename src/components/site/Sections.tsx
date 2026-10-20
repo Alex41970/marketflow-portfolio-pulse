@@ -32,7 +32,7 @@ export function ContentPage({ eyebrow, title, sub, crumbs, children, cta = true,
           {crumbs && (
             <div className="mb-6 flex items-center gap-1 text-xs text-navy-muted">
               <Link to="/" className="hover:text-navy-foreground">Home</Link>
-              {crumbs.map((c) => <span key={c} className="flex items-center gap-1"><ChevronRight className="h-3 w-3" />{c}</span>)}
+              {crumbs.map((c) => <span key={c} className="flex items-center gap-1"><ChevronRight className="h-3 w-3" />{c === "Markets" ? <Link to="/markets" className="hover:text-navy-foreground">Markets</Link> : c === "Platform" ? <Link to="/platform" className="hover:text-navy-foreground">Platform</Link> : c}</span>)}
             </div>
           )}
           <p className="num text-xs uppercase tracking-[0.2em] text-navy-muted">{eyebrow}</p>
