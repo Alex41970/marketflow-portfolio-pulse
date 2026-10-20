@@ -1,3 +1,4 @@
+import type { Det } from "@/lib/funding";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/funding")({
 });
 
 type Method = "crypto" | "wire";
-type PM = { id: string; kind: string; label: string; network: string | null; details: Record<string, string> };
+type PM = { id: string; kind: string; label: string; network: string | null; details: Det };
 
 export function useFundingRequests() {
   return useQuery({
@@ -80,7 +81,7 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
   const [pmId, setPmId] = useState<string>("");
   const [amount, setAmount] = useState("");
   const [ref, setRef] = useState("");
-  const [d, setD] = useState<Record<string, string>>({});
+  const [d, setD] = useState<Det>({});
   const [busy, setBusy] = useState(false);
   const { data: pms } = useQuery({
     queryKey: ["payment-methods-active"],
@@ -92,10 +93,10 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
 
   async function submit() {
     const amt = Number(amount);
-    if (!(amt > 0)) return toast.error("Enter a valid amount");
-    if (!isDep && !canWithdraw(balance, pending, amt)) return toast.error("Amount exceeds available balance");
-    if (!isDep && method === "crypto" && !d.address) return toast.error("Enter your wallet address");
-    if (!isDep && method === "wire" && (!d.holder || !d.iban)) return toast.error("Enter account holder and IBAN / account number");
+    if (!(amt > 0)) return void toast.error("Enter a valid amount");
+    if (!isDep && !canWithdraw(balance, pending, amt)) return void toast.error("Amount exceeds available balance");
+    if (!isDep && method === "crypto" && !d.address) return void toast.error("Enter your wallet address");
+    if (!isDep && method === "wire" && (!d.holder || !d.iban)) return void toast.error("Enter account holder and IBAN / account number");
     setBusy(true);
     const { error } = await supabase.rpc("create_funding_request", {
       _kind: kind, _method: method, _amount: amt,
@@ -103,7 +104,7 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
       _details: isDep ? {} : d, _reference: ref,
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success(isDep ? "Top-up submitted — we'll credit it once confirmed" : "Withdrawal request submitted");
     qc.invalidateQueries({ queryKey: ["funding-mine"] });
     onClose();

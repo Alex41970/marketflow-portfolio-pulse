@@ -1,3 +1,4 @@
+import type { Det } from "@/lib/funding";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -18,7 +19,7 @@ function Requests() {
   const qc = useQueryClient();
   const [kind, setKind] = useState<"withdrawal" | "deposit">("withdrawal");
   const [status, setStatus] = useState("pending");
-  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [notes, setNotes] = useState<Det>({});
   const { data } = useQuery({
     queryKey: ["funding-admin"],
     queryFn: async () => {
@@ -35,7 +36,7 @@ function Requests() {
 
   async function decide(id: string, approve: boolean) {
     const { error } = await supabase.rpc("decide_funding_request", { _id: id, _approve: approve, _note: notes[id] ?? "" });
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success(approve ? "Approved" : "Declined");
     qc.invalidateQueries({ queryKey: ["funding-admin"] });
     qc.invalidateQueries({ queryKey: ["admin-users"] });
@@ -62,7 +63,7 @@ function Requests() {
             <thead className="text-left text-xs text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="font-medium">Client</th><th className="font-medium">Amount</th><th className="font-medium">Method & details</th><th className="font-medium">Status</th><th className="px-5 font-medium">Action</th></tr></thead>
             <tbody>
               {rows.map((r) => {
-                const d = (r.details ?? {}) as Record<string, string>;
+                const d = (r.details ?? {}) as Det;
                 return (
                   <tr key={r.id} className="border-t align-top">
                     <td className="num px-5 py-3 text-muted-foreground">{new Date(r.created_at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</td>

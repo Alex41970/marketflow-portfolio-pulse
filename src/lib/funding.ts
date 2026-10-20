@@ -8,3 +8,5 @@ export const STATUS_STYLE: Record<string, string> = {
   approved: "bg-gain/15 text-gain",
   declined: "bg-loss/15 text-loss",
 };
+
+export type Det = { address?: string; bank?: string; holder?: string; iban?: string; swift?: string; network?: string; notes?: string };

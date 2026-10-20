@@ -1,3 +1,4 @@
+import type { Det } from "@/lib/funding";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/admin/payments")({
   component: Payments,
 });
 
-type PM = { id?: string; kind: "crypto" | "wire"; label: string; network: string | null; details: Record<string, string>; active: boolean; sort: number };
+type PM = { id?: string; kind: "crypto" | "wire"; label: string; network: string | null; details: Det; active: boolean; sort: number };
 
 const FIELDS: Record<PM["kind"], { k: string; l: string }[]> = {
   crypto: [{ k: "address", l: "Wallet address" }, { k: "notes", l: "Note for clients (optional)" }],
@@ -74,12 +75,12 @@ function Payments() {
 function Editor({ pm, onClose, onSaved }: { pm: PM; onClose: () => void; onSaved: () => void }) {
   const [f, setF] = useState<PM>(pm);
   async function save() {
-    if (!f.label.trim()) return toast.error("Name required");
-    if (f.kind === "crypto" && !f.details.address) return toast.error("Wallet address required");
-    if (f.kind === "wire" && (!f.details.holder || !f.details.iban)) return toast.error("Account holder and IBAN required");
+    if (!f.label.trim()) return void toast.error("Name required");
+    if (f.kind === "crypto" && !f.details.address) return void toast.error("Wallet address required");
+    if (f.kind === "wire" && (!f.details.holder || !f.details.iban)) return void toast.error("Account holder and IBAN required");
     const row = { kind: f.kind, label: f.label.trim(), network: f.network || null, details: f.details, active: f.active, sort: f.sort };
     const { error } = pm.id ? await supabase.from("payment_methods").update(row).eq("id", pm.id) : await supabase.from("payment_methods").insert(row);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success("Saved"); onSaved();
   }
   return (
@@ -92,7 +93,7 @@ function Editor({ pm, onClose, onSaved }: { pm: PM; onClose: () => void; onSaved
             <div><Label className="text-xs">{f.kind === "crypto" ? "Network (e.g. TRC20)" : "Currency (e.g. USD)"}</Label><Input value={f.network ?? ""} onChange={(e) => setF({ ...f, network: e.target.value })} /></div>
           </div>
           {FIELDS[f.kind].map(({ k, l }) => (
-            <div key={k}><Label className="text-xs">{l}</Label><Input value={f.details[k] ?? ""} onChange={(e) => setF({ ...f, details: { ...f.details, [k]: e.target.value } })} /></div>
+            <div key={k}><Label className="text-xs">{l}</Label><Input value={f.details[k as keyof Det] ?? ""} onChange={(e) => setF({ ...f, details: { ...f.details, [k]: e.target.value } as Det })} /></div>
           ))}
           <Button onClick={save}>Save</Button>
         </div>
