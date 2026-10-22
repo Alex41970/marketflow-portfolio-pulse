@@ -7,7 +7,7 @@ create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   username text not null unique,
   email text not null,
-  virtual_balance numeric(14,2) not null default 100000 check (virtual_balance >= 0),
+  virtual_balance numeric(14,2) not null default 0 check (virtual_balance >= 0),
   bonus numeric(14,2) not null default 0 check (bonus >= 0),
   must_change_password boolean not null default false,
   created_at timestamptz not null default now()
@@ -82,7 +82,6 @@ begin
   insert into public.profiles (id, username, email)
   values (new.id, coalesce(nullif(new.raw_user_meta_data->>'username',''), split_part(new.email,'@',1) || '_' || substr(new.id::text,1,4)), new.email);
   insert into public.user_roles (user_id, role) values (new.id, 'user');
-  insert into public.transactions (user_id, kind, amount, note) values (new.id, 'deposit', 100000, 'Starting virtual balance');
   return new;
 end $$;
 create trigger on_auth_user_created after insert on auth.users for each row execute function public.handle_new_user();

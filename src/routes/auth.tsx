@@ -71,7 +71,7 @@ function AuthPage() {
       <div className="grid flex-1 md:grid-cols-2">
         <div className="hidden bg-hero p-10 text-navy-foreground md:flex md:flex-col md:justify-between">
           <Link to="/"><Brand /></Link>
-          <p className="max-w-sm text-2xl font-medium leading-snug">$100,000 in virtual capital is waiting. Practice without consequences.</p>
+          <p className="max-w-sm text-2xl font-medium leading-snug">Your client portal is waiting. Practice without consequences.</p>
           <p className="text-xs text-navy-muted">Educational simulator · not a brokerage</p>
         </div>
         <div className="flex items-center justify-center p-6">

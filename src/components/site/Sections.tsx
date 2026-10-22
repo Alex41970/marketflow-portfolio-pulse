@@ -153,7 +153,7 @@ export function CtaBand() {
   return (
     <section className="bg-primary text-primary-foreground">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-12 md:flex-row">
-        <div><h2 className="text-2xl font-semibold">Ready to practise like a pro?</h2><p className="mt-1 text-sm opacity-80">Open a free demo account with $100,000 in virtual funds.</p></div>
+        <div><h2 className="text-2xl font-semibold">Ready to practise like a pro?</h2><p className="mt-1 text-sm opacity-80">Open a free demo account in minutes.</p></div>
         <Button asChild size="lg" variant="secondary"><Link to="/auth" search={{ mode: "signup" }}>Open demo account</Link></Button>
       </div>
     </section>

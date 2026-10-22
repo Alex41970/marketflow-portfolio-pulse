@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { applyAdjustment, canBuy, STARTING_BALANCE } from "./rules";
 
 describe("virtual fund rules", () => {
-  it("starts users with $100,000", () => expect(STARTING_BALANCE).toBe(100000));
+  it("starts new users at $0", () => expect(STARTING_BALANCE).toBe(0));
   it("blocks adjustments that make a balance negative", () => {
     expect(applyAdjustment(50, -100, "x").ok).toBe(false);
   });
