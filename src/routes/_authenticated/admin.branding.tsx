@@ -19,13 +19,13 @@ function Branding() {
   const qc = useQueryClient();
   const [f, setF] = useState(b);
   const [saving, setSaving] = useState(false);
-  useEffect(() => setF(b), [b.name, b.suffix, b.mark, b.tagline, b.disclaimer, b.copyright]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { setF(b); }, [b.name, b.suffix, b.mark, b.tagline, b.disclaimer, b.copyright]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function save() {
     if (!f.name.trim()) return toast.error("Brand name is required");
     setSaving(true);
     const { error } = await supabase.from("site_settings").update({
-      brand_name: f.name.trim(), brand_suffix: f.suffix.trim(), brand_mark: f.mark.trim().slice(0, 3) || f.name.trim()[0],
+      brand_name: f.name.trim(), brand_suffix: f.suffix.trim(), brand_mark: f.mark.trim().slice(0, 3) || f.name.trim().slice(0, 1),
       tagline: f.tagline, footer_text: f.disclaimer, copyright: f.copyright, updated_at: new Date().toISOString(),
     }).eq("id", 1);
     setSaving(false);
