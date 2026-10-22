@@ -22,6 +22,13 @@
       "when": 1792510176829,
       "tag": "0002_funding",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792679106635,
+      "tag": "0003_zero_starting_balance",
+      "breakpoints": true
     }
   ]
 }
