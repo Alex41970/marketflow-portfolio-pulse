@@ -5,14 +5,14 @@ import { ContentPage, Faq, FeatureGrid, ImageCards, MockPanel, Photo, Section, S
 import { MarketsTable } from "@/components/site/MarketsTable";
 
 export const Route = createFileRoute("/individuals")({
-  head: () => pageHead("For individuals", "Learn to trade stocks, ETFs, forex and crypto risk-free with $100,000 in virtual funds.", "/individuals"),
+  head: () => pageHead("For individuals", "Learn to trade stocks, ETFs, forex and crypto risk-free with virtual funds.", "/individuals"),
   component: Page,
 });
 
 function Page() {
   return (
-    <ContentPage image={IMG.traderDesk} eyebrow="Individuals" title="Build real trading skills with zero real risk" sub="Whether you're placing your first order or testing an advanced strategy, our simulator gives you a professional workstation and $100,000 in virtual capital.">
-      <Stats items={[["$100K", "Virtual starting capital"], ["24", "Simulated instruments"], ["1.5s", "Quote refresh"], ["$0", "Cost to practise"]]} />
+    <ContentPage image={IMG.traderDesk} eyebrow="Individuals" title="Build real trading skills with zero real risk" sub="Whether you're placing your first order or testing an advanced strategy, our simulator gives you a professional workstation and a fully funded virtual account.">
+      <Stats items={[["4", "Asset classes"], ["24", "Simulated instruments"], ["1.5s", "Quote refresh"], ["$0", "Cost to practise"]]} />
       <Section title="Who it's for">
         <FeatureGrid items={[
           { icon: BookOpen, title: "New investors", body: "Understand how orders, positions and profit and loss work before you ever commit real money elsewhere." },
@@ -22,7 +22,7 @@ function Page() {
       </Section>
       <Section title="How it works" muted>
         <Steps items={[
-          { title: "Open a demo account", body: "Sign up with an email address. Your account is credited with $100,000 in virtual funds instantly." },
+          { title: "Open a demo account", body: "Sign up with an email address. Fund your account with a top-up once it is approved." },
           { title: "Explore the workstation", body: "Add instruments to your watchlist, study candlestick charts and read the simulated news feed." },
           { title: "Trade and review", body: "Place market or limit orders, then track positions, P&L and every transaction in your activity log." },
         ]} />

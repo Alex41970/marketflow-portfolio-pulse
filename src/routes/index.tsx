@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: `${BRAND.name} ${BRAND.suffix} — Professional trading simulator` },
-      { name: "description", content: "A professional-grade trading workstation with simulated markets and $100,000 in virtual capital." },
+      { name: "description", content: "A professional-grade trading workstation with simulated markets and virtual capital." },
       { property: "og:title", content: `${BRAND.name} ${BRAND.suffix}` },
       { property: "og:description", content: "Professional trading workstation with simulated markets and virtual capital." },
       { property: "og:type", content: "website" },
@@ -52,7 +52,7 @@ function Index() {
           <div>
             <p className="num text-xs uppercase tracking-[0.2em] text-navy-muted">Simulated global markets</p>
             <h1 className="mt-4 text-4xl font-semibold leading-[1.1] md:text-6xl">The professional's trading desk. Without the risk.</h1>
-            <p className="mt-6 max-w-xl text-lg text-navy-muted">Trade stocks, ETFs, forex and crypto on a workstation built like the ones institutions use, with $100,000 in virtual capital.</p>
+            <p className="mt-6 max-w-xl text-lg text-navy-muted">Trade stocks, ETFs, forex and crypto on a workstation built like the ones institutions use, with virtual capital.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg"><Link to="/auth" search={{ mode: "signup" }}>Open demo account <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
               <Button asChild size="lg" variant="outline" className="border-navy-muted bg-transparent text-navy-foreground hover:bg-navy-accent hover:text-navy-foreground"><Link to="/platform">Explore the platform</Link></Button>
@@ -67,7 +67,7 @@ function Index() {
 
       <section className="border-b bg-card">
         <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x px-6 md:grid-cols-4">
-          {[["24", "Simulated instruments"], ["4", "Asset classes"], ["$100K", "Virtual capital"], ["0", "Real money at risk"]].map(([n, l]) => (
+          {[["24", "Simulated instruments"], ["4", "Asset classes"], ["24/7", "Client portal"], ["0", "Real money at risk"]].map(([n, l]) => (
             <div key={l} className="px-6 py-8 text-center"><div className="num text-3xl font-medium text-primary">{n}</div><div className="mt-1 text-sm text-muted-foreground">{l}</div></div>
           ))}
         </div>

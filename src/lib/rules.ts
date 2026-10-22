@@ -11,4 +11,4 @@ export function canBuy(cash: number, qty: number, price: number) {
   return qty > 0 && price > 0 && qty * price <= cash;
 }
 
-export const STARTING_BALANCE = 100000;
+export const STARTING_BALANCE = 0;
