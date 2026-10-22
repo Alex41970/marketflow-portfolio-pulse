@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useBrand } from "@/lib/useBrand";
 import { Brand } from "@/components/Brand";
 import { Button } from "@/components/ui/button";
-import { BRAND } from "@/lib/brand";
 import { TICKERS, useQuotes, quoteOf, fmtP, pct, signed, dpOf } from "@/lib/market";
 
 const NAV = [
