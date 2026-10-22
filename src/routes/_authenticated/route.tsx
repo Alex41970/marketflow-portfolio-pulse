@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CreditCard, History, Inbox, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText, Wallet } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { DemoBanner } from "@/components/Brand";
 import { useAccount } from "@/hooks/use-account";
 import { BRAND } from "@/lib/brand";
 import { accountNo } from "@/components/portal/Portal";
@@ -64,7 +63,6 @@ function Shell() {
 
   return (
     <div className={`${dark ? "dark" : ""} flex h-screen flex-col bg-background text-foreground`}>
-      <DemoBanner />
       <div className="flex min-h-0 flex-1">
         <aside className="flex w-16 shrink-0 flex-col bg-navy text-navy-foreground md:w-64">
           <Link to="/" className="flex h-16 items-center gap-3 border-b border-navy-accent px-4">
