@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Client portal — Users & funds" }, { name: "description", content: "Manage demo accounts." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Users & funds" }, { name: "description", content: "Manage client accounts." }] }),
   component: AdminLayout,
 });
 
@@ -61,7 +61,7 @@ function Admin() {
   const dayAgo = Date.now() - 864e5;
   const kpis = [
     ["Total users", String(all.length)],
-    ["Virtual funds outstanding", fmt(all.reduce((s, u) => s + Number(u.virtual_balance), 0))],
+    ["Client funds outstanding", fmt(all.reduce((s, u) => s + Number(u.virtual_balance), 0))],
     ["Active (24h)", String(all.filter((u) => u.last_seen_at && new Date(u.last_seen_at).getTime() > dayAgo).length)],
     ["Bonuses issued", fmt(all.reduce((s, u) => s + Number(u.bonus), 0))],
   ];
@@ -169,12 +169,12 @@ function UserDrawer({ user, onClose }: { user: Profile | null; onClose: () => vo
         <Tabs defaultValue="overview" className="mt-4">
           <TabsList className="grid w-full grid-cols-4"><TabsTrigger value="overview">Overview</TabsTrigger><TabsTrigger value="funds">Funds</TabsTrigger><TabsTrigger value="password">Password</TabsTrigger><TabsTrigger value="audit">Audit</TabsTrigger></TabsList>
           <TabsContent value="overview" className="space-y-2 pt-2 text-sm">
-            {[["Virtual balance", fmt(Number(user.virtual_balance))], ["Bonus", fmt(Number(user.bonus))], ["Joined", new Date(user.created_at).toLocaleString("en-GB")], ["Last seen", user.last_seen_at ? new Date(user.last_seen_at).toLocaleString("en-GB") : "Never"], ["Disclaimer accepted", user.disclaimer_accepted_at ? "Yes" : "No"]].map(([l, v]) => (
+            {[["Balance", fmt(Number(user.virtual_balance))], ["Bonus", fmt(Number(user.bonus))], ["Joined", new Date(user.created_at).toLocaleString("en-GB")], ["Last seen", user.last_seen_at ? new Date(user.last_seen_at).toLocaleString("en-GB") : "Never"], ["Disclaimer accepted", user.disclaimer_accepted_at ? "Yes" : "No"]].map(([l, v]) => (
               <div key={l} className="flex justify-between border-b py-2"><span className="text-muted-foreground">{l}</span><span className="num">{v}</span></div>
             ))}
           </TabsContent>
           <TabsContent value="funds" className="space-y-3 pt-2">
-            <div className="space-y-1.5"><Label>Amount (virtual USD)</Label><Input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
+            <div className="space-y-1.5"><Label>Amount (USD)</Label><Input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
             <div className="space-y-1.5"><Label>Reason (recorded in audit log)</Label><Input value={reason} onChange={(e) => setReason(e.target.value)} /></div>
             <div className="grid grid-cols-2 gap-2">
               <Button disabled={busy} onClick={() => adjust("balance", 1)}>Add credits</Button>

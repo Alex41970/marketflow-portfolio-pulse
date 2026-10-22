@@ -3,7 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Brand, DemoBanner } from "@/components/Brand";
+import { Brand } from "@/components/Brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,9 +12,9 @@ export const Route = createFileRoute("/auth")({
   validateSearch: z.object({ mode: z.enum(["login", "signup", "forgot"]).optional() }),
   head: () => ({
     meta: [
-      { title: "Sign in — Ledgerline Paper Trading" },
+      { title: "Sign in — Ledgerline Markets" },
       { name: "description", content: "Log in or open a free practice trading account." },
-      { property: "og:title", content: "Sign in — Ledgerline Paper Trading" },
+      { property: "og:title", content: "Sign in — Ledgerline Markets" },
       { property: "og:description", content: "Log in or open a free practice trading account." },
     ],
   }),
@@ -63,16 +63,15 @@ function AuthPage() {
     }
   }
 
-  const title = mode === "signup" ? "Open a practice account" : mode === "forgot" ? "Reset your password" : "Log in";
+  const title = mode === "signup" ? "Open an account" : mode === "forgot" ? "Reset your password" : "Log in";
 
   return (
     <div className="flex min-h-screen flex-col">
-      <DemoBanner />
       <div className="grid flex-1 md:grid-cols-2">
         <div className="hidden bg-hero p-10 text-navy-foreground md:flex md:flex-col md:justify-between">
           <Link to="/"><Brand /></Link>
-          <p className="max-w-sm text-2xl font-medium leading-snug">Your client portal is waiting. Practice without consequences.</p>
-          <p className="text-xs text-navy-muted">Educational simulator · not a brokerage</p>
+          <p className="max-w-sm text-2xl font-medium leading-snug">Your client portal is waiting. Manage your account securely.</p>
+          <p className="text-xs text-navy-muted">Secure client portal</p>
         </div>
         <div className="flex items-center justify-center p-6">
           <div className="w-full max-w-sm">
@@ -105,7 +104,7 @@ function AuthPage() {
             )}
             <div className="mt-6 space-y-2 text-sm text-muted-foreground">
               {mode !== "login" && <p>Have an account? <Link to="/auth" search={{ mode: "login" }} className="text-primary">Log in</Link></p>}
-              {mode !== "signup" && <p>New here? <Link to="/auth" search={{ mode: "signup" }} className="text-primary">Open a practice account</Link></p>}
+              {mode !== "signup" && <p>New here? <Link to="/auth" search={{ mode: "signup" }} className="text-primary">Open an account</Link></p>}
               {mode === "login" && <p><Link to="/auth" search={{ mode: "forgot" }} className="text-primary">Forgot password?</Link></p>}
             </div>
           </div>
