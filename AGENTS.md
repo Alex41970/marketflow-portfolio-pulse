@@ -13,7 +13,7 @@
 - Balance/bonus/trade changes go only through SECURITY DEFINER SQL functions (place_trade, admin_adjust); profiles has no client UPDATE grant so users can't edit their own funds.
 - Admin password ops run in createServerFn with requireSupabaseAuth + has_role check before loading supabaseAdmin.
 - All market prices are client-side simulations of fictional tickers; never present them as real market data.
-- The app must keep an original brand and a visible "virtual funds only" banner; never imitate a real broker.
+- The app must keep an original brand; never imitate a real broker. Market prices on the public site are generated, so label them "indicative", never as live exchange data.
 - Brand name/disclaimer live in src/lib/brand.ts so the pilot can be rebranded in one place.
 - Signed-in area is a view-only client portal (balance, bonus, transactions, account, admin); all trading happens externally in MT4/MT5, so no web trading UI. place_trade, orders and holdings are deprecated/unused.
 - Top-ups/withdrawals go through funding_requests; only create_funding_request and admin-only decide_funding_request (SECURITY DEFINER) change state, so balances move only on admin approval.
