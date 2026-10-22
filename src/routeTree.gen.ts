@@ -42,6 +42,7 @@ import { Route as PlatformMobileRouteImport } from './routes/platform_.mobile'
 import { Route as PlatformRiskToolsRouteImport } from './routes/platform_.risk-tools'
 import { Route as PlatformWorkstationRouteImport } from './routes/platform_.workstation'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as AuthenticatedAdminBrandingRouteImport } from './routes/_authenticated/admin.branding'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as MarketsQuoteSymbolRouteImport } from './routes/markets_.quote.$symbol'
@@ -210,6 +211,12 @@ const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminBrandingRoute =
+  AuthenticatedAdminBrandingRouteImport.update({
+    id: '/branding',
+    path: '/branding',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminPaymentsRoute =
   AuthenticatedAdminPaymentsRouteImport.update({
     id: '/payments',
@@ -261,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/branding': typeof AuthenticatedAdminBrandingRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
@@ -298,6 +306,7 @@ export interface FileRoutesByTo {
   '/platform/risk-tools': typeof PlatformRiskToolsRoute
   '/platform/workstation': typeof PlatformWorkstationRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/branding': typeof AuthenticatedAdminBrandingRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets/quote/$symbol': typeof MarketsQuoteSymbolRoute
@@ -337,6 +346,7 @@ export interface FileRoutesById {
   '/platform_/risk-tools': typeof PlatformRiskToolsRoute
   '/platform_/workstation': typeof PlatformWorkstationRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/branding': typeof AuthenticatedAdminBrandingRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/markets_/quote/$symbol': typeof MarketsQuoteSymbolRoute
@@ -376,6 +386,7 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/admin/branding'
     | '/admin/payments'
     | '/admin/requests'
     | '/markets/quote/$symbol'
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/platform/risk-tools'
     | '/platform/workstation'
     | '/admin/audit'
+    | '/admin/branding'
     | '/admin/payments'
     | '/admin/requests'
     | '/markets/quote/$symbol'
@@ -451,6 +463,7 @@ export interface FileRouteTypes {
     | '/platform_/risk-tools'
     | '/platform_/workstation'
     | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/branding'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/requests'
     | '/markets_/quote/$symbol'
@@ -719,6 +732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/branding': {
+      id: '/_authenticated/admin/branding'
+      path: '/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AuthenticatedAdminBrandingRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/payments': {
       id: '/_authenticated/admin/payments'
       path: '/payments'
@@ -745,12 +765,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminBrandingRoute: typeof AuthenticatedAdminBrandingRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminBrandingRoute: AuthenticatedAdminBrandingRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
 }
