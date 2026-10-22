@@ -30,7 +30,7 @@ function AdminLayout() {
   const { data: acct, isLoading } = useAccount();
   if (isLoading) return null;
   if (!acct?.isAdmin) return <div className="ws-panel p-8 text-center text-sm text-muted-foreground">You don't have access to this page.</div>;
-  const isChild = match({ to: "/admin/audit" }) || match({ to: "/admin/requests" }) || match({ to: "/admin/payments" });
+  const isChild = match({ to: "/admin/audit" }) || match({ to: "/admin/requests" }) || match({ to: "/admin/payments" }) || match({ to: "/admin/branding" });
   return isChild ? <Outlet /> : <Admin />;
 }
 

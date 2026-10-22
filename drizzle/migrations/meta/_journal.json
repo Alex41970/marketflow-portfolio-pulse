@@ -29,6 +29,13 @@
       "when": 1792679106635,
       "tag": "0003_zero_starting_balance",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792679533740,
+      "tag": "0004_site_branding",
+      "breakpoints": true
     }
   ]
 }

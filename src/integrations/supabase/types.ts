@@ -224,6 +224,39 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          brand_mark: string
+          brand_name: string
+          brand_suffix: string
+          copyright: string
+          footer_text: string
+          id: number
+          tagline: string
+          updated_at: string
+        }
+        Insert: {
+          brand_mark?: string
+          brand_name?: string
+          brand_suffix?: string
+          copyright?: string
+          footer_text?: string
+          id?: number
+          tagline?: string
+          updated_at?: string
+        }
+        Update: {
+          brand_mark?: string
+          brand_name?: string
+          brand_suffix?: string
+          copyright?: string
+          footer_text?: string
+          id?: number
+          tagline?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
