@@ -1,180 +1,131 @@
--- Ledgerline client portal: full database setup. Paste into the Supabase SQL editor and run once on a fresh project.
+-- =====================================================================
+-- Full Database Setup Script
+-- Paste everything into the SQL Editor of a NEW, EMPTY project and click Run once.
+-- =====================================================================
 
--- ===== drizzle/migrations/0000_migration.sql =====
-create type public.app_role as enum ('admin','user');
+-- 1. Roles and Users
+CREATE TYPE public.app_role AS ENUM ('admin', 'user');
 
-create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
-  username text not null unique,
-  email text not null,
-  virtual_balance numeric(14,2) not null default 0 check (virtual_balance >= 0),
-  bonus numeric(14,2) not null default 0 check (bonus >= 0),
-  must_change_password boolean not null default false,
-  created_at timestamptz not null default now()
+CREATE TABLE public.profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  username text NOT NULL UNIQUE,
+  email text NOT NULL,
+  virtual_balance numeric(14,2) NOT NULL DEFAULT 0 CHECK (virtual_balance >= 0),
+  bonus numeric(14,2) NOT NULL DEFAULT 0 CHECK (bonus >= 0),
+  must_change_password boolean NOT NULL DEFAULT false,
+  disclaimer_accepted_at timestamptz,
+  last_seen_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now()
 );
-grant select, update on public.profiles to authenticated;
-grant all on public.profiles to service_role;
-alter table public.profiles enable row level security;
+GRANT SELECT ON public.profiles TO authenticated;
+GRANT ALL ON public.profiles TO service_role;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
-create table public.user_roles (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references auth.users(id) on delete cascade not null,
-  role app_role not null,
-  unique (user_id, role)
+CREATE TABLE public.user_roles (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role app_role NOT NULL,
+  UNIQUE (user_id, role)
 );
-grant select on public.user_roles to authenticated;
-grant all on public.user_roles to service_role;
-alter table public.user_roles enable row level security;
+GRANT SELECT ON public.user_roles TO authenticated;
+GRANT ALL ON public.user_roles TO service_role;
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
-create or replace function public.has_role(_user_id uuid, _role app_role)
-returns boolean language sql stable security definer set search_path = public
-as $$ select exists (select 1 from public.user_roles where user_id=_user_id and role=_role) $$;
+CREATE OR REPLACE FUNCTION public.has_role(_user_id uuid, _role app_role)
+RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = _user_id AND role = _role);
+$$;
 
-create policy "own roles" on public.user_roles for select to authenticated using (user_id = auth.uid());
-create policy "own profile read" on public.profiles for select to authenticated using (id = auth.uid() or public.has_role(auth.uid(),'admin'));
+CREATE POLICY "own roles" ON public.user_roles
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+CREATE POLICY "own profile read" ON public.profiles
+  FOR SELECT TO authenticated USING (id = auth.uid() OR public.has_role(auth.uid(), 'admin'));
 
-create table public.holdings (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null,
-  symbol text not null,
-  quantity numeric(14,4) not null default 0,
-  avg_cost numeric(14,4) not null default 0,
-  unique(user_id, symbol)
+-- 2. Holdings & Transactions
+CREATE TABLE public.holdings (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  symbol text NOT NULL,
+  quantity numeric(14,4) NOT NULL DEFAULT 0,
+  avg_cost numeric(14,4) NOT NULL DEFAULT 0,
+  UNIQUE(user_id, symbol)
 );
-grant select on public.holdings to authenticated;
-grant all on public.holdings to service_role;
-alter table public.holdings enable row level security;
-create policy "own holdings" on public.holdings for select to authenticated using (user_id = auth.uid());
+GRANT SELECT ON public.holdings TO authenticated;
+GRANT ALL ON public.holdings TO service_role;
+ALTER TABLE public.holdings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own holdings" ON public.holdings
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
 
-create table public.transactions (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null,
-  kind text not null,
+CREATE TABLE public.transactions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  kind text NOT NULL,
   symbol text,
   quantity numeric(14,4),
   price numeric(14,4),
-  amount numeric(14,2) not null,
+  amount numeric(14,2) NOT NULL,
   note text,
-  created_at timestamptz not null default now()
+  created_at timestamptz NOT NULL DEFAULT now()
 );
-grant select on public.transactions to authenticated;
-grant all on public.transactions to service_role;
-alter table public.transactions enable row level security;
-create policy "own tx" on public.transactions for select to authenticated using (user_id = auth.uid() or public.has_role(auth.uid(),'admin'));
+GRANT SELECT ON public.transactions TO authenticated;
+GRANT ALL ON public.transactions TO service_role;
+ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own tx" ON public.transactions
+  FOR SELECT TO authenticated USING (user_id = auth.uid() OR public.has_role(auth.uid(), 'admin'));
 
-create table public.admin_audit_log (
-  id uuid primary key default gen_random_uuid(),
-  admin_id uuid not null,
-  target_user_id uuid not null,
-  action text not null,
+-- 3. Audit Log
+CREATE TABLE public.admin_audit_log (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  admin_id uuid NOT NULL,
+  target_user_id uuid NOT NULL,
+  action text NOT NULL,
   amount numeric(14,2),
-  reason text not null,
-  created_at timestamptz not null default now()
+  reason text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
 );
-grant select on public.admin_audit_log to authenticated;
-grant all on public.admin_audit_log to service_role;
-alter table public.admin_audit_log enable row level security;
-create policy "admins read audit" on public.admin_audit_log for select to authenticated using (public.has_role(auth.uid(),'admin'));
+GRANT SELECT ON public.admin_audit_log TO authenticated;
+GRANT ALL ON public.admin_audit_log TO service_role;
+ALTER TABLE public.admin_audit_log ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admins read audit" ON public.admin_audit_log
+  FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin'));
 
-create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path = public as $$
-begin
-  insert into public.profiles (id, username, email)
-  values (new.id, coalesce(nullif(new.raw_user_meta_data->>'username',''), split_part(new.email,'@',1) || '_' || substr(new.id::text,1,4)), new.email);
-  insert into public.user_roles (user_id, role) values (new.id, 'user');
-  return new;
-end $$;
-create trigger on_auth_user_created after insert on auth.users for each row execute function public.handle_new_user();
+-- 4. Automatic Profile Creation on Signup (new accounts start at $0)
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  INSERT INTO public.profiles (id, username, email, virtual_balance, bonus)
+  VALUES (
+    new.id,
+    coalesce(nullif(new.raw_user_meta_data->>'username',''), split_part(new.email,'@',1) || '_' || substr(new.id::text,1,4)),
+    new.email, 0, 0
+  );
+  INSERT INTO public.user_roles (user_id, role) VALUES (new.id, 'user');
+  RETURN new;
+END;
+$$;
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- Trading: atomic buy/sell at a client-supplied simulated price
-create or replace function public.place_trade(_symbol text, _side text, _qty numeric, _price numeric)
-returns void language plpgsql security definer set search_path = public as $$
-declare uid uuid := auth.uid(); cost numeric; h record;
-begin
-  if uid is null then raise exception 'Not signed in'; end if;
-  if _qty <= 0 or _price <= 0 then raise exception 'Invalid order'; end if;
-  cost := round(_qty * _price, 2);
-  if _side = 'buy' then
-    update public.profiles set virtual_balance = virtual_balance - cost where id = uid and virtual_balance >= cost;
-    if not found then raise exception 'Insufficient virtual funds'; end if;
-    insert into public.holdings (user_id, symbol, quantity, avg_cost) values (uid, _symbol, _qty, _price)
-    on conflict (user_id, symbol) do update set
-      avg_cost = (holdings.avg_cost*holdings.quantity + excluded.avg_cost*excluded.quantity)/(holdings.quantity+excluded.quantity),
-      quantity = holdings.quantity + excluded.quantity;
-    insert into public.transactions (user_id, kind, symbol, quantity, price, amount) values (uid,'buy',_symbol,_qty,_price,-cost);
-  elsif _side = 'sell' then
-    select * into h from public.holdings where user_id = uid and symbol = _symbol for update;
-    if h is null or h.quantity < _qty then raise exception 'Not enough shares'; end if;
-    if h.quantity = _qty then delete from public.holdings where id = h.id;
-    else update public.holdings set quantity = quantity - _qty where id = h.id; end if;
-    update public.profiles set virtual_balance = virtual_balance + cost where id = uid;
-    insert into public.transactions (user_id, kind, symbol, quantity, price, amount) values (uid,'sell',_symbol,_qty,_price,cost);
-  else raise exception 'Invalid side'; end if;
-end $$;
-revoke execute on function public.place_trade from public, anon;
-grant execute on function public.place_trade to authenticated;
-
--- Admin adjustments
-create or replace function public.admin_adjust(_target uuid, _field text, _delta numeric, _reason text)
-returns void language plpgsql security definer set search_path = public as $$
-begin
-  if not public.has_role(auth.uid(),'admin') then raise exception 'Forbidden'; end if;
-  if coalesce(trim(_reason),'') = '' then raise exception 'Reason required'; end if;
-  if _field = 'balance' then
-    update public.profiles set virtual_balance = virtual_balance + _delta where id = _target and virtual_balance + _delta >= 0;
-  elsif _field = 'bonus' then
-    update public.profiles set bonus = bonus + _delta where id = _target and bonus + _delta >= 0;
-  else raise exception 'Invalid field'; end if;
-  if not found then raise exception 'Result would be negative or user not found'; end if;
-  insert into public.transactions (user_id, kind, amount, note) values (_target, 'admin_' || _field, _delta, _reason);
-  insert into public.admin_audit_log (admin_id, target_user_id, action, amount, reason) values (auth.uid(), _target, _field, _delta, _reason);
-end $$;
-revoke execute on function public.admin_adjust from public, anon;
-grant execute on function public.admin_adjust to authenticated;
-
-create or replace function public.clear_password_flag()
-returns void language sql security definer set search_path = public as $$
-  update public.profiles set must_change_password = false where id = auth.uid() $$;
-revoke execute on function public.clear_password_flag from public, anon;
-grant execute on function public.clear_password_flag to authenticated;
-
--- profiles: users can't update directly (balances protected)
-revoke update on public.profiles from authenticated;
--- ===== drizzle/migrations/0001_migration.sql =====
-create table public.orders (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null,
-  symbol text not null,
-  side text not null check (side in ('buy','sell')),
-  order_type text not null default 'limit' check (order_type in ('market','limit')),
-  quantity numeric(14,4) not null check (quantity > 0),
+-- 5. Orders (legacy, unused but referenced by app types)
+CREATE TABLE public.orders (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  symbol text NOT NULL,
+  side text NOT NULL CHECK (side IN ('buy','sell')),
+  order_type text NOT NULL DEFAULT 'limit' CHECK (order_type IN ('market','limit')),
+  quantity numeric(14,4) NOT NULL CHECK (quantity > 0),
   limit_price numeric(14,4),
-  status text not null default 'working' check (status in ('working','filled','cancelled')),
-  created_at timestamptz not null default now(),
+  status text NOT NULL DEFAULT 'working' CHECK (status IN ('working','filled','cancelled')),
+  created_at timestamptz NOT NULL DEFAULT now(),
   filled_at timestamptz
 );
-grant select, insert, update on public.orders to authenticated;
-grant all on public.orders to service_role;
-alter table public.orders enable row level security;
-create policy "own orders read" on public.orders for select to authenticated using (user_id = auth.uid());
-create policy "own orders insert" on public.orders for insert to authenticated with check (user_id = auth.uid() and status = 'working');
-create policy "own orders update" on public.orders for update to authenticated using (user_id = auth.uid() and status = 'working') with check (user_id = auth.uid() and status in ('cancelled','filled'));
+GRANT SELECT ON public.orders TO authenticated;
+GRANT ALL ON public.orders TO service_role;
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own orders read" ON public.orders FOR SELECT TO authenticated USING (user_id = auth.uid());
 
-alter table public.profiles add column disclaimer_accepted_at timestamptz;
-alter table public.profiles add column last_seen_at timestamptz;
-
-create or replace function public.accept_disclaimer()
-returns void language sql security definer set search_path = public as $$
-  update public.profiles set disclaimer_accepted_at = now() where id = auth.uid() $$;
-revoke execute on function public.accept_disclaimer from public, anon;
-grant execute on function public.accept_disclaimer to authenticated;
-
-create or replace function public.touch_seen()
-returns void language sql security definer set search_path = public as $$
-  update public.profiles set last_seen_at = now() where id = auth.uid() $$;
-revoke execute on function public.touch_seen from public, anon;
-grant execute on function public.touch_seen to authenticated;
--- ===== drizzle/migrations/0002_funding.sql =====
+-- 6. Payment Methods (Crypto & Bank Wire)
 CREATE TABLE public.payment_methods (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   kind text NOT NULL CHECK (kind IN ('crypto','wire')),
@@ -193,6 +144,7 @@ CREATE POLICY "admin insert pm" ON public.payment_methods FOR INSERT TO authenti
 CREATE POLICY "admin update pm" ON public.payment_methods FOR UPDATE TO authenticated USING (public.has_role(auth.uid(),'admin')) WITH CHECK (public.has_role(auth.uid(),'admin'));
 CREATE POLICY "admin delete pm" ON public.payment_methods FOR DELETE TO authenticated USING (public.has_role(auth.uid(),'admin'));
 
+-- 7. Funding Requests (Top-ups & Withdrawals)
 CREATE TABLE public.funding_requests (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL,
@@ -213,44 +165,123 @@ GRANT ALL ON public.funding_requests TO service_role;
 ALTER TABLE public.funding_requests ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "read own or admin requests" ON public.funding_requests FOR SELECT TO authenticated USING (user_id = auth.uid() OR public.has_role(auth.uid(),'admin'));
 
+-- 8. Dynamic Branding Settings (edited from the admin Branding page)
+CREATE TABLE public.site_settings (
+  id integer PRIMARY KEY DEFAULT 1,
+  brand_name text NOT NULL DEFAULT 'Ledgerline',
+  brand_suffix text NOT NULL DEFAULT 'Markets',
+  brand_mark text NOT NULL DEFAULT 'LM',
+  tagline text NOT NULL DEFAULT 'Institutional-grade execution and multi-asset liquidity.',
+  footer_text text NOT NULL DEFAULT 'Ledgerline Markets operates as an independent liquidity and technology provider.',
+  copyright text NOT NULL DEFAULT '© 2026 Ledgerline Markets. All rights reserved.',
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT single_row CHECK (id = 1)
+);
+INSERT INTO public.site_settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
+GRANT SELECT ON public.site_settings TO anon, authenticated;
+GRANT UPDATE ON public.site_settings TO authenticated;
+GRANT ALL ON public.site_settings TO service_role;
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "allow read branding" ON public.site_settings FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "admin update branding" ON public.site_settings FOR UPDATE TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'));
+
+-- 9. Secure Functions (only way balances can change)
 CREATE OR REPLACE FUNCTION public.create_funding_request(_kind text, _method text, _amount numeric, _network text, _details jsonb, _reference text)
 RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
-declare uid uuid := auth.uid(); bal numeric; pend numeric; rid uuid;
-begin
-  if uid is null then raise exception 'Not signed in'; end if;
-  if _kind not in ('deposit','withdrawal') or _method not in ('crypto','wire') then raise exception 'Invalid request'; end if;
-  if _amount is null or _amount <= 0 then raise exception 'Amount must be positive'; end if;
-  if _kind = 'withdrawal' then
-    select virtual_balance into bal from public.profiles where id = uid for update;
-    select coalesce(sum(amount),0) into pend from public.funding_requests where user_id = uid and kind='withdrawal' and status='pending';
-    if _amount + pend > bal then raise exception 'Amount exceeds available balance'; end if;
-  end if;
-  insert into public.funding_requests (user_id, kind, method, amount, network, details, reference)
-  values (uid, _kind, _method, round(_amount,2), _network, coalesce(_details,'{}'::jsonb), nullif(trim(_reference),''))
-  returning id into rid;
-  return rid;
-end $$;
+DECLARE uid uuid := auth.uid(); bal numeric; pend numeric; rid uuid;
+BEGIN
+  IF uid IS NULL THEN RAISE EXCEPTION 'Not signed in'; END IF;
+  IF _kind NOT IN ('deposit','withdrawal') OR _method NOT IN ('crypto','wire') THEN RAISE EXCEPTION 'Invalid request'; END IF;
+  IF _amount IS NULL OR _amount <= 0 THEN RAISE EXCEPTION 'Amount must be positive'; END IF;
+  IF _kind = 'withdrawal' THEN
+    SELECT virtual_balance INTO bal FROM public.profiles WHERE id = uid FOR UPDATE;
+    SELECT coalesce(sum(amount),0) INTO pend FROM public.funding_requests WHERE user_id = uid AND kind='withdrawal' AND status='pending';
+    IF _amount + pend > bal THEN RAISE EXCEPTION 'Amount exceeds available balance'; END IF;
+  END IF;
+  INSERT INTO public.funding_requests (user_id, kind, method, amount, network, details, reference)
+  VALUES (uid, _kind, _method, round(_amount,2), _network, coalesce(_details,'{}'::jsonb), nullif(trim(_reference),''))
+  RETURNING id INTO rid;
+  RETURN rid;
+END;
+$$;
 
 CREATE OR REPLACE FUNCTION public.decide_funding_request(_id uuid, _approve boolean, _note text)
 RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
-declare r record;
-begin
-  if not public.has_role(auth.uid(),'admin') then raise exception 'Forbidden'; end if;
-  select * into r from public.funding_requests where id = _id for update;
-  if r is null then raise exception 'Request not found'; end if;
-  if r.status <> 'pending' then raise exception 'Already decided'; end if;
-  if _approve then
-    if r.kind = 'deposit' then
-      update public.profiles set virtual_balance = virtual_balance + r.amount where id = r.user_id;
-      insert into public.transactions (user_id, kind, amount, note) values (r.user_id, 'topup', r.amount, 'Top-up via ' || r.method);
-    else
-      update public.profiles set virtual_balance = virtual_balance - r.amount where id = r.user_id and virtual_balance >= r.amount;
-      if not found then raise exception 'Insufficient balance'; end if;
-      insert into public.transactions (user_id, kind, amount, note) values (r.user_id, 'withdrawal', -r.amount, 'Withdrawal via ' || r.method);
-    end if;
-  end if;
-  update public.funding_requests set status = case when _approve then 'approved' else 'declined' end,
-    admin_note = nullif(trim(_note),''), decided_by = auth.uid(), decided_at = now() where id = _id;
-  insert into public.admin_audit_log (admin_id, target_user_id, action, amount, reason)
-  values (auth.uid(), r.user_id, r.kind || (case when _approve then '_approved' else '_declined' end), r.amount, coalesce(nullif(trim(_note),''), '—'));
-end $$;
+DECLARE r record;
+BEGIN
+  IF NOT public.has_role(auth.uid(),'admin') THEN RAISE EXCEPTION 'Forbidden'; END IF;
+  SELECT * INTO r FROM public.funding_requests WHERE id = _id FOR UPDATE;
+  IF r IS NULL THEN RAISE EXCEPTION 'Request not found'; END IF;
+  IF r.status <> 'pending' THEN RAISE EXCEPTION 'Already decided'; END IF;
+  IF _approve THEN
+    IF r.kind = 'deposit' THEN
+      UPDATE public.profiles SET virtual_balance = virtual_balance + r.amount WHERE id = r.user_id;
+      INSERT INTO public.transactions (user_id, kind, amount, note) VALUES (r.user_id, 'topup', r.amount, 'Top-up via ' || r.method);
+    ELSE
+      UPDATE public.profiles SET virtual_balance = virtual_balance - r.amount WHERE id = r.user_id AND virtual_balance >= r.amount;
+      IF NOT FOUND THEN RAISE EXCEPTION 'Insufficient balance'; END IF;
+      INSERT INTO public.transactions (user_id, kind, amount, note) VALUES (r.user_id, 'withdrawal', -r.amount, 'Withdrawal via ' || r.method);
+    END IF;
+  END IF;
+  UPDATE public.funding_requests SET status = CASE WHEN _approve THEN 'approved' ELSE 'declined' END,
+    admin_note = nullif(trim(_note),''), decided_by = auth.uid(), decided_at = now() WHERE id = _id;
+  INSERT INTO public.admin_audit_log (admin_id, target_user_id, action, amount, reason)
+  VALUES (auth.uid(), r.user_id, r.kind || (CASE WHEN _approve THEN '_approved' ELSE '_declined' END), r.amount, coalesce(nullif(trim(_note),''), '—'));
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.admin_adjust(_target uuid, _field text, _delta numeric, _reason text)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF NOT public.has_role(auth.uid(),'admin') THEN RAISE EXCEPTION 'Forbidden'; END IF;
+  IF coalesce(trim(_reason),'') = '' THEN RAISE EXCEPTION 'Reason required'; END IF;
+  IF _field = 'balance' THEN
+    UPDATE public.profiles SET virtual_balance = virtual_balance + _delta WHERE id = _target AND virtual_balance + _delta >= 0;
+  ELSIF _field = 'bonus' THEN
+    UPDATE public.profiles SET bonus = bonus + _delta WHERE id = _target AND bonus + _delta >= 0;
+  ELSE RAISE EXCEPTION 'Invalid field'; END IF;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Result would be negative or user not found'; END IF;
+  INSERT INTO public.transactions (user_id, kind, amount, note) VALUES (_target, 'admin_' || _field, _delta, _reason);
+  INSERT INTO public.admin_audit_log (admin_id, target_user_id, action, amount, reason) VALUES (auth.uid(), _target, _field, _delta, _reason);
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.clear_password_flag()
+RETURNS void LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  UPDATE public.profiles SET must_change_password = false WHERE id = auth.uid();
+$$;
+
+CREATE OR REPLACE FUNCTION public.accept_disclaimer()
+RETURNS void LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  UPDATE public.profiles SET disclaimer_accepted_at = now() WHERE id = auth.uid();
+$$;
+
+CREATE OR REPLACE FUNCTION public.touch_seen()
+RETURNS void LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  UPDATE public.profiles SET last_seen_at = now() WHERE id = auth.uid();
+$$;
+
+-- Only signed-in users may call these functions
+REVOKE EXECUTE ON FUNCTION public.create_funding_request(text,text,numeric,text,jsonb,text) FROM public, anon;
+REVOKE EXECUTE ON FUNCTION public.decide_funding_request(uuid,boolean,text) FROM public, anon;
+REVOKE EXECUTE ON FUNCTION public.admin_adjust(uuid,text,numeric,text) FROM public, anon;
+REVOKE EXECUTE ON FUNCTION public.clear_password_flag() FROM public, anon;
+REVOKE EXECUTE ON FUNCTION public.accept_disclaimer() FROM public, anon;
+REVOKE EXECUTE ON FUNCTION public.touch_seen() FROM public, anon;
+GRANT EXECUTE ON FUNCTION public.create_funding_request(text,text,numeric,text,jsonb,text) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.decide_funding_request(uuid,boolean,text) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.admin_adjust(uuid,text,numeric,text) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.clear_password_flag() TO authenticated;
+GRANT EXECUTE ON FUNCTION public.accept_disclaimer() TO authenticated;
+GRANT EXECUTE ON FUNCTION public.touch_seen() TO authenticated;
+
+-- =====================================================================
+-- AFTER RUNNING: make the first admin.
+-- 1) Sign up on the live site with the admin email (or add the user under Authentication -> Users, Auto Confirm on).
+-- 2) Run this, with the real email:
+--    insert into public.user_roles (user_id, role)
+--    select id, 'admin' from auth.users where email = 'admin@yourcompany.com'
+--    on conflict do nothing;
+-- =====================================================================
