@@ -1,6 +1,7 @@
-import { BRAND } from "@/lib/brand";
+import { useBrand } from "@/lib/useBrand";
 
 export function Brand({ className = "" }: { className?: string }) {
+  const BRAND = useBrand();
   return (
     <span className={`inline-flex items-center gap-2 font-semibold tracking-tight ${className}`}>
       <span className="grid h-7 w-7 place-items-center rounded-sm bg-primary text-primary-foreground num text-sm">{BRAND.mark}</span>

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Globe, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useBrand } from "@/lib/useBrand";
 import { Brand } from "@/components/Brand";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
@@ -103,10 +104,11 @@ export function SiteFooter() {
     Company: [["About", "/about"], ["Careers", "/careers"], ["Press", "/press"], ["Contact", "/contact"]],
     Support: [["Help centre", "/help"], ["Education", "/education"], ["Status", "/status"], ["Security", "/security"]],
   } as const;
+  const b = useBrand();
   return (
     <footer className="bg-navy text-navy-muted">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-5">
-        <div className="md:col-span-1"><Brand className="text-navy-foreground" /><p className="mt-4 text-xs leading-relaxed">{BRAND.tagline}.</p></div>
+        <div className="md:col-span-1"><Brand className="text-navy-foreground" /><p className="mt-4 text-xs leading-relaxed">{b.tagline}</p></div>
         {Object.entries(cols).map(([h, ls]) => (
           <div key={h}>
             <div className="text-sm font-semibold text-navy-foreground">{h}</div>
@@ -117,9 +119,8 @@ export function SiteFooter() {
       <div className="border-t border-sidebar-border">
         <div className="mx-auto max-w-7xl space-y-3 px-6 py-8 text-xs leading-relaxed">
           <p className="font-semibold text-navy-foreground">Important information</p>
-          <p>{BRAND.disclaimer} Nothing on this site is an offer, solicitation or recommendation to buy or sell any security.</p>
-          <p>Risk warning: trading involves substantial risk of loss. Past performance does not indicate future results.</p>
-          <p>© {BRAND.name} {BRAND.suffix}. All rights reserved.</p>
+          <p className="whitespace-pre-line">{b.disclaimer}</p>
+          <p>{b.copyright || `© ${b.name} ${b.suffix}. All rights reserved.`}</p>
         </div>
       </div>
     </footer>

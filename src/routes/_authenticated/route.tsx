@@ -2,10 +2,10 @@ import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { CreditCard, History, Inbox, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText, Wallet } from "lucide-react";
+import { CreditCard, History, Inbox, LayoutDashboard, LogOut, Moon, PieChart, Shield, Sun, User, ScrollText, Wallet, Palette } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccount } from "@/hooks/use-account";
-import { BRAND } from "@/lib/brand";
+import { useBrand } from "@/lib/useBrand";
 import { accountNo } from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,6 +51,7 @@ function Shell() {
     { to: "/admin/requests", label: "Funding requests", icon: Inbox },
     { to: "/admin/payments", label: "Payment settings", icon: CreditCard },
     { to: "/admin/audit", label: "Audit log", icon: ScrollText },
+    { to: "/admin/branding", label: "Branding", icon: Palette },
   ] as const;
   const { data: pendingCount } = useQuery({
     queryKey: ["funding-pending-count"],
@@ -60,6 +61,7 @@ function Shell() {
   });
   const navCls = "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-navy-muted transition-colors hover:bg-navy-accent hover:text-navy-foreground";
   const name = data?.profile?.username ?? "";
+  const BRAND = useBrand();
 
   return (
     <div className={`${dark ? "dark" : ""} flex h-screen flex-col bg-background text-foreground`}>
