@@ -43,6 +43,13 @@
       "when": 1792769111431,
       "tag": "0005_signup_profile_details",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792771182111,
+      "tag": "0006_site_awards",
+      "breakpoints": true
     }
   ]
 }

@@ -241,6 +241,9 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          awards: Json
+          awards_enabled: boolean
+          awards_heading: string
           brand_mark: string
           brand_name: string
           brand_suffix: string
@@ -251,6 +254,9 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          awards?: Json
+          awards_enabled?: boolean
+          awards_heading?: string
           brand_mark?: string
           brand_name?: string
           brand_suffix?: string
@@ -261,6 +267,9 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          awards?: Json
+          awards_enabled?: boolean
+          awards_heading?: string
           brand_mark?: string
           brand_name?: string
           brand_suffix?: string
