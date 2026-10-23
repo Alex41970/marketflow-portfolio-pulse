@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useBrand, fullName } from "@/lib/useBrand";
 import { registrationSchema, registrationMetadata } from "@/lib/registration";
 
 export const Route = createFileRoute("/auth")({
@@ -27,6 +28,7 @@ const CODES: [string, string][] = [
 ];
 
 function AuthPage() {
+  const brand = useBrand();
   const { mode = "login" } = Route.useSearch();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
@@ -81,7 +83,7 @@ function AuthPage() {
   return <div className="grid min-h-screen md:grid-cols-[0.85fr_1.15fr]">
     <div className="hidden bg-hero p-10 text-navy-foreground md:flex md:flex-col md:justify-between">
       <Link to="/"><Brand /></Link>
-      <div><p className="max-w-sm text-3xl font-medium leading-snug">Your account.<br />A clearer view.</p><p className="mt-5 text-sm text-navy-muted">Ledgerline Markets · EUR client accounts</p></div>
+      <div><p className="max-w-sm text-3xl font-medium leading-snug">Your account.<br />A clearer view.</p><p className="mt-5 text-sm text-navy-muted">{fullName(brand)} · EUR client accounts</p></div>
       <p className="text-xs text-navy-muted">Secure client portal</p>
     </div>
     <div className="flex items-center justify-center px-6 py-10">

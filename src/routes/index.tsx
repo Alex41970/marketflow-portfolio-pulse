@@ -6,6 +6,7 @@ import { LazyChart } from "@/components/ws/LazyChart";
 import { Button } from "@/components/ui/button";
 import { SimTag } from "@/components/Brand";
 import { BRAND } from "@/lib/brand";
+import { AwardsSection } from "@/components/site/Awards";
 import { useQuotes, quoteOf, fmtP, pct, signed } from "@/lib/market";
 
 export const Route = createFileRoute("/")({
@@ -95,6 +96,8 @@ function Index() {
           ))}
         </div>
       </section>
+
+      <AwardsSection />
 
       <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2">
         <div>

@@ -11,6 +11,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useBrand, rebrandText } from "@/lib/useBrand";
+import { useRouterState } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -98,8 +100,22 @@ function RootComponent() {
   }, [router, queryClient]);
   return (
     <QueryClientProvider client={queryClient}>
+      <BrandTitleSync />
       <Outlet />
       <Toaster />
     </QueryClientProvider>
   );
+}
+
+/** Applies the admin-configured brand to the browser tab title after each navigation. */
+function BrandTitleSync() {
+  const b = useBrand();
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => {
+    const apply = () => { const t = rebrandText(document.title, b); if (t !== document.title) document.title = t; };
+    apply();
+    const id = window.setTimeout(apply, 50);
+    return () => window.clearTimeout(id);
+  }, [b.name, b.suffix, path]); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
 }

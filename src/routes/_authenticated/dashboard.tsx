@@ -7,6 +7,7 @@ import { useAccount, useTransactions } from "@/hooks/use-account";
 import { Card, PageTitle, StatCard, TX_LABELS, TxTable, accountNo, balanceCurve } from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { fmt } from "@/lib/market";
+import { useBrand } from "@/lib/useBrand";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Client portal — Overview — Ledgerline Markets" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:title", content: "Client portal — Overview — Ledgerline Markets" }, { property: "og:description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
@@ -21,6 +22,7 @@ const DOWNLOADS = [
 ];
 
 function Overview() {
+  const brand = useBrand();
   const { data } = useAccount();
   const { data: tx = [] } = useTransactions();
   const p = data?.profile;
@@ -63,7 +65,7 @@ function Overview() {
           <div className="space-y-4 p-5">
             <p className="text-sm text-muted-foreground">All trading takes place in <span className="font-medium text-foreground">MetaTrader 4</span> or <span className="font-medium text-foreground">MetaTrader 5</span>. Log in with your trading credentials to place and manage orders.</p>
             <div className="rounded-lg bg-muted p-3 text-xs">
-              <div className="flex justify-between"><span className="text-muted-foreground">Server</span><span className="num">Ledgerline-Live</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Server</span><span className="num">{brand.name.replace(/\s+/g, "")}-Live</span></div>
               <div className="mt-1 flex justify-between"><span className="text-muted-foreground">Login</span><span className="num">{accountNo(data?.user.id)}</span></div>
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
