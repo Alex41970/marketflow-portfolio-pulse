@@ -10,13 +10,6 @@ export function Brand({ className = "" }: { className?: string }) {
   );
 }
 
-export function DemoBanner() {
-  return (
-    <div className="bg-warning px-3 py-1 text-center text-[11px] font-medium text-warning-foreground">
-      PRACTICE ENVIRONMENT · Indicative prices · Not a brokerage
-    </div>
-  );
-}
 
 export function Sparkline({ data, up, w = 80, h = 24 }: { data: number[]; up: boolean; w?: number; h?: number }) {
   const min = Math.min(...data), max = Math.max(...data);
