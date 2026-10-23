@@ -63,7 +63,7 @@ function Overview() {
           <div className="space-y-4 p-5">
             <p className="text-sm text-muted-foreground">All trading takes place in <span className="font-medium text-foreground">MetaTrader 4</span> or <span className="font-medium text-foreground">MetaTrader 5</span>. Log in with your trading credentials to place and manage orders.</p>
             <div className="rounded-lg bg-muted p-3 text-xs">
-              <div className="flex justify-between"><span className="text-muted-foreground">Server</span><span className="num">Ledgerline-Live</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Server</span><span className="num">{brand.name.replace(/\s+/g, "")}-Live</span></div>
               <div className="mt-1 flex justify-between"><span className="text-muted-foreground">Login</span><span className="num">{accountNo(data?.user.id)}</span></div>
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
