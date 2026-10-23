@@ -187,6 +187,7 @@ CREATE TABLE public.site_settings (
   updated_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT single_row CHECK (id = 1)
 );
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS awards_enabled boolean NOT NULL DEFAULT false, ADD COLUMN IF NOT EXISTS awards_heading text NOT NULL DEFAULT 'Recognised for service', ADD COLUMN IF NOT EXISTS awards jsonb NOT NULL DEFAULT '[]'::jsonb;
 INSERT INTO public.site_settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
 GRANT SELECT ON public.site_settings TO anon, authenticated;
 GRANT UPDATE ON public.site_settings TO authenticated;
