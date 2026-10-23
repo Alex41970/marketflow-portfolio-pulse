@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BRAND } from "@/lib/brand";
 
-export type Award = { title: string; year: string; caption: string };
+export type Award = { issuer: string; title: string; year: string; caption: string };
 
 export type SiteBrand = {
   name: string; suffix: string; mark: string; tagline: string; disclaimer: string; copyright: string;
@@ -15,7 +15,7 @@ function parseAwards(v: unknown): Award[] {
   if (!Array.isArray(v)) return [];
   return v.slice(0, 4).map((a) => {
     const o = (a ?? {}) as Record<string, unknown>;
-    return { title: String(o["title"] ?? ""), year: String(o["year"] ?? ""), caption: String(o["caption"] ?? "") };
+    return { issuer: String(o["issuer"] ?? ""), title: String(o["title"] ?? ""), year: String(o["year"] ?? ""), caption: String(o["caption"] ?? "") };
   });
 }
 
