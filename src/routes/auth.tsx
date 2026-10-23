@@ -101,7 +101,7 @@ function AuthPage() {
             </>}
             <div className="space-y-1.5"><Label htmlFor="email">Email address</Label><Input id="email" name="email" type="email" autoComplete="email" required /></div>
             {signup && <div className="space-y-1.5"><Label htmlFor="phone">Phone number</Label><div className="grid grid-cols-[115px_minmax(0,1fr)] gap-2">
-              <Select value={callingCode} onValueChange={setCallingCode}><SelectTrigger aria-label="Country calling code"><SelectValue /></SelectTrigger><SelectContent>{CODES.map(([code, country]) => <SelectItem key={code} value={code} textValue={code}>{country} ({code})</SelectItem>)}</SelectContent></Select>
+              <Select value={callingCode} onValueChange={setCallingCode}><SelectTrigger aria-label="Country calling code"><SelectValue>{callingCode}</SelectValue></SelectTrigger><SelectContent>{CODES.map(([code, country]) => <SelectItem key={code} value={code} textValue={code}>{country} ({code})</SelectItem>)}</SelectContent></Select>
               <Input id="phone" name="phone" type="tel" autoComplete="tel-national" placeholder="Phone number" required />
             </div></div>}
             {mode !== "forgot" && passwordField()}
