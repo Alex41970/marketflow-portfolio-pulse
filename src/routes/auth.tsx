@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useBrand, fullName } from "@/lib/useBrand";
 import { registrationSchema, registrationMetadata } from "@/lib/registration";
 
 export const Route = createFileRoute("/auth")({
@@ -27,6 +28,7 @@ const CODES: [string, string][] = [
 ];
 
 function AuthPage() {
+  const brand = useBrand();
   const { mode = "login" } = Route.useSearch();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);

@@ -7,6 +7,7 @@ import { useAccount, useTransactions } from "@/hooks/use-account";
 import { Card, PageTitle, StatCard, TX_LABELS, TxTable, accountNo, balanceCurve } from "@/components/portal/Portal";
 import { Button } from "@/components/ui/button";
 import { fmt } from "@/lib/market";
+import { useBrand } from "@/lib/useBrand";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Client portal — Overview — Ledgerline Markets" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:title", content: "Client portal — Overview — Ledgerline Markets" }, { property: "og:description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
@@ -21,6 +22,7 @@ const DOWNLOADS = [
 ];
 
 function Overview() {
+  const brand = useBrand();
   const { data } = useAccount();
   const { data: tx = [] } = useTransactions();
   const p = data?.profile;
