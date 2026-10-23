@@ -23,7 +23,7 @@ function Page() {
       </Section>
       <Section muted>
         <Split title="An advisor dashboard at a glance" body="See all of your accounts in one table with balances, bonuses and activity status. Open any account to adjust virtual funds or reset access." bullets={["Sortable, searchable account list", "Per-account audit history", "Password reset without client emails"]} visual={<MockPanel title="Advisor book (sample)" rows={[["Accounts", "38"], ["Virtual AUM", "$4.12M"], ["Active this week", "27"], ["Avg. allocation to equities", "57%"]]} />} />
-        <Split reverse title="Model portfolio walkthroughs" body="Build a model live with your client, then let them watch it move with indicative prices. It turns abstract risk conversations into something they can see." visual={<MockPanel title="Balanced model (sample)" rows={[["World 500 Index Fund", "35%"], ["Aggregate Bond Fund", "30%"], ["Global Tech Leaders", "15%"], ["Gold Trust (Indicative)", "10%"], ["Cash", "10%"]]} />} />
+        <Split reverse title="Model portfolio walkthroughs" body="Build a model live with your client, then let them watch it move with indicative prices. It turns abstract risk conversations into something they can see." visual={<MockPanel title="Balanced model (sample)" rows={[["World 500 Index Fund", "35%"], ["Aggregate Bond Fund", "30%"], ["Global Tech Leaders", "15%"], ["Gold Trust", "10%"], ["Cash", "10%"]]} />} />
       </Section>
       <Section title="Getting started">
         <Steps items={[

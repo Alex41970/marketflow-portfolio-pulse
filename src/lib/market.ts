@@ -18,17 +18,17 @@ export const TICKERS: Ticker[] = [
   { symbol: "WLD500", name: "World 500 Index Fund", base: 512.3, cls: "ETFs" },
   { symbol: "TECHX", name: "Global Tech Leaders", base: 221.4, cls: "ETFs" },
   { symbol: "BNDA", name: "Aggregate Bond Fund", base: 74.9, cls: "ETFs" },
-  { symbol: "GLDS", name: "Gold Trust (Indicative)", base: 196.2, cls: "ETFs" },
+  { symbol: "GLDS", name: "Gold Trust", base: 196.2, cls: "ETFs" },
   { symbol: "EMKT", name: "Emerging Markets Fund", base: 41.3, cls: "ETFs" },
   { symbol: "EUR.USD", name: "Euro / US Dollar", base: 1.0842, cls: "FX", dp: 4 },
   { symbol: "GBP.USD", name: "Pound / US Dollar", base: 1.2715, cls: "FX", dp: 4 },
   { symbol: "USD.JPY", name: "US Dollar / Yen", base: 151.32, cls: "FX", dp: 2 },
   { symbol: "AUD.USD", name: "Aussie / US Dollar", base: 0.6612, cls: "FX", dp: 4 },
-  { symbol: "BTC.SIM", name: "Bitcoin (Indicative)", base: 64210, cls: "Crypto" },
-  { symbol: "ETH.SIM", name: "Ether (Indicative)", base: 3120, cls: "Crypto" },
-  { symbol: "SOL.SIM", name: "Solana (Indicative)", base: 148.6, cls: "Crypto" },
-  { symbol: "ADA.SIM", name: "Cardano (Indicative)", base: 0.452, cls: "Crypto", dp: 4 },
-  { symbol: "XRP.SIM", name: "XRP (Indicative)", base: 0.531, cls: "Crypto", dp: 4 },
+  { symbol: "BTC.SIM", name: "Bitcoin", base: 64210, cls: "Crypto" },
+  { symbol: "ETH.SIM", name: "Ether", base: 3120, cls: "Crypto" },
+  { symbol: "SOL.SIM", name: "Solana", base: 148.6, cls: "Crypto" },
+  { symbol: "ADA.SIM", name: "Cardano", base: 0.452, cls: "Crypto", dp: 4 },
+  { symbol: "XRP.SIM", name: "XRP", base: 0.531, cls: "Crypto", dp: 4 },
 ];
 export const CLASSES: AssetClass[] = ["Stocks", "ETFs", "FX", "Crypto"];
 export const tickerOf = (s: string) => TICKERS.find((t) => t.symbol === s) ?? TICKERS[0]!;

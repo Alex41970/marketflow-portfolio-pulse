@@ -17,9 +17,9 @@ export const Route = createFileRoute("/pricing")({
 });
 
 const TIERS = [
-  { n: "Lite", p: "$0", d: "For new traders", f: ["Commission-free stocks & ETFs (indicative)", "Standard workstation", "Email support"] },
-  { n: "Pro", p: "$0.005/sh", d: "For active traders", f: ["Tiered per-share pricing (indicative)", "Depth, time & sales", "Advanced order types"], hl: true },
-  { n: "Institutional", p: "Custom", d: "For firms", f: ["Volume pricing (indicative)", "Multi-account admin", "Dedicated coverage"] },
+  { n: "Lite", p: "$0", d: "For new traders", f: ["Commission-free stocks & ETFs", "Standard workstation", "Email support"] },
+  { n: "Pro", p: "$0.005/sh", d: "For active traders", f: ["Tiered per-share pricing", "Depth, time & sales", "Advanced order types"], hl: true },
+  { n: "Institutional", p: "Custom", d: "For firms", f: ["Volume pricing", "Multi-account admin", "Dedicated coverage"] },
 ];
 
 function Pricing() {
