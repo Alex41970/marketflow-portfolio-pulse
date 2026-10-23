@@ -3,7 +3,7 @@ import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, PolarAngleAxis,
   RadialBar, RadialBarChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
-import { fmt } from "@/lib/market";
+import { fmt, compactMoney } from "@/lib/currency";
 import { Card, TX_LABELS } from "./Portal";
 
 type Tx = { kind: string; amount: number | string; created_at: string };
@@ -11,7 +11,7 @@ type Req = { kind: string; status: string; amount: number | string };
 
 const tip = { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 10, fontSize: 12, boxShadow: "0 8px 24px -12px rgba(0,0,0,.25)" };
 const axis = { fontSize: 11, fill: "var(--muted-foreground)" };
-const k = (v: number) => (Math.abs(v) >= 1000 ? `$${(v / 1000).toFixed(0)}k` : `$${v.toFixed(0)}`);
+const k = compactMoney;
 const empty = (msg: string) => <div className="grid h-full place-items-center px-6 text-center text-sm text-muted-foreground">{msg}</div>;
 
 const RANGES = [{ l: "7D", d: 7 }, { l: "30D", d: 30 }, { l: "90D", d: 90 }, { l: "All", d: 0 }] as const;

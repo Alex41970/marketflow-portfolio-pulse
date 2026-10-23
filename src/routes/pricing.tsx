@@ -17,8 +17,8 @@ export const Route = createFileRoute("/pricing")({
 });
 
 const TIERS = [
-  { n: "Lite", p: "$0", d: "For new traders", f: ["Commission-free stocks & ETFs", "Standard workstation", "Email support"] },
-  { n: "Pro", p: "$0.005/sh", d: "For active traders", f: ["Tiered per-share pricing", "Depth, time & sales", "Advanced order types"], hl: true },
+  { n: "Lite", p: "€0", d: "For new traders", f: ["Commission-free stocks & ETFs", "Standard workstation", "Email support"] },
+  { n: "Pro", p: "€0.005/sh", d: "For active traders", f: ["Tiered per-share pricing", "Depth, time & sales", "Advanced order types"], hl: true },
   { n: "Institutional", p: "Custom", d: "For firms", f: ["Volume pricing", "Multi-account admin", "Dedicated coverage"] },
 ];
 
@@ -43,7 +43,7 @@ function Pricing() {
           <table className="w-full text-sm">
             <thead className="bg-muted text-left text-xs text-muted-foreground"><tr><th className="px-4 py-3">Product</th><th>Lite</th><th>Pro</th><th className="pr-4">Institutional</th></tr></thead>
             <tbody className="num divide-y">
-              {[["US stocks", "$0", "$0.005/sh, min $1", "Custom"], ["ETFs", "$0", "$0.005/sh", "Custom"], ["Forex", "Spread only", "0.2 bps", "Custom"], ["Crypto", "0.25%", "0.18%", "Custom"], ["Market data", "Included", "Included", "Included"]].map((r) => (
+              {[["US stocks", "€0", "€0.005/sh, min €1", "Custom"], ["ETFs", "€0", "€0.005/sh", "Custom"], ["Forex", "Spread only", "0.2 bps", "Custom"], ["Crypto", "0.25%", "0.18%", "Custom"], ["Market data", "Included", "Included", "Included"]].map((r) => (
                 <tr key={r[0]}>{r.map((c, i) => <td key={i} className={i === 0 ? "px-4 py-3 font-sans" : i === 3 ? "pr-4" : ""}>{c}</td>)}</tr>
               ))}
             </tbody>

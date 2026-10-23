@@ -34,11 +34,12 @@ function AccountPage() {
       <PageTitle title="Account" sub="Your profile and security settings." />
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title="Profile">
-          {kv("Username", p?.username ?? "")}
+          {kv("Name", [p?.first_name, p?.last_name].filter(Boolean).join(" ") || p?.username || "—")}
+          {kv("Phone number", p?.phone ?? "—")}
           {kv("Email", p?.email ?? "")}
           {kv("Account number", accountNo(data?.user.id))}
-          {kv("Account type", "Standard")}
-          {kv("Base currency", "USD")}
+          {kv("Account type", p?.account_type === "business" ? "Business" : "Personal")}
+          {kv("Base currency", "EUR")}
           {kv("Member since", p ? new Date(p.created_at).toLocaleDateString("en-GB", { dateStyle: "long" }) : "")}
         </Card>
         <Card title="Change password">

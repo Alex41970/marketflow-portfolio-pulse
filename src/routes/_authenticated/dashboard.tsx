@@ -39,7 +39,7 @@ function Overview() {
 
   return (
     <div>
-      <PageTitle title={`${greet}${p?.username ? `, ${p.username}` : ""}`} sub={`Account ${accountNo(data?.user.id)} · USD`} />
+      <PageTitle title={`${greet}${(p?.first_name || p?.username) ? `, ${p?.first_name || p?.username}` : ""}`} sub={`Account ${accountNo(data?.user.id)} · EUR`} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard accent icon={Landmark} label="Total equity" value={fmt(bal + bonus)} hint="Balance + bonus"><Sparkline values={spark} color="var(--navy-muted)" /></StatCard>
         <StatCard icon={Wallet} label="Account balance" value={fmt(bal)} hint="Available funds"><Sparkline values={spark} /></StatCard>
