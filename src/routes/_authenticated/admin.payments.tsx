@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/_authenticated/admin/payments")({
-  head: () => ({ meta: [{ title: "Back office — Payment settings" }, { name: "description", content: "Crypto wallets and bank details shown to clients." }] }),
+  head: () => ({ meta: [{ title: "Back office — Payment settings — Ledgerline Markets" }, { name: "description", content: "Crypto wallets and bank details shown to clients." }, { property: "og:title", content: "Back office — Payment settings — Ledgerline Markets" }, { property: "og:description", content: "Crypto wallets and bank details shown to clients." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Payments,
 });
 
@@ -44,7 +44,7 @@ function Payments() {
   }
 
   const section = (kind: PM["kind"], title: string) => (
-    <Card title={title} right={<Button size="sm" onClick={() => setEdit({ kind, label: kind === "crypto" ? "USDT" : "Bank wire", network: "", details: {}, active: true, sort: (data?.length ?? 0) })}><Plus className="mr-1 h-4 w-4" />Add</Button>}>
+    <Card title={title} right={<Button size="sm" onClick={() => setEdit({ kind, label: kind === "crypto" ? "USDT" : "Bank wire", network: kind === "wire" ? "EUR" : "", details: {}, active: true, sort: (data?.length ?? 0) })}><Plus className="mr-1 h-4 w-4" />Add</Button>}>
       <div className="divide-y">
         {(data ?? []).filter((p) => p.kind === kind).map((p) => (
           <div key={p.id} className="flex items-center gap-4 px-5 py-4">
@@ -90,7 +90,7 @@ function Editor({ pm, onClose, onSaved }: { pm: PM; onClose: () => void; onSaved
         <div className="grid gap-3">
           <div className="grid grid-cols-2 gap-3">
             <div><Label className="text-xs">{f.kind === "crypto" ? "Coin (e.g. USDT, BTC)" : "Display name"}</Label><Input value={f.label} onChange={(e) => setF({ ...f, label: e.target.value })} /></div>
-            <div><Label className="text-xs">{f.kind === "crypto" ? "Network (e.g. TRC20)" : "Currency (e.g. USD)"}</Label><Input value={f.network ?? ""} onChange={(e) => setF({ ...f, network: e.target.value })} /></div>
+            <div><Label className="text-xs">{f.kind === "crypto" ? "Network (e.g. TRC20)" : "Currency (EUR)"}</Label><Input value={f.network ?? ""} onChange={(e) => setF({ ...f, network: e.target.value })} /></div>
           </div>
           {FIELDS[f.kind].map(({ k, l }) => (
             <div key={k}><Label className="text-xs">{l}</Label><Input value={f.details[k as keyof Det] ?? ""} onChange={(e) => setF({ ...f, details: { ...f.details, [k]: e.target.value } as Det })} /></div>

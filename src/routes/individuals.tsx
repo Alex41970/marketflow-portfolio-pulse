@@ -12,7 +12,7 @@ export const Route = createFileRoute("/individuals")({
 function Page() {
   return (
     <ContentPage image={IMG.traderDesk} eyebrow="Individuals" title="Build real trading skills with zero real risk" sub="Whether you're placing your first order or testing an advanced strategy, our platform gives you a professional workstation and a fully funded virtual account.">
-      <Stats items={[["4", "Asset classes"], ["24", "Indicative instruments"], ["1.5s", "Quote refresh"], ["$0", "Cost to practise"]]} />
+      <Stats items={[["4", "Asset classes"], ["24", "Indicative instruments"], ["1.5s", "Quote refresh"], ["€0", "Cost to practise"]]} />
       <Section title="Who it's for">
         <FeatureGrid items={[
           { icon: BookOpen, title: "New investors", body: "Understand how orders, positions and profit and loss work before you ever commit real money elsewhere." },
@@ -28,7 +28,7 @@ function Page() {
         ]} />
       </Section>
       <Section>
-        <Split title="A real workstation, not a toy" body="The same panel layout professional desks rely on: watchlists, charts, an order ticket with confirmation, Level 2 depth and time & sales — all updating live with indicative data." bullets={["Five chart ranges from intraday to one year", "Market and limit orders with confirmation", "Dark and light workstation themes"]} visual={<MockPanel title="Account summary" rows={[["Net liquidation", "$104,812.40"], ["Day P&L", "+$1,204.18"], ["Buying power", "$162,330.00"], ["Positions", "6"]]} />} />
+        <Split title="A real workstation, not a toy" body="The same panel layout professional desks rely on: watchlists, charts, an order ticket with confirmation, Level 2 depth and time & sales — all updating live with indicative data." bullets={["Five chart ranges from intraday to one year", "Market and limit orders with confirmation", "Dark and light workstation themes"]} visual={<MockPanel title="Account summary" rows={[["Net liquidation", "€104,812.40"], ["Day P&L", "+€1,204.18"], ["Buying power", "€162,330.00"], ["Positions", "6"]]} />} />
         <Split reverse title="Track your progress" body="Portfolio analytics break down your allocation by asset class and show unrealized P&L on every position, so you learn what worked and why." bullets={["Allocation donut and holdings weights", "Exportable activity history", "Account and margin overview"]} visual={<MockPanel title="Allocation" rows={[["Stocks", "48.2%"], ["ETFs", "21.5%"], ["Crypto", "8.1%"], ["Cash", "22.2%"]]} />} />
       </Section>
       <Section title="Markets you can practise" sub="Indicative quotes across four asset classes." muted><MarketsTable limit={6} /></Section>

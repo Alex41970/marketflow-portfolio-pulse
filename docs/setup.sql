@@ -10,6 +10,11 @@ CREATE TABLE public.profiles (
   id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   username text NOT NULL UNIQUE,
   email text NOT NULL,
+  first_name text,
+  last_name text,
+  account_type text NOT NULL DEFAULT 'personal',
+  phone text,
+  terms_accepted_at timestamptz,
   virtual_balance numeric(14,2) NOT NULL DEFAULT 0 CHECK (virtual_balance >= 0),
   bonus numeric(14,2) NOT NULL DEFAULT 0 CHECK (bonus >= 0),
   must_change_password boolean NOT NULL DEFAULT false,
@@ -89,18 +94,23 @@ ALTER TABLE public.admin_audit_log ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admins read audit" ON public.admin_audit_log
   FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin'));
 
--- 4. Automatic Profile Creation on Signup (new accounts start at $0)
+-- 4. Automatic Profile Creation on Signup (new accounts start at €0)
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 BEGIN
-  INSERT INTO public.profiles (id, username, email, virtual_balance, bonus)
+  INSERT INTO public.profiles (id, username, email, virtual_balance, bonus, first_name, last_name, account_type, phone, terms_accepted_at)
   VALUES (
-    new.id,
-    coalesce(nullif(new.raw_user_meta_data->>'username',''), split_part(new.email,'@',1) || '_' || substr(new.id::text,1,4)),
-    new.email, 0, 0
+    NEW.id,
+    coalesce(nullif(trim(NEW.raw_user_meta_data->>'username'), ''), 'client_' || replace(NEW.id::text, '-', '')),
+    NEW.email, 0, 0,
+    nullif(trim(NEW.raw_user_meta_data->>'first_name'), ''),
+    nullif(trim(NEW.raw_user_meta_data->>'last_name'), ''),
+    CASE WHEN NEW.raw_user_meta_data->>'account_type' = 'business' THEN 'business' ELSE 'personal' END,
+    nullif(trim(NEW.raw_user_meta_data->>'phone'), ''),
+    CASE WHEN NEW.raw_user_meta_data->>'terms_accepted' = 'true' THEN now() ELSE NULL END
   );
-  INSERT INTO public.user_roles (user_id, role) VALUES (new.id, 'user');
-  RETURN new;
+  INSERT INTO public.user_roles (user_id, role) VALUES (NEW.id, 'user');
+  RETURN NEW;
 END;
 $$;
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;

@@ -60,7 +60,7 @@ function Shell() {
     queryFn: async () => (await supabase.from("funding_requests").select("id", { count: "exact", head: true }).eq("status", "pending")).count ?? 0,
   });
   const navCls = "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-navy-muted transition-colors hover:bg-navy-accent hover:text-navy-foreground";
-  const name = data?.profile?.username ?? "";
+  const name = [data?.profile?.first_name, data?.profile?.last_name].filter(Boolean).join(" ") || data?.profile?.username || "";
   const BRAND = useBrand();
 
   return (

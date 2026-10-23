@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Client portal — Users & funds" }, { name: "description", content: "Manage client accounts." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Users & funds — Ledgerline Markets" }, { name: "description", content: "Manage client accounts." }, { property: "og:title", content: "Client portal — Users & funds — Ledgerline Markets" }, { property: "og:description", content: "Manage client accounts." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: AdminLayout,
 });
 
@@ -48,7 +48,7 @@ function Admin() {
   });
   const all = users.data ?? [];
   const rows = useMemo(() => {
-    const f = all.filter((u) => (u.username + u.email).toLowerCase().includes(q.toLowerCase()));
+    const f = all.filter((u) => ([u.username, u.email, u.first_name, u.last_name, u.phone].join(" ")).toLowerCase().includes(q.toLowerCase()));
     f.sort((a, b) => {
       const x = a[sort.k], y = b[sort.k];
       const r = typeof x === "number" || sort.k === "virtual_balance" || sort.k === "bonus" ? Number(x) - Number(y) : String(x).localeCompare(String(y));
@@ -78,7 +78,7 @@ function Admin() {
         {kpis.map(([l, v]) => <div key={l} className="ws-panel p-5"><div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{l}</div><div className="num mt-2 text-2xl font-semibold">{v}</div></div>)}
       </div>
       <div className="ws-panel overflow-x-auto">
-        <PanelHead title="Registered users" right={<Input placeholder="Search username or email" className="h-8 w-64" value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} />} />
+        <PanelHead title="Registered users" right={<Input placeholder="Search name, email or phone" className="h-8 w-64" value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} />} />
         <table className="w-full text-sm">
           <thead className="text-xs text-muted-foreground">
             <tr><H k="username">User</H><th className="px-3 text-left font-medium">Email</th><H k="virtual_balance">Balance</H><H k="bonus">Bonus</H><th className="px-3 text-left font-medium">Status</th><H k="created_at">Joined</H><th /></tr>
@@ -88,7 +88,7 @@ function Admin() {
               const active = u.last_seen_at && new Date(u.last_seen_at).getTime() > dayAgo;
               return (
                 <tr key={u.id} className="cursor-pointer border-t hover:bg-muted" onClick={() => setTarget(u)}>
-                  <td className="px-3 py-3 font-semibold">{u.username}</td>
+                  <td className="px-3 py-3 font-semibold">{[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}</td>
                   <td className="px-3 text-muted-foreground">{u.email}</td>
                   <td className="num px-3">{fmt(Number(u.virtual_balance))}</td>
                   <td className="px-3">{Number(u.bonus) > 0 ? <Badge className="num">{fmt(Number(u.bonus))}</Badge> : <span className="text-muted-foreground">None</span>}</td>
@@ -165,16 +165,16 @@ function UserDrawer({ user, onClose }: { user: Profile | null; onClose: () => vo
   return (
     <Sheet open onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="w-full overflow-auto sm:max-w-md">
-        <SheetHeader><SheetTitle>{user.username}</SheetTitle><p className="text-xs text-muted-foreground">{user.email}</p></SheetHeader>
+        <SheetHeader><SheetTitle className="break-words pr-6">{[user.first_name, user.last_name].filter(Boolean).join(" ") || user.username}</SheetTitle><p className="break-all text-xs text-muted-foreground">{user.email}</p></SheetHeader>
         <Tabs defaultValue="overview" className="mt-4">
           <TabsList className="grid w-full grid-cols-4"><TabsTrigger value="overview">Overview</TabsTrigger><TabsTrigger value="funds">Funds</TabsTrigger><TabsTrigger value="password">Password</TabsTrigger><TabsTrigger value="audit">Audit</TabsTrigger></TabsList>
           <TabsContent value="overview" className="space-y-2 pt-2 text-sm">
-            {[["Balance", fmt(Number(user.virtual_balance))], ["Bonus", fmt(Number(user.bonus))], ["Joined", new Date(user.created_at).toLocaleString("en-GB")], ["Last seen", user.last_seen_at ? new Date(user.last_seen_at).toLocaleString("en-GB") : "Never"], ["Disclaimer accepted", user.disclaimer_accepted_at ? "Yes" : "No"]].map(([l, v]) => (
-              <div key={l} className="flex justify-between border-b py-2"><span className="text-muted-foreground">{l}</span><span className="num">{v}</span></div>
+            {[["Full name", [user.first_name, user.last_name].filter(Boolean).join(" ") || "—"], ["Account type", user.account_type === "business" ? "Business" : "Personal"], ["Phone", user.phone ?? "—"], ["Terms accepted", user.terms_accepted_at ? new Date(user.terms_accepted_at).toLocaleString("en-GB") : "Not recorded"], ["Base currency", "EUR"], ["Balance", fmt(Number(user.virtual_balance))], ["Bonus", fmt(Number(user.bonus))], ["Joined", new Date(user.created_at).toLocaleString("en-GB")], ["Last seen", user.last_seen_at ? new Date(user.last_seen_at).toLocaleString("en-GB") : "Never"], ["Disclaimer accepted", user.disclaimer_accepted_at ? "Yes" : "No"]].map(([l, v]) => (
+              <div key={l} className="flex justify-between gap-4 border-b py-2"><span className="text-muted-foreground">{l}</span><span className="num break-words text-right">{v}</span></div>
             ))}
           </TabsContent>
           <TabsContent value="funds" className="space-y-3 pt-2">
-            <div className="space-y-1.5"><Label>Amount (USD)</Label><Input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
+            <div className="space-y-1.5"><Label>Amount (EUR)</Label><Input type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
             <div className="space-y-1.5"><Label>Reason (recorded in audit log)</Label><Input value={reason} onChange={(e) => setReason(e.target.value)} /></div>
             <div className="grid grid-cols-2 gap-2">
               <Button disabled={busy} onClick={() => adjust("balance", 1)}>Add credits</Button>

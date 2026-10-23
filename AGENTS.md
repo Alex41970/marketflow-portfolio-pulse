@@ -17,3 +17,6 @@
 - Brand name, logo letters, tagline and footer text are admin-editable in the site_settings singleton (read via useBrand); src/lib/brand.ts only holds fallbacks and static page titles.
 - Signed-in area is a view-only client portal (balance, bonus, transactions, account, admin); all trading happens externally in MT4/MT5, so no web trading UI. place_trade, orders and holdings are deprecated/unused.
 - Top-ups/withdrawals go through funding_requests; only create_funding_request and admin-only decide_funding_request (SECURITY DEFINER) change state, so balances move only on admin approval.
+- Account currency formatting is centralized in src/lib/currency.ts; market quote rates remain plain numbers and FX identities stay unchanged, avoiding accidental rate conversion.
+- Signup validation and safe metadata mapping live in src/lib/registration.ts; handle_new_user persists profile details while assigning only the user role, preventing registration metadata from granting privileges.
+- External installations upgrade existing databases with docs/upgrade-eur-signup.sql; docs/setup.sql is for empty databases only, avoiding duplicate schema creation.

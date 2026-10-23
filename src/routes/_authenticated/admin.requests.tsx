@@ -11,7 +11,7 @@ import { fmt } from "@/lib/market";
 import { STATUS_STYLE } from "@/lib/funding";
 
 export const Route = createFileRoute("/_authenticated/admin/requests")({
-  head: () => ({ meta: [{ title: "Back office — Funding requests" }, { name: "description", content: "Approve or decline top-ups and withdrawals." }] }),
+  head: () => ({ meta: [{ title: "Back office — Funding requests — Ledgerline Markets" }, { name: "description", content: "Approve or decline top-ups and withdrawals." }, { property: "og:title", content: "Back office — Funding requests — Ledgerline Markets" }, { property: "og:description", content: "Approve or decline top-ups and withdrawals." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Requests,
 });
 

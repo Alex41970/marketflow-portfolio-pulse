@@ -20,7 +20,7 @@ const CATS = [
 ];
 
 const FAQ: [string, string, string][] = [
-  ["Account", "How do I open a account?", "Click 'Open account', enter a username, email and password, then confirm your email address using the link we send you."],
+  ["Account", "How do I open a account?", "Click 'Open account', choose Personal or Business, enter your name, email and phone number, create and confirm your password, and agree to the Terms and Conditions and Privacy Notice. Confirm your email if requested."],
   ["Account", "Why do I have to accept a disclaimer?", "To make sure everyone understands that all funds, prices and news are indicative before they start trading."],
   ["Account", "Can I change my username?", "Not in the pilot. Contact support if you need it changed."],
   ["Account", "How do I switch between dark and light mode?", "Use the sun/moon icon in the top bar of the workstation. Your choice is remembered on that device."],

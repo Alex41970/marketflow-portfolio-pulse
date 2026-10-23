@@ -190,35 +190,50 @@ export type Database = {
       }
       profiles: {
         Row: {
+          account_type: string
           bonus: number
           created_at: string
           disclaimer_accepted_at: string | null
           email: string
+          first_name: string | null
           id: string
+          last_name: string | null
           last_seen_at: string | null
           must_change_password: boolean
+          phone: string | null
+          terms_accepted_at: string | null
           username: string
           virtual_balance: number
         }
         Insert: {
+          account_type?: string
           bonus?: number
           created_at?: string
           disclaimer_accepted_at?: string | null
           email: string
+          first_name?: string | null
           id: string
+          last_name?: string | null
           last_seen_at?: string | null
           must_change_password?: boolean
+          phone?: string | null
+          terms_accepted_at?: string | null
           username: string
           virtual_balance?: number
         }
         Update: {
+          account_type?: string
           bonus?: number
           created_at?: string
           disclaimer_accepted_at?: string | null
           email?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           last_seen_at?: string | null
           must_change_password?: boolean
+          phone?: string | null
+          terms_accepted_at?: string | null
           username?: string
           virtual_balance?: number
         }

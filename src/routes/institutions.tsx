@@ -22,7 +22,7 @@ function Page() {
         ]} />
       </Section>
       <Section muted>
-        <Split title="Back-office console" body="Your operations team gets a single place to oversee every account: totals at the top, a sortable user table, and a detail drawer for adjustments and access controls." bullets={["Add or remove virtual credits with a mandatory reason", "Issue or revoke practice bonuses", "Send reset links or set temporary passwords"]} visual={<MockPanel title="Back office (sample)" rows={[["Total users", "1,284"], ["Virtual funds outstanding", "$128.9M"], ["Active (24h)", "412"], ["Bonuses issued", "$86,500"]]} />} />
+        <Split title="Back-office console" body="Your operations team gets a single place to oversee every account: totals at the top, a sortable user table, and a detail drawer for adjustments and access controls." bullets={["Add or remove virtual credits with a mandatory reason", "Issue or revoke practice bonuses", "Send reset links or set temporary passwords"]} visual={<MockPanel title="Back office (sample)" rows={[["Total users", "1,284"], ["Virtual funds outstanding", "€128.9M"], ["Active (24h)", "412"], ["Bonuses issued", "€86,500"]]} />} />
       </Section>
       <Section title="Security and controls">
         <FeatureGrid items={[

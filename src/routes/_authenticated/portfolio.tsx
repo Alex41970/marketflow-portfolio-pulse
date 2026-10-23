@@ -6,7 +6,7 @@ import { Card, PageTitle, StatCard } from "@/components/portal/Portal";
 import { fmt } from "@/lib/market";
 
 export const Route = createFileRoute("/_authenticated/portfolio")({
-  head: () => ({ meta: [{ title: "Client portal — Portfolio" }, { name: "description", content: "Balance breakdown and account statement summary." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Portfolio — Ledgerline Markets" }, { name: "description", content: "Balance breakdown and account statement summary." }, { property: "og:title", content: "Client portal — Portfolio — Ledgerline Markets" }, { property: "og:description", content: "Balance breakdown and account statement summary." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Portfolio,
 });
 

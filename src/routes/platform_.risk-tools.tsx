@@ -22,7 +22,7 @@ function Page() {
         ]} />
       </Section>
       <Section muted>
-        <Split title="Margin, explained with your own numbers" body="The Account page calculates illustrative margin figures from your live virtual positions, so you can see how exposure, leverage and excess liquidity relate." visual={<MockPanel title="Margin (sample)" rows={[["Initial margin", "$12,480.00"], ["Maintenance margin", "$9,984.00"], ["Excess liquidity", "$94,016.00"], ["Leverage", "0.48x"]]} />} />
+        <Split title="Margin, explained with your own numbers" body="The Account page calculates illustrative margin figures from your live virtual positions, so you can see how exposure, leverage and excess liquidity relate." visual={<MockPanel title="Margin (sample)" rows={[["Initial margin", "€12,480.00"], ["Maintenance margin", "€9,984.00"], ["Excess liquidity", "€94,016.00"], ["Leverage", "0.48x"]]} />} />
       </Section>
       <Section title="Illustrative margin rates">
         <KeyValueTable head={["Asset class", "Initial", "Maintenance"]} rows={[["Stocks", "25%", "20%"], ["ETFs", "25%", "20%"], ["Forex", "3%", "2%"], ["Crypto", "50%", "40%"]]} note="Educational illustration only. Margin isn't extended in the preview." />

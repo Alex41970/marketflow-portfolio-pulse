@@ -17,7 +17,7 @@ import { fmt } from "@/lib/market";
 import { canWithdraw, STATUS_STYLE } from "@/lib/funding";
 
 export const Route = createFileRoute("/_authenticated/funding")({
-  head: () => ({ meta: [{ title: "Funding — Top up & withdraw" }, { name: "description", content: "Top up or withdraw via crypto or bank wire." }] }),
+  head: () => ({ meta: [{ title: "Funding — Top up & withdraw — Ledgerline Markets" }, { name: "description", content: "Top up or withdraw via crypto or bank wire." }, { property: "og:title", content: "Funding — Top up & withdraw — Ledgerline Markets" }, { property: "og:description", content: "Top up or withdraw via crypto or bank wire." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Funding,
 });
 
@@ -113,7 +113,7 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
     if (!(amt > 0)) return void toast.error("Enter a valid amount");
     if (!isDep && !canWithdraw(balance, pending, amt)) return void toast.error("Amount exceeds available balance");
     if (!isDep && method === "crypto" && !d.address) return void toast.error("Enter your wallet address");
-    if (!isDep && method === "wire" && (!d.holder || !d.iban)) return void toast.error("Enter account holder and IBAN / account number");
+    if (!isDep && method === "wire" && (!d.holder || !d.iban)) return void toast.error("Enter account holder and IBAN");
     setBusy(true);
     const { error } = await supabase.rpc("create_funding_request", {
       _kind: kind, _method: method, _amount: amt,
@@ -161,7 +161,7 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
               )}
               {pm && method === "wire" && (
                 <div className="rounded-lg border px-4 py-2">
-                  <Row k="Bank" v={pm.details.bank} /><Row k="Account holder" v={pm.details.holder} /><Row k="IBAN / Account" v={pm.details.iban} /><Row k="SWIFT / BIC" v={pm.details.swift} /><Row k="Bank address" v={pm.details.address} /><Row k="Reference" v={reference} />
+                  <Row k="Bank" v={pm.details.bank} /><Row k="Account holder" v={pm.details.holder} /><Row k="IBAN" v={pm.details.iban} /><Row k="SWIFT / BIC" v={pm.details.swift} /><Row k="Bank address" v={pm.details.address} /><Row k="Reference" v={reference} />
                 </div>
               )}
               {pm?.details.notes && <p className="text-xs text-muted-foreground">{pm.details.notes}</p>}
@@ -179,13 +179,13 @@ function RequestDialog({ kind, onClose, balance, pending, reference }: { kind: "
           <div className="grid gap-3 sm:grid-cols-2">
             <F label="Account holder" v={d.holder} on={(v) => setD({ ...d, holder: v })} />
             <F label="Bank name" v={d.bank} on={(v) => setD({ ...d, bank: v })} />
-            <F label="IBAN / Account no." v={d.iban} on={(v) => setD({ ...d, iban: v })} />
+            <F label="IBAN" v={d.iban} on={(v) => setD({ ...d, iban: v })} />
             <F label="SWIFT / BIC" v={d.swift} on={(v) => setD({ ...d, swift: v })} />
           </div>
         )}
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <div><Label className="text-xs">Amount (USD)</Label><Input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" /></div>
+          <div><Label className="text-xs">Amount (EUR)</Label><Input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" /></div>
           {isDep && <div><Label className="text-xs">Transaction ID / reference (optional)</Label><Input value={ref} onChange={(e) => setRef(e.target.value)} /></div>}
         </div>
         {!isDep && <p className="text-xs text-muted-foreground">Available: {fmt(Math.max(0, balance - pending))}</p>}

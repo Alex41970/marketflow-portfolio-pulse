@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/_authenticated/admin/branding")({
-  head: () => ({ meta: [{ title: "Back office — Branding" }, { name: "description", content: "Edit the site name, logo letter and footer." }] }),
+  head: () => ({ meta: [{ title: "Back office — Branding — Ledgerline Markets" }, { name: "description", content: "Edit the site name, logo letter and footer." }, { property: "og:title", content: "Back office — Branding — Ledgerline Markets" }, { property: "og:description", content: "Edit the site name, logo letter and footer." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Branding,
 });
 

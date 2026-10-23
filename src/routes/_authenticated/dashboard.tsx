@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { fmt } from "@/lib/market";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Client portal — Overview" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Overview — Ledgerline Markets" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:title", content: "Client portal — Overview — Ledgerline Markets" }, { property: "og:description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Overview,
 });
 
@@ -39,7 +39,7 @@ function Overview() {
 
   return (
     <div>
-      <PageTitle title={`${greet}${p?.username ? `, ${p.username}` : ""}`} sub={`Account ${accountNo(data?.user.id)} · USD`} />
+      <PageTitle title={`${greet}${(p?.first_name || p?.username) ? `, ${p?.first_name || p?.username}` : ""}`} sub={`Account ${accountNo(data?.user.id)} · EUR`} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard accent icon={Landmark} label="Total equity" value={fmt(bal + bonus)} hint="Balance + bonus"><Sparkline values={spark} color="var(--navy-muted)" /></StatCard>
         <StatCard icon={Wallet} label="Account balance" value={fmt(bal)} hint="Available funds"><Sparkline values={spark} /></StatCard>

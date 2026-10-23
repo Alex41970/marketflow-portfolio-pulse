@@ -113,7 +113,7 @@ export function useQuotes() {
 }
 export const quoteOf = (q: Snap, s: string) => q[s] ?? initial()[s] ?? initial()[TICKERS[0]!.symbol]!;
 
-export const fmt = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export { fmt } from "./currency";
 export const fmtP = (n: number, dp = 2) => n.toLocaleString("en-US", { minimumFractionDigits: dp, maximumFractionDigits: dp });
 export const pct = (a: number, b: number) => ((a - b) / b) * 100;
 export const signed = (n: number, dp = 2) => (n >= 0 ? "+" : "") + fmtP(n, dp);
