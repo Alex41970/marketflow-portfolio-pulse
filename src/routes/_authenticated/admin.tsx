@@ -88,7 +88,7 @@ function Admin() {
               const active = u.last_seen_at && new Date(u.last_seen_at).getTime() > dayAgo;
               return (
                 <tr key={u.id} className="cursor-pointer border-t hover:bg-muted" onClick={() => setTarget(u)}>
-                  <td className="px-3 py-3 font-semibold">{u.username}</td>
+                  <td className="px-3 py-3 font-semibold">{[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}</td>
                   <td className="px-3 text-muted-foreground">{u.email}</td>
                   <td className="num px-3">{fmt(Number(u.virtual_balance))}</td>
                   <td className="px-3">{Number(u.bonus) > 0 ? <Badge className="num">{fmt(Number(u.bonus))}</Badge> : <span className="text-muted-foreground">None</span>}</td>
@@ -165,7 +165,7 @@ function UserDrawer({ user, onClose }: { user: Profile | null; onClose: () => vo
   return (
     <Sheet open onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="w-full overflow-auto sm:max-w-md">
-        <SheetHeader><SheetTitle>{user.username}</SheetTitle><p className="text-xs text-muted-foreground">{user.email}</p></SheetHeader>
+        <SheetHeader><SheetTitle className="break-words pr-6">{[user.first_name, user.last_name].filter(Boolean).join(" ") || user.username}</SheetTitle><p className="break-all text-xs text-muted-foreground">{user.email}</p></SheetHeader>
         <Tabs defaultValue="overview" className="mt-4">
           <TabsList className="grid w-full grid-cols-4"><TabsTrigger value="overview">Overview</TabsTrigger><TabsTrigger value="funds">Funds</TabsTrigger><TabsTrigger value="password">Password</TabsTrigger><TabsTrigger value="audit">Audit</TabsTrigger></TabsList>
           <TabsContent value="overview" className="space-y-2 pt-2 text-sm">
