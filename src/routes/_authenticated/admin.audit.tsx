@@ -5,7 +5,7 @@ import { PanelHead } from "@/components/ws/Panels";
 import { fmt } from "@/lib/market";
 
 export const Route = createFileRoute("/_authenticated/admin/audit")({
-  head: () => ({ meta: [{ title: "Back office — Audit log" }, { name: "description", content: "All admin actions." }] }),
+  head: () => ({ meta: [{ title: "Back office — Audit log — Ledgerline Markets" }, { name: "description", content: "All admin actions." }, { property: "og:title", content: "Back office — Audit log — Ledgerline Markets" }, { property: "og:description", content: "All admin actions." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Audit,
 });
 

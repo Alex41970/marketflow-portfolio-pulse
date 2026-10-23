@@ -11,6 +11,8 @@ export const Route = createFileRoute("/pricing")({
       { name: "description", content: "Illustrative commission schedule for the platform." },
       { property: "og:title", content: `Pricing — ${BRAND.name}` },
       { property: "og:description", content: "Illustrative commission schedule for the platform." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Pricing,

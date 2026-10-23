@@ -14,6 +14,8 @@ export const Route = createFileRoute("/platform")({
       { name: "description", content: "Tour the multi-panel trading workstation: charts, depth, order ticket and analytics." },
       { property: "og:title", content: `Platform — ${BRAND.name}` },
       { property: "og:description", content: "Tour the multi-panel trading workstation." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Platform,

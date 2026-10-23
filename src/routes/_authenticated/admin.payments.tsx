@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/_authenticated/admin/payments")({
-  head: () => ({ meta: [{ title: "Back office — Payment settings" }, { name: "description", content: "Crypto wallets and bank details shown to clients." }] }),
+  head: () => ({ meta: [{ title: "Back office — Payment settings — Ledgerline Markets" }, { name: "description", content: "Crypto wallets and bank details shown to clients." }, { property: "og:title", content: "Back office — Payment settings — Ledgerline Markets" }, { property: "og:description", content: "Crypto wallets and bank details shown to clients." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Payments,
 });
 

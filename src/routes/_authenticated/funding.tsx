@@ -17,7 +17,7 @@ import { fmt } from "@/lib/market";
 import { canWithdraw, STATUS_STYLE } from "@/lib/funding";
 
 export const Route = createFileRoute("/_authenticated/funding")({
-  head: () => ({ meta: [{ title: "Funding — Top up & withdraw" }, { name: "description", content: "Top up or withdraw via crypto or bank wire." }] }),
+  head: () => ({ meta: [{ title: "Funding — Top up & withdraw — Ledgerline Markets" }, { name: "description", content: "Top up or withdraw via crypto or bank wire." }, { property: "og:title", content: "Funding — Top up & withdraw — Ledgerline Markets" }, { property: "og:description", content: "Top up or withdraw via crypto or bank wire." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Funding,
 });
 

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { fmt } from "@/lib/market";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Client portal — Overview" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Overview — Ledgerline Markets" }, { name: "description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:title", content: "Client portal — Overview — Ledgerline Markets" }, { property: "og:description", content: "Account overview: balance, bonus and recent activity." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Overview,
 });
 

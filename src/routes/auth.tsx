@@ -22,7 +22,7 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-const CODES = [
+const CODES: [string, string][] = [
   ["+44", "United Kingdom"], ["+353", "Ireland"], ["+49", "Germany"], ["+33", "France"], ["+34", "Spain"], ["+39", "Italy"], ["+31", "Netherlands"], ["+32", "Belgium"], ["+43", "Austria"], ["+41", "Switzerland"], ["+351", "Portugal"], ["+30", "Greece"], ["+48", "Poland"], ["+46", "Sweden"], ["+45", "Denmark"], ["+47", "Norway"], ["+358", "Finland"], ["+40", "Romania"], ["+420", "Czechia"], ["+36", "Hungary"], ["+359", "Bulgaria"], ["+385", "Croatia"], ["+357", "Cyprus"], ["+356", "Malta"], ["+352", "Luxembourg"], ["+370", "Lithuania"], ["+371", "Latvia"], ["+372", "Estonia"], ["+386", "Slovenia"], ["+421", "Slovakia"], ["+1", "United States / Canada"], ["+90", "Türkiye"], ["+971", "United Arab Emirates"], ["+91", "India"], ["+61", "Australia"], ["+65", "Singapore"], ["+27", "South Africa"], ["+234", "Nigeria"], ["+92", "Pakistan"], ["+880", "Bangladesh"], ["+966", "Saudi Arabia"], ["+86", "China"], ["+81", "Japan"], ["+55", "Brazil"], ["+52", "Mexico"], ["+64", "New Zealand"], ["+20", "Egypt"], ["+972", "Israel"], ["+63", "Philippines"], ["+62", "Indonesia"],
 ];
 

@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Tables } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Client portal — Users & funds" }, { name: "description", content: "Manage client accounts." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Users & funds — Ledgerline Markets" }, { name: "description", content: "Manage client accounts." }, { property: "og:title", content: "Client portal — Users & funds — Ledgerline Markets" }, { property: "og:description", content: "Manage client accounts." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: AdminLayout,
 });
 

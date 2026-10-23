@@ -10,6 +10,8 @@ export const Route = createFileRoute("/markets")({
       { name: "description", content: "Indicative quotes across stocks, ETFs, forex and crypto." },
       { property: "og:title", content: `Markets — ${BRAND.name}` },
       { property: "og:description", content: "Indicative quotes across stocks, ETFs, forex and crypto." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (

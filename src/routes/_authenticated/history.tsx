@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/history")({
-  head: () => ({ meta: [{ title: "Client portal — Transactions" }, { name: "description", content: "Full transaction history with filters and CSV export." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Transactions — Ledgerline Markets" }, { name: "description", content: "Full transaction history with filters and CSV export." }, { property: "og:title", content: "Client portal — Transactions — Ledgerline Markets" }, { property: "og:description", content: "Full transaction history with filters and CSV export." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: HistoryPage,
 });
 

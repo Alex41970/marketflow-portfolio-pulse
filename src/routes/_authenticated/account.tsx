@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/_authenticated/account")({
-  head: () => ({ meta: [{ title: "Client portal — Account" }, { name: "description", content: "Profile details and security settings." }] }),
+  head: () => ({ meta: [{ title: "Client portal — Account — Ledgerline Markets" }, { name: "description", content: "Profile details and security settings." }, { property: "og:title", content: "Client portal — Account — Ledgerline Markets" }, { property: "og:description", content: "Profile details and security settings." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: AccountPage,
 });
 
