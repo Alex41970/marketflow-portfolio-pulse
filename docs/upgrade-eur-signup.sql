@@ -1,7 +1,3 @@
--- EXISTING DATABASE ONLY: run once before deploying the updated signup form.
--- Keeps existing accounts, balances, transactions and roles unchanged.
--- EUR display is a denomination change, NOT a foreign-exchange conversion.
-
 ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS first_name text,
   ADD COLUMN IF NOT EXISTS last_name text,
