@@ -8,7 +8,7 @@ import { TICKERS } from "@/lib/market";
 export const MARKET_INFO: Record<AssetClass, { title: string; sub: string; hours: string[][]; fees: string[][]; facts: string[]; about: string }> = {
   Stocks: {
     title: "Trade indicative shares of growth and value companies",
-    sub: "Ten fictional companies across robotics, energy, health, logistics and more, each with its own price behaviour.",
+    sub: "Ten companies across robotics, energy, health, logistics and more, each with its own price behaviour.",
     about: "Shares represent ownership in a company. Their prices react to earnings, news and overall market sentiment. In the platform, stock prices move with moderate volatility and trade in whole or fractional units.",
     hours: [["Pre-market (indicative)", "04:00–09:30 ET"], ["Regular session (indicative)", "09:30–16:00 ET"], ["After hours (indicative)", "16:00–20:00 ET"]],
     fees: [["Per share", "$0.005 (indicative)"], ["Minimum per order", "$1.00 (indicative)"], ["Account minimum", "$0"]],

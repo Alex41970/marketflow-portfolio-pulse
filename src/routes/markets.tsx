@@ -15,7 +15,7 @@ export const Route = createFileRoute("/markets")({
   component: () => (
     <div className="min-h-screen bg-background">
       <SiteHeader />
-      <PageHero eyebrow="Markets" title="Four asset classes. One workstation." sub="Explore indicative quotes for fictional stocks, index funds, currency pairs and digital assets." />
+      <PageHero eyebrow="Markets" title="Four asset classes. One workstation." sub="Explore indicative quotes across stocks, index funds, currency pairs and digital assets." />
       <section className="mx-auto max-w-7xl px-6 py-14"><MarketsTable /></section>
       <SiteFooter />
     </div>
