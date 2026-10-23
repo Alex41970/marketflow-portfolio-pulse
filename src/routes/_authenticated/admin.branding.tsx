@@ -29,7 +29,7 @@ function Branding() {
     const { error } = await supabase.from("site_settings").update({
       brand_name: f.name.trim(), brand_suffix: f.suffix.trim(), brand_mark: f.mark.trim().slice(0, 3) || f.name.trim().slice(0, 1),
       tagline: f.tagline, footer_text: f.disclaimer, copyright: f.copyright,
-      awards_enabled: f.awardsEnabled, awards_heading: f.awardsHeading, awards: f.awards.filter((a) => a.title.trim()), updated_at: new Date().toISOString(),
+      awards_enabled: f.awardsEnabled, awards_heading: f.awardsHeading, awards: f.awards.filter((a) => a.title.trim()) as unknown as import("@/integrations/supabase/types").Json, updated_at: new Date().toISOString(),
     }).eq("id", 1);
     setSaving(false);
     if (error) { toast.error(error.message); return; }

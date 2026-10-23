@@ -15,7 +15,7 @@ function parseAwards(v: unknown): Award[] {
   if (!Array.isArray(v)) return [];
   return v.slice(0, 4).map((a) => {
     const o = (a ?? {}) as Record<string, unknown>;
-    return { title: String(o.title ?? ""), year: String(o.year ?? ""), caption: String(o.caption ?? "") };
+    return { title: String(o["title"] ?? ""), year: String(o["year"] ?? ""), caption: String(o["caption"] ?? "") };
   });
 }
 
