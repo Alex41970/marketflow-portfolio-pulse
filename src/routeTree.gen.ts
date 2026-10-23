@@ -24,9 +24,11 @@ import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as StatusRouteImport } from './routes/status'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -121,6 +123,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -134,6 +141,11 @@ const SecurityRoute = SecurityRouteImport.update({
 const StatusRoute = StatusRouteImport.update({
   id: '/status',
   path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
@@ -250,9 +262,11 @@ export interface FileRoutesByFullPath {
   '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
   '/status': typeof StatusRoute
+  '/terms': typeof TermsRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -288,9 +302,11 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
   '/status': typeof StatusRoute
+  '/terms': typeof TermsRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -328,9 +344,11 @@ export interface FileRoutesById {
   '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/security': typeof SecurityRoute
   '/status': typeof StatusRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -368,9 +386,11 @@ export interface FileRouteTypes {
     | '/platform'
     | '/press'
     | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/security'
     | '/status'
+    | '/terms'
     | '/account'
     | '/admin'
     | '/dashboard'
@@ -406,9 +426,11 @@ export interface FileRouteTypes {
     | '/platform'
     | '/press'
     | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/security'
     | '/status'
+    | '/terms'
     | '/account'
     | '/admin'
     | '/dashboard'
@@ -445,9 +467,11 @@ export interface FileRouteTypes {
     | '/platform'
     | '/press'
     | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/security'
     | '/status'
+    | '/terms'
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
@@ -485,9 +509,11 @@ export interface RootRouteChildren {
   PlatformRoute: typeof PlatformRoute
   PressRoute: typeof PressRoute
   PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SecurityRoute: typeof SecurityRoute
   StatusRoute: typeof StatusRoute
+  TermsRoute: typeof TermsRoute
   MarketsCryptoRoute: typeof MarketsCryptoRoute
   MarketsEtfsRoute: typeof MarketsEtfsRoute
   MarketsForexRoute: typeof MarketsForexRoute
@@ -606,6 +632,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -625,6 +658,13 @@ declare module '@tanstack/react-router' {
       path: '/status'
       fullPath: '/status'
       preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/account': {
@@ -817,9 +857,11 @@ const rootRouteChildren: RootRouteChildren = {
   PlatformRoute: PlatformRoute,
   PressRoute: PressRoute,
   PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SecurityRoute: SecurityRoute,
   StatusRoute: StatusRoute,
+  TermsRoute: TermsRoute,
   MarketsCryptoRoute: MarketsCryptoRoute,
   MarketsEtfsRoute: MarketsEtfsRoute,
   MarketsForexRoute: MarketsForexRoute,
