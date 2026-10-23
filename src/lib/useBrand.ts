@@ -42,7 +42,7 @@ export function useBrand(): SiteBrand {
     tagline: data?.tagline || BRAND.tagline,
     disclaimer: data?.footer_text || BRAND.disclaimer,
     copyright: data?.copyright ?? "",
-    awardsEnabled: data?.awards_enabled ?? true,
+    awardsEnabled: parseAwards(data?.awards).some((x) => x.title.trim()) ? (data?.awards_enabled ?? true) : true,
     awardsHeading: data?.awards_heading && data.awards_heading !== "Recognised for service" ? data.awards_heading : DEFAULT_AWARDS_HEADING,
     awards: (() => { const a = parseAwards(data?.awards).filter((x) => x.title.trim()); return a.length ? a : DEFAULT_AWARDS; })(),
   };
