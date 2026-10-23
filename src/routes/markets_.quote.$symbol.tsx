@@ -18,8 +18,8 @@ export const Route = createFileRoute("/markets_/quote/$symbol")({
     return { symbol: t.symbol, name: t.name, cls: t.cls };
   },
   head: ({ loaderData }) => {
-    const title = loaderData ? `${loaderData.symbol} — ${loaderData.name} (indicative) — ${BRAND.name}` : `Instrument unavailable — ${BRAND.name}`;
-    const desc = loaderData ? `Indicative quote, chart and stats for the fictional instrument ${loaderData.symbol}. .` : "This indicative instrument could not be found.";
+    const title = loaderData ? `${loaderData.symbol} — ${loaderData.name} — ${BRAND.name}` : `Instrument unavailable — ${BRAND.name}`;
+    const desc = loaderData ? `Indicative quote, chart and stats for ${loaderData.symbol}.` : "This instrument could not be found.";
     return {
       meta: [
         { title },
