@@ -37,7 +37,7 @@ function Branding() {
     toast.success("Branding saved");
   }
 
-  const slots: Award[] = [0, 1, 2, 3].map((i) => f.awards[i] ?? { title: "", year: "", caption: "" });
+  const slots: Award[] = [0, 1, 2, 3].map((i) => f.awards[i] ?? { issuer: "", title: "", year: "", caption: "" });
   const setAward = (i: number, k: keyof Award, v: string) => setF({ ...f, awards: slots.map((a, j) => (j === i ? { ...a, [k]: v } : a)) });
   const set = (k: "name" | "suffix" | "mark" | "tagline" | "disclaimer" | "copyright" | "awardsHeading") => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
 
@@ -63,8 +63,9 @@ function Branding() {
             {slots.map((a, i) => (
               <div key={i} className="space-y-2 rounded-lg border p-3">
                 <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Badge {i + 1}</div>
+                <Input placeholder="Awarded by (e.g. organisation)" value={a.issuer} onChange={(e) => setAward(i, "issuer", e.target.value)} />
                 <div className="grid grid-cols-[1fr_80px] gap-2"><Input placeholder="Award title" value={a.title} onChange={(e) => setAward(i, "title", e.target.value)} /><Input placeholder="Year" value={a.year} onChange={(e) => setAward(i, "year", e.target.value)} /></div>
-                <Input placeholder="Caption under the badge" value={a.caption} onChange={(e) => setAward(i, "caption", e.target.value)} />
+                <Textarea rows={2} placeholder="Caption under the badge" value={a.caption} onChange={(e) => setAward(i, "caption", e.target.value)} />
               </div>
             ))}
           </div>
