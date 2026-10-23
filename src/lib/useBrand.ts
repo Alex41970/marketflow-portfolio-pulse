@@ -9,6 +9,15 @@ export type SiteBrand = {
   awardsEnabled: boolean; awardsHeading: string; awards: Award[];
 };
 
+/** Built-in awards shown when the database has none saved (no SQL needed). */
+export const DEFAULT_AWARDS: Award[] = [
+  { issuer: "BrokerChooser", title: "Best online broker", year: "2026", caption: "Best Online Broker" },
+  { issuer: "StockBrokers.com", title: "#1 Professional Trading", year: "2026", caption: "#1 Professional Trading\n#1 International Trading" },
+  { issuer: "NerdWallet", title: "Best Online Broker", year: "2026", caption: "Best Online Broker\nfor Advanced Traders" },
+  { issuer: "Investing in the Web", title: "Best global broker overall", year: "2026", caption: "Best Global Broker Overall" },
+];
+const DEFAULT_AWARDS_HEADING = "Award Winning Platform & Services";
+
 export const brandQueryKey = ["site-settings"] as const;
 
 function parseAwards(v: unknown): Award[] {
@@ -33,9 +42,9 @@ export function useBrand(): SiteBrand {
     tagline: data?.tagline || BRAND.tagline,
     disclaimer: data?.footer_text || BRAND.disclaimer,
     copyright: data?.copyright ?? "",
-    awardsEnabled: data?.awards_enabled ?? false,
-    awardsHeading: data?.awards_heading || "Recognised for service",
-    awards: parseAwards(data?.awards),
+    awardsEnabled: data?.awards_enabled ?? true,
+    awardsHeading: data?.awards_heading && data.awards_heading !== "Recognised for service" ? data.awards_heading : DEFAULT_AWARDS_HEADING,
+    awards: (() => { const a = parseAwards(data?.awards).filter((x) => x.title.trim()); return a.length ? a : DEFAULT_AWARDS; })(),
   };
 }
 
