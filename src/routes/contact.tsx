@@ -16,7 +16,7 @@ export const Route = createFileRoute("/contact")({
 function Page() {
   const [sent, setSent] = useState(false);
   return (
-    <ContentPage image={IMG.supportAgent} eyebrow="Contact" title="Talk to our team" sub="Questions about the platform, a white-label pilot or your demo account? We'd love to hear from you." cta={false}>
+    <ContentPage image={IMG.supportAgent} eyebrow="Contact" title="Talk to our team" sub="Questions about the platform, a white-label pilot or your account? We'd love to hear from you." cta={false}>
       <Section>
         <div className="grid gap-10 md:grid-cols-[1.3fr_1fr]">
           <div className="panel p-8">
@@ -43,7 +43,7 @@ function Page() {
           </div>
         </div>
       </Section>
-    <Section muted><Split title="Partnerships and pilots" body="Interested in a white-label version for your firm, school or community? Tell us about your users and goals and we'll prepare a tailored demo." visual={<Photo src={IMG.institutionTower} alt="Financial district" />} /><Split reverse title="Customer support" body="For help with your demo account, start with the help centre — most answers are there. Otherwise, use the form above." visual={<Photo src={IMG.supportAgent} alt="Support specialist" />} /></Section>
+    <Section muted><Split title="Partnerships and pilots" body="Interested in a white-label version for your firm, school or community? Tell us about your users and goals and we'll prepare a tailored preview." visual={<Photo src={IMG.institutionTower} alt="Financial district" />} /><Split reverse title="Customer support" body="For help with your account, start with the help centre — most answers are there. Otherwise, use the form above." visual={<Photo src={IMG.supportAgent} alt="Support specialist" />} /></Section>
     </ContentPage>
   );
 }

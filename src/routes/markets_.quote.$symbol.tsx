@@ -18,8 +18,8 @@ export const Route = createFileRoute("/markets_/quote/$symbol")({
     return { symbol: t.symbol, name: t.name, cls: t.cls };
   },
   head: ({ loaderData }) => {
-    const title = loaderData ? `${loaderData.symbol} — ${loaderData.name} (simulated) — ${BRAND.name}` : `Instrument unavailable — ${BRAND.name}`;
-    const desc = loaderData ? `Simulated quote, chart and stats for the fictional instrument ${loaderData.symbol}. Virtual funds only.` : "This simulated instrument could not be found.";
+    const title = loaderData ? `${loaderData.symbol} — ${loaderData.name} — ${BRAND.name}` : `Instrument unavailable — ${BRAND.name}`;
+    const desc = loaderData ? `Indicative quote, chart and stats for ${loaderData.symbol}.` : "This instrument could not be found.";
     return {
       meta: [
         { title },
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/markets_/quote/$symbol")({
       <SiteHeader />
       <div className="mx-auto max-w-3xl px-6 py-24 text-center">
         <h1 className="text-3xl font-semibold">Instrument not found</h1>
-        <p className="mt-3 text-muted-foreground">That symbol isn't part of the simulator.</p>
+        <p className="mt-3 text-muted-foreground">That symbol isn't part of the platform.</p>
         <Button asChild className="mt-6"><Link to="/markets">Back to Markets</Link></Button>
       </div>
       <SiteFooter />
@@ -57,8 +57,8 @@ function Quote() {
   const stats: [string, string][] = [
     ["Open", fmtP(x.open, dp)], ["Previous close", fmtP(x.prev, dp)],
     ["Day high", fmtP(x.high, dp)], ["Day low", fmtP(x.low, dp)],
-    ["Bid (sim)", fmtP(x.price - spread, dp)], ["Ask (sim)", fmtP(x.price + spread, dp)],
-    ["Volume (sim)", Math.round(x.volume).toLocaleString("en-US")], ["Asset class", cls],
+    ["Bid (indicative)", fmtP(x.price - spread, dp)], ["Ask (indicative)", fmtP(x.price + spread, dp)],
+    ["Volume (indicative)", Math.round(x.volume).toLocaleString("en-US")], ["Asset class", cls],
   ];
   return (
     <div className="min-h-screen bg-background">
@@ -73,14 +73,14 @@ function Quote() {
           </div>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="num text-xs uppercase tracking-[0.2em] text-navy-muted">{cls} · simulated instrument</p>
+              <p className="num text-xs uppercase tracking-[0.2em] text-navy-muted">{cls} · indicative instrument</p>
               <h1 className="mt-2 text-4xl font-semibold md:text-5xl">{symbol}</h1>
               <p className="mt-1 text-lg text-navy-muted">{name}</p>
             </div>
             <div className="text-right">
               <div key={x.seq} className="num text-4xl font-semibold">{fmtP(x.price, dp)}</div>
               <div className={`num mt-1 text-lg ${up ? "text-gain" : "text-loss"}`}>{signed(d, dp)} ({signed(pct(x.price, x.open))}%)</div>
-              <p className="mt-1 text-xs text-navy-muted">Simulated price · virtual funds only</p>
+              <p className="mt-1 text-xs text-navy-muted">Indicative price</p>
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ function Quote() {
           </div>
           <div className="panel space-y-2 p-4">
             <Button asChild className="w-full"><Link to="/dashboard"><LineChart className="mr-2 h-4 w-4" />Client portal</Link></Button>
-            <Button variant="outline" className="w-full" onClick={() => toast.success(`${symbol} added to your demo watchlist`)}><Star className="mr-2 h-4 w-4" />Add to watchlist</Button>
+            <Button variant="outline" className="w-full" onClick={() => toast.success(`${symbol} added to your watchlist`)}><Star className="mr-2 h-4 w-4" />Add to watchlist</Button>
             <p className="pt-1 text-xs text-muted-foreground">Trading takes place in MetaTrader 4 / 5. Use the client portal to view your balance and history.</p>
           </div>
         </aside>

@@ -12,18 +12,18 @@ export const Route = createFileRoute("/press")({
 });
 
 const RELEASES = [
-  { d: "20 Oct 2026", t: "Pilot launches with a multi-asset simulated workstation", b: "The new platform brings candlestick charting, Level 2 depth, time & sales and limit orders to a free, risk-free demo environment for stocks, ETFs, forex and crypto." },
+  { d: "20 Oct 2026", t: "Pilot launches with a multi-asset indicative workstation", b: "The new platform brings candlestick charting, Level 2 depth, time & sales and limit orders to a free, risk-free practice environment for stocks, ETFs, forex and crypto." },
   { d: "29 Sep 2026", t: "Back-office console adds full audit logging", b: "Every administrative change to virtual balances, bonuses and passwords is now recorded with author, reason and timestamp, giving operators a complete history." },
-  { d: "14 Aug 2026", t: "Education library expands to nine free courses", b: "New intermediate and advanced modules cover margin, order-book reading, position sizing and currency trading, each linked to hands-on simulator exercises." },
-  { d: "02 Jul 2026", t: "White-label programme opens to institutional partners", b: "Firms can now run the simulator under their own brand, with their colours, name and domain, as a training or customer-engagement tool." },
+  { d: "14 Aug 2026", t: "Education library expands to nine free courses", b: "New intermediate and advanced modules cover margin, order-book reading, position sizing and currency trading, each linked to hands-on platform exercises." },
+  { d: "02 Jul 2026", t: "White-label programme opens to institutional partners", b: "Firms can now run the platform under their own brand, with their colours, name and domain, as a training or customer-engagement tool." },
   { d: "18 May 2026", t: "Mobile-first workstation layout released", b: "The workstation now adapts fully to phones and tablets, keeping the order ticket, watchlists and blotter within easy reach." },
   { d: "03 Apr 2026", t: "Company announces seed funding to build next-generation trading education", b: "The round will fund product, engineering and education teams as the company prepares its first institutional pilots." },
 ];
 
 const COVERAGE = [
-  { img: IMG.traderDesk, tag: "Fintech Weekly (sample)", title: "The simulator that looks like a real trading desk", body: "A hands-on review of the workstation's charting, depth and order flow.", meta: "Oct 2026 · 6 min read" },
-  { img: IMG.educationStudy, tag: "Learning Markets (sample)", title: "Why practice accounts are the new trading classroom", body: "Educators explain how simulated capital changes how beginners learn.", meta: "Sep 2026 · 8 min read" },
-  { img: IMG.institutionTower, tag: "Capital Tech Review (sample)", title: "White-label demos are winning over brokers", body: "How firms use branded simulators to onboard and train customers.", meta: "Aug 2026 · 5 min read" },
+  { img: IMG.traderDesk, tag: "Fintech Weekly (sample)", title: "The platform that looks like a real trading desk", body: "A hands-on review of the workstation's charting, depth and order flow.", meta: "Oct 2026 · 6 min read" },
+  { img: IMG.educationStudy, tag: "Learning Markets (sample)", title: "Why practice accounts are the new trading classroom", body: "Educators explain how indicative capital changes how beginners learn.", meta: "Sep 2026 · 8 min read" },
+  { img: IMG.institutionTower, tag: "Capital Tech Review (sample)", title: "White-label demos are winning over brokers", body: "How firms use branded platforms to onboard and train customers.", meta: "Aug 2026 · 5 min read" },
 ];
 
 function Page() {
@@ -96,7 +96,7 @@ function Page() {
 
       <Section>
         <Split title="Company fact sheet" body="Key facts about the company and product for reference in coverage." visual={<Photo src={IMG.teamOffice} alt="Team collaborating in the office" />} />
-        <KeyValueTable head={["", ""]} rows={[["Name", `${BRAND.name} ${BRAND.suffix}`], ["Product", "Multi-asset trading simulator and white-label platform"], ["Founded", "2026 (sample)"], ["Headquarters", "London (placeholder)"], ["Asset classes", "Stocks, ETFs, forex, crypto (all simulated)"], ["Media contact", "press@example.com (placeholder)"]]} />
+        <KeyValueTable head={["", ""]} rows={[["Name", `${BRAND.name} ${BRAND.suffix}`], ["Product", "Multi-asset trading platform and white-label platform"], ["Founded", "2026 (sample)"], ["Headquarters", "London (placeholder)"], ["Asset classes", "Stocks, ETFs, forex, crypto (all indicative)"], ["Media contact", "press@example.com (placeholder)"]]} />
       </Section>
 
       <Section muted>

@@ -24,11 +24,11 @@ function Platform() {
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
-      <PageHero eyebrow="Workstation" title="Everything on one screen" sub="A desk-grade layout designed for speed and clarity, with every price simulated." />
+      <PageHero eyebrow="Workstation" title="Everything on one screen" sub="A desk-grade layout designed for speed and clarity, with every price indicative." />
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 lg:grid-cols-2">
         <img src={IMG.traderDesk} alt="Illustrative trading desk with multiple screens" className="aspect-[4/3] w-full rounded-lg object-cover shadow-xl" loading="lazy" />
         <div>
-          <p className="num text-xs uppercase tracking-[0.2em] text-primary">Live preview · LUMA (simulated)</p>
+          <p className="num text-xs uppercase tracking-[0.2em] text-primary">Live preview · LUMA (indicative)</p>
           <h2 className="mt-2 text-2xl font-semibold">Charts that update every tick</h2>
           <div className="mt-4 rounded-lg border bg-card p-3 shadow-sm">
             <LazyChart symbol="LUMA" range="6M" price={q.price} height={300} />
@@ -38,11 +38,11 @@ function Platform() {
       <section className="mx-auto grid max-w-7xl gap-8 px-6 pb-20 md:grid-cols-3">
         {[
           { i: LineChart, t: "Candlestick charts", d: "Five time ranges, volume and a moving-average overlay." },
-          { i: Layers, t: "Market depth", d: "Simulated Level 2 bid/ask ladder updated with every tick." },
-          { i: Activity, t: "Time & sales", d: "A live tape of simulated prints." },
+          { i: Layers, t: "Market depth", d: "Indicative Level 2 bid/ask ladder updated with every tick." },
+          { i: Activity, t: "Time & sales", d: "A live tape of indicative prints." },
           { i: ListOrdered, t: "Order management", d: "Market and limit orders with confirmation and a working-orders blotter." },
           { i: PieChart, t: "Portfolio analytics", d: "Allocation, P&L and account summary." },
-          { i: Newspaper, t: "News feed", d: "Simulated headlines tied to each instrument." },
+          { i: Newspaper, t: "News feed", d: "Indicative headlines tied to each instrument." },
         ].map(({ i: I, t, d }) => (
           <div key={t}><I className="h-6 w-6 text-primary" /><h3 className="mt-3 font-semibold">{t}</h3><p className="mt-1 text-sm text-muted-foreground">{d}</p></div>
         ))}

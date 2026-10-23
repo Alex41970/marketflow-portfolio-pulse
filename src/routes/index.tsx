@@ -107,7 +107,7 @@ function Index() {
           <div className="text-sm font-semibold">Illustrative pricing</div>
           <table className="mt-4 w-full text-sm">
             <tbody className="divide-y">
-              {[["Stocks & ETFs", "$0.005 / share (sim)"], ["Forex", "0.2 bps (sim)"], ["Crypto", "0.18% (sim)"], ["Account minimum", "$0"]].map(([a, b]) => (
+              {[["Stocks & ETFs", "$0.005 / share (indicative)"], ["Forex", "0.2 bps (indicative)"], ["Crypto", "0.18% (indicative)"], ["Account minimum", "$0"]].map(([a, b]) => (
                 <tr key={a}><td className="py-3 text-muted-foreground">{a}</td><td className="num py-3 text-right">{b}</td></tr>
               ))}
             </tbody>

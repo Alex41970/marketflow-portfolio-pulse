@@ -7,36 +7,36 @@ import { TICKERS } from "@/lib/market";
 
 export const MARKET_INFO: Record<AssetClass, { title: string; sub: string; hours: string[][]; fees: string[][]; facts: string[]; about: string }> = {
   Stocks: {
-    title: "Trade simulated shares of growth and value companies",
-    sub: "Ten fictional companies across robotics, energy, health, logistics and more, each with its own price behaviour.",
-    about: "Shares represent ownership in a company. Their prices react to earnings, news and overall market sentiment. In the simulator, stock prices move with moderate volatility and trade in whole or fractional units.",
-    hours: [["Pre-market (sim)", "04:00–09:30 ET"], ["Regular session (sim)", "09:30–16:00 ET"], ["After hours (sim)", "16:00–20:00 ET"]],
-    fees: [["Per share", "$0.005 (sim)"], ["Minimum per order", "$1.00 (sim)"], ["Account minimum", "$0"]],
+    title: "Trade indicative shares of growth and value companies",
+    sub: "Ten companies across robotics, energy, health, logistics and more, each with its own price behaviour.",
+    about: "Shares represent ownership in a company. Their prices react to earnings, news and overall market sentiment. In the platform, stock prices move with moderate volatility and trade in whole or fractional units.",
+    hours: [["Pre-market (indicative)", "04:00–09:30 ET"], ["Regular session (indicative)", "09:30–16:00 ET"], ["After hours (indicative)", "16:00–20:00 ET"]],
+    fees: [["Per share", "$0.005 (indicative)"], ["Minimum per order", "$1.00 (indicative)"], ["Account minimum", "$0"]],
     facts: ["Fractional quantities supported", "Market and limit orders", "Level 2 depth on every symbol"],
   },
   ETFs: {
-    title: "Diversify instantly with simulated index funds",
+    title: "Diversify instantly with indicative index funds",
     sub: "Broad market, sector, bond, gold and emerging-market funds for building balanced portfolios.",
-    about: "Exchange-traded funds hold a basket of assets and trade like a single share. They're a simple way to spread risk across many holdings. In the simulator, ETFs tend to move more steadily than individual stocks.",
-    hours: [["Regular session (sim)", "09:30–16:00 ET"], ["Extended hours (sim)", "04:00–20:00 ET"]],
-    fees: [["Per share", "$0.005 (sim)"], ["Management fee", "Not charged in demo"], ["Account minimum", "$0"]],
-    facts: ["Equity, bond and commodity exposure", "Ideal for model portfolios", "Lower simulated volatility"],
+    about: "Exchange-traded funds hold a basket of assets and trade like a single share. They're a simple way to spread risk across many holdings. In the platform, ETFs tend to move more steadily than individual stocks.",
+    hours: [["Regular session (indicative)", "09:30–16:00 ET"], ["Extended hours (indicative)", "04:00–20:00 ET"]],
+    fees: [["Per share", "$0.005 (indicative)"], ["Management fee", "Not charged in preview"], ["Account minimum", "$0"]],
+    facts: ["Equity, bond and commodity exposure", "Ideal for model portfolios", "Lower indicative volatility"],
   },
   FX: {
     title: "Practise the world's largest market",
-    sub: "Major currency pairs with tight simulated spreads and four-decimal pricing.",
-    about: "Forex is the exchange of one currency for another, quoted in pairs such as EUR.USD. Prices move in small increments called pips. In the simulator, FX moves with low volatility and is quoted to four decimal places for most pairs.",
-    hours: [["Sydney open (sim)", "Sun 17:00 ET"], ["Continuous trading (sim)", "24 hours, Mon–Fri"], ["Weekly close (sim)", "Fri 17:00 ET"]],
-    fees: [["Commission", "0.2 bps (sim)"], ["Typical spread", "0.1–0.5 pips (sim)"], ["Account minimum", "$0"]],
-    facts: ["Four major pairs", "Pip-level pricing", "24-hour simulated session"],
+    sub: "Major currency pairs with tight indicative spreads and four-decimal pricing.",
+    about: "Forex is the exchange of one currency for another, quoted in pairs such as EUR.USD. Prices move in small increments called pips. In the platform, FX moves with low volatility and is quoted to four decimal places for most pairs.",
+    hours: [["Sydney open (indicative)", "Sun 17:00 ET"], ["Continuous trading (indicative)", "24 hours, Mon–Fri"], ["Weekly close (indicative)", "Fri 17:00 ET"]],
+    fees: [["Commission", "0.2 bps (indicative)"], ["Typical spread", "0.1–0.5 pips (indicative)"], ["Account minimum", "$0"]],
+    facts: ["Four major pairs", "Pip-level pricing", "24-hour indicative session"],
   },
   Crypto: {
     title: "Explore digital assets without the wallet",
-    sub: "Five simulated crypto assets that trade around the clock with higher volatility.",
-    about: "Digital assets are known for sharp price swings. The simulator reproduces that higher volatility so you can practise position sizing and risk control. These are simulated instruments only — no real coins are bought, held or transferred.",
-    hours: [["Trading (sim)", "24/7, every day"], ["Maintenance (sim)", "None"]],
-    fees: [["Commission", "0.18% (sim)"], ["Network fees", "None — simulated"], ["Account minimum", "$0"]],
-    facts: ["24/7 simulated trading", "Higher volatility profile", "No wallets or keys required"],
+    sub: "Five indicative crypto assets that trade around the clock with higher volatility.",
+    about: "Digital assets are known for sharp price swings. The platform reproduces that higher volatility so you can practise position sizing and risk control. These are indicative instruments only — no real coins are bought, held or transferred.",
+    hours: [["Trading (indicative)", "24/7, every day"], ["Maintenance (indicative)", "None"]],
+    fees: [["Commission", "0.18% (indicative)"], ["Network fees", "None — indicative"], ["Account minimum", "$0"]],
+    facts: ["24/7 indicative trading", "Higher volatility profile", "No wallets or keys required"],
   },
 };
 
@@ -45,7 +45,7 @@ export function MarketClassPage({ cls }: { cls: AssetClass }) {
   const count = TICKERS.filter((t) => t.cls === cls).length;
   return (
     <ContentPage eyebrow={`Markets · ${cls}`} title={m.title} sub={m.sub} crumbs={["Markets", cls]} image={cls === "Crypto" ? IMG.mobileHand : cls === "FX" ? IMG.marketsGlobe : cls === "ETFs" ? IMG.advisorMeeting : IMG.traderDesk}>
-      <Stats items={[[String(count), cls === "FX" ? "Currency pairs" : `Simulated ${cls.toLowerCase()}`], ["1.5s", "Quote refresh"], ["$0", "Account minimum"], ["Virtual", "Funds only"]]} />
+      <Stats items={[[String(count), cls === "FX" ? "Currency pairs" : `Indicative ${cls.toLowerCase()}`], ["1.5s", "Quote refresh"], ["$0", "Account minimum"], ["Virtual", "Funds only"]]} />
       <Section title={`Live ${cls} quotes`} sub="All prices are generated by software for practice."><MarketsTable fixedClass={cls} /></Section>
       <Section title={`About ${cls}`} muted>
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
@@ -56,19 +56,19 @@ export function MarketClassPage({ cls }: { cls: AssetClass }) {
       <Section>
         <div className="grid gap-8 md:grid-cols-2">
           <div><h3 className="mb-4 text-xl font-semibold">Trading hours</h3><KeyValueTable head={["Session", "Time"]} rows={m.hours} /></div>
-          <div><h3 className="mb-4 text-xl font-semibold">Pricing</h3><KeyValueTable head={["Item", "Rate"]} rows={m.fees} note="Illustrative only. No fees are charged in the demo." /></div>
+          <div><h3 className="mb-4 text-xl font-semibold">Pricing</h3><KeyValueTable head={["Item", "Rate"]} rows={m.fees} note="Illustrative only. No fees are charged in the preview." /></div>
         </div>
       </Section>
       <Section title="Why practise here" muted>
         <FeatureGrid cols={4} items={[
           { icon: Zap, title: "Instant fills", body: "Market orders settle immediately in your virtual account." },
           { icon: Scale, title: "Limit orders", body: "Set your price and let the order fill when the market reaches it." },
-          { icon: Clock, title: "Always on", body: "Simulated markets run whenever you want to practise." },
+          { icon: Clock, title: "Always on", body: "Indicative markets run whenever you want to practise." },
           { icon: Globe, title: "Multi-asset", body: "Combine this market with others in one portfolio." },
         ]} />
       </Section>
     <Section>
-        <Split title={`Practise ${cls} strategies`} body={`Combine ${cls.toLowerCase()} with other asset classes, test limit orders and review your results in portfolio analytics — all with virtual funds.`} bullets={["Live simulated quotes", "Market and limit orders", "Full activity history"]} visual={<Photo src={IMG.traderDesk} alt="Trading workstation" />} />
+        <Split title={`Practise ${cls} strategies`} body={`Combine ${cls.toLowerCase()} with other asset classes, test limit orders and review your results in portfolio analytics — all with virtual funds.`} bullets={["Indicative quotes", "Market and limit orders", "Full activity history"]} visual={<Photo src={IMG.traderDesk} alt="Trading workstation" />} />
       </Section>
       <Section title="Learn more" muted>
         <ImageCards items={[

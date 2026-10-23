@@ -8,25 +8,25 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: `Pricing — ${BRAND.name} ${BRAND.suffix}` },
-      { name: "description", content: "Illustrative commission schedule for the demo platform." },
+      { name: "description", content: "Illustrative commission schedule for the platform." },
       { property: "og:title", content: `Pricing — ${BRAND.name}` },
-      { property: "og:description", content: "Illustrative commission schedule for the demo platform." },
+      { property: "og:description", content: "Illustrative commission schedule for the platform." },
     ],
   }),
   component: Pricing,
 });
 
 const TIERS = [
-  { n: "Lite", p: "$0", d: "For new traders", f: ["Commission-free stocks & ETFs (sim)", "Standard workstation", "Email support"] },
-  { n: "Pro", p: "$0.005/sh", d: "For active traders", f: ["Tiered per-share pricing (sim)", "Depth, time & sales", "Advanced order types"], hl: true },
-  { n: "Institutional", p: "Custom", d: "For firms", f: ["Volume pricing (sim)", "Multi-account admin", "Dedicated coverage"] },
+  { n: "Lite", p: "$0", d: "For new traders", f: ["Commission-free stocks & ETFs", "Standard workstation", "Email support"] },
+  { n: "Pro", p: "$0.005/sh", d: "For active traders", f: ["Tiered per-share pricing", "Depth, time & sales", "Advanced order types"], hl: true },
+  { n: "Institutional", p: "Custom", d: "For firms", f: ["Volume pricing", "Multi-account admin", "Dedicated coverage"] },
 ];
 
 function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
-      <PageHero eyebrow="Pricing · illustrative" title="Transparent, low-cost pricing" sub="Shown for illustration only. The simulator charges nothing." />
+      <PageHero eyebrow="Pricing · illustrative" title="Transparent, low-cost pricing" sub="Shown for illustration only. The platform charges nothing." />
       <section className="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:grid-cols-3">
         {TIERS.map((t) => (
           <div key={t.n} className={`panel p-8 ${t.hl ? "ring-2 ring-primary" : ""}`}>
@@ -34,7 +34,7 @@ function Pricing() {
             <div className="num mt-3 text-3xl">{t.p}</div>
             <div className="text-sm text-muted-foreground">{t.d}</div>
             <ul className="mt-6 space-y-2 text-sm">{t.f.map((x) => <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-gain" />{x}</li>)}</ul>
-            <Button asChild className="mt-8 w-full" variant={t.hl ? "default" : "outline"}><Link to="/auth" search={{ mode: "signup" }}>Try in demo</Link></Button>
+            <Button asChild className="mt-8 w-full" variant={t.hl ? "default" : "outline"}><Link to="/auth" search={{ mode: "signup" }}>Try it now</Link></Button>
           </div>
         ))}
       </section>
