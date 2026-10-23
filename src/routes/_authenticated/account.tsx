@@ -37,7 +37,7 @@ function AccountPage() {
           {kv("Username", p?.username ?? "")}
           {kv("Email", p?.email ?? "")}
           {kv("Account number", accountNo(data?.user.id))}
-          {kv("Account type", "Demo · virtual funds")}
+          {kv("Account type", "Preview · virtual funds")}
           {kv("Base currency", "USD")}
           {kv("Member since", p ? new Date(p.created_at).toLocaleDateString("en-GB", { dateStyle: "long" }) : "")}
         </Card>

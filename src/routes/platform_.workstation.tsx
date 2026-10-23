@@ -13,7 +13,7 @@ export const Route = createFileRoute("/platform_/workstation")({
 function Page() {
   const q = quoteOf(useQuotes(), "QNTM");
   return (
-    <ContentPage image={IMG.traderDesk} eyebrow="Platform · Workstation" title="A desk-grade workstation in your browser" sub="Every panel a professional trader expects, arranged for speed and updating live with simulated data." crumbs={["Platform", "Workstation"]}>
+    <ContentPage image={IMG.traderDesk} eyebrow="Platform · Workstation" title="A desk-grade workstation in your browser" sub="Every panel a professional trader expects, arranged for speed and updating live with indicative data." crumbs={["Platform", "Workstation"]}>
       <Section>
         <div className="dark rounded-lg border bg-background p-3 text-foreground shadow-2xl"><LazyChart symbol="QNTM" range="5D" price={q.price} height={400} /></div>
       </Section>
@@ -22,9 +22,9 @@ function Page() {
           { icon: Table2, title: "Watchlists", body: "Tabbed by asset class, with sparklines and green/red price flashes on every tick." },
           { icon: LineChart, title: "Candlestick charts", body: "1D, 5D, 1M, 6M and 1Y ranges with volume bars and a 20-period moving average." },
           { icon: ListOrdered, title: "Order ticket", body: "Buy/sell toggle, market or limit, quantity steps, estimated cost and a confirm step." },
-          { icon: Layers, title: "Depth (Level 2)", body: "Eight levels of simulated bids and asks with size bars and the live spread." },
-          { icon: Activity, title: "Time & sales", body: "A rolling tape of simulated prints showing price, size and direction." },
-          { icon: Newspaper, title: "News", body: "Simulated headlines that follow the instrument you're viewing." },
+          { icon: Layers, title: "Depth (Level 2)", body: "Eight levels of indicative bids and asks with size bars and the live spread." },
+          { icon: Activity, title: "Time & sales", body: "A rolling tape of indicative prints showing price, size and direction." },
+          { icon: Newspaper, title: "News", body: "Indicative headlines that follow the instrument you're viewing." },
         ]} />
       </Section>
       <Section>
@@ -32,7 +32,7 @@ function Page() {
         <Split reverse title="Top bar metrics" body="Net liquidation, day P&L, buying power and cash are always visible, alongside your account ID and a live clock." visual={<MockPanel title="Top bar (sample)" rows={[["Net liq.", "$103,920.15"], ["Day P&L", "+$662.70"], ["Buying power", "$158,410.00"], ["Cash", "$79,205.00"]]} />} />
       </Section>
     <Section muted><Split title="Designed for long sessions" body="A dense, high-contrast dark theme reduces eye strain, while a light theme is one click away for daytime use." visual={<Photo src={IMG.traderDesk} alt="Trader at multi-monitor desk" />} /></Section>
-      <Section title="Who uses the workstation"><ImageCards items={[{ img: IMG.educationStudy, tag: "Learners", title: "First trades", body: "Practise the full order flow end to end." },{ img: IMG.advisorMeeting, tag: "Advisors", title: "Client demos", body: "Walk clients through live simulated portfolios." },{ img: IMG.institutionTower, tag: "Firms", title: "Team training", body: "Onboard staff on a realistic platform." }]} /></Section>
+      <Section title="Who uses the workstation"><ImageCards items={[{ img: IMG.educationStudy, tag: "Learners", title: "First trades", body: "Practise the full order flow end to end." },{ img: IMG.advisorMeeting, tag: "Advisors", title: "Client demos", body: "Walk clients through indicative portfolios." },{ img: IMG.institutionTower, tag: "Firms", title: "Team training", body: "Onboard staff on a realistic platform." }]} /></Section>
     </ContentPage>
   );
 }

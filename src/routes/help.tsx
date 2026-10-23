@@ -7,12 +7,12 @@ import { Input } from "@/components/ui/input";
 import { IMG } from "@/lib/images";
 
 export const Route = createFileRoute("/help")({
-  head: () => pageHead("Help centre", "Guides, FAQs and support for demo accounts, trading, passwords and the simulator.", "/help"),
+  head: () => pageHead("Help centre", "Guides, FAQs and support for accounts, trading, passwords and the platform.", "/help"),
   component: Page,
 });
 
 const CATS = [
-  { i: UserCircle, t: "Account", d: "Sign-up, profile and demo balances", n: 8 },
+  { i: UserCircle, t: "Account", d: "Sign-up, profile and preview balances", n: 8 },
   { i: LineChart, t: "Trading", d: "Orders, positions and charts", n: 14 },
   { i: KeyRound, t: "Login & passwords", d: "Resets and temporary passwords", n: 6 },
   { i: CreditCard, t: "Virtual funds", d: "Balances, bonuses and adjustments", n: 7 },
@@ -20,16 +20,16 @@ const CATS = [
 ];
 
 const FAQ: [string, string, string][] = [
-  ["Account", "How do I open a demo account?", "Click 'Open demo account', enter a username, email and password, then confirm your email address using the link we send you."],
-  ["Account", "Why do I have to accept a disclaimer?", "To make sure everyone understands that all funds, prices and news are simulated before they start trading."],
+  ["Account", "How do I open a account?", "Click 'Open account', enter a username, email and password, then confirm your email address using the link we send you."],
+  ["Account", "Why do I have to accept a disclaimer?", "To make sure everyone understands that all funds, prices and news are indicative before they start trading."],
   ["Account", "Can I change my username?", "Not in the pilot. Contact support if you need it changed."],
   ["Account", "How do I switch between dark and light mode?", "Use the sun/moon icon in the top bar of the workstation. Your choice is remembered on that device."],
-  ["Trading", "What's the difference between a market and a limit order?", "A market order fills immediately at the current simulated price. A limit order waits until the price reaches your limit, then fills automatically."],
+  ["Trading", "What's the difference between a market and a limit order?", "A market order fills immediately at the current indicative price. A limit order waits until the price reaches your limit, then fills automatically."],
   ["Trading", "How do I cancel a limit order?", "Open the Orders tab at the bottom of the Trade screen and click Cancel next to any working order."],
   ["Trading", "Why was my order rejected?", "Usually because there wasn't enough virtual cash for a buy, or you tried to sell more units than you hold."],
   ["Trading", "What do the green and red flashes mean?", "A green flash means the price just ticked up; red means it ticked down."],
   ["Trading", "How is profit and loss calculated?", "Unrealized P&L is the difference between the live price and your average cost, multiplied by your position size."],
-  ["Trading", "Can I short sell?", "Not in the demo. You can only sell units you already hold."],
+  ["Trading", "Can I short sell?", "Not in the preview. You can only sell units you already hold."],
   ["Login & passwords", "I forgot my password.", "Use 'Forgot password?' on the login page to receive a reset link by email."],
   ["Login & passwords", "I was given a temporary password.", "Sign in with it and you'll be asked to choose a new password straight away."],
   ["Login & passwords", "I didn't receive my confirmation email.", "Check your spam folder. If it's not there, sign up again with the same email to resend it."],
@@ -42,7 +42,7 @@ const FAQ: [string, string, string][] = [
 
 const GUIDES = [
   { img: IMG.traderDesk, tag: "Getting started", title: "A 5-minute tour of the workstation", body: "Learn where everything is: watchlists, chart, order ticket, depth and the blotter.", meta: "Video guide · 5 min" },
-  { img: IMG.mobileHand, tag: "Trading", title: "Placing your first limit order", body: "Set a price, confirm the order, and watch it fill as the simulated market moves.", meta: "Step-by-step · 4 min" },
+  { img: IMG.mobileHand, tag: "Trading", title: "Placing your first limit order", body: "Set a price, confirm the order, and watch it fill as the indicative market moves.", meta: "Step-by-step · 4 min" },
   { img: IMG.educationStudy, tag: "Portfolio", title: "Reading your portfolio analytics", body: "Understand allocation, weights, unrealized P&L and your activity history.", meta: "Article · 6 min" },
 ];
 
@@ -77,8 +77,8 @@ function Page() {
 
       <Section title="Getting started checklist" muted>
         <Steps items={[
-          { title: "Create and confirm your account", body: "Sign up, then click the link in your confirmation email to activate your demo account." },
-          { title: "Accept the demo disclaimer", body: "Confirm you understand that all funds and prices are simulated before entering the workstation." },
+          { title: "Create and confirm your account", body: "Sign up, then click the link in your confirmation email to activate your account." },
+          { title: "Accept the disclaimer", body: "Confirm you understand that all funds and prices are indicative before entering the workstation." },
           { title: "Place your first trade", body: "Pick an instrument from the watchlist, review the order ticket and transmit your order." },
         ]} />
       </Section>

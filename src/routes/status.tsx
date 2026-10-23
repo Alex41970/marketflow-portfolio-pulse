@@ -4,11 +4,11 @@ import { CheckCircle2 } from "lucide-react";
 import { ContentPage, ImageCards, Photo, SampleNote, Section, Split, Testimonials, pageHead } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/status")({
-  head: () => pageHead("System status", "Current status of the simulator's services.", "/status"),
+  head: () => pageHead("System status", "Current status of the platform's services.", "/status"),
   component: Page,
 });
 
-const COMPONENTS = ["Website", "Workstation", "Simulated market data", "Order handling", "Accounts & login", "Back-office console", "Email delivery"];
+const COMPONENTS = ["Website", "Workstation", "Indicative market data", "Order handling", "Accounts & login", "Back-office console", "Email delivery"];
 
 function Bars() {
   return <div className="flex gap-[2px]">{Array.from({ length: 60 }, (_, i) => <span key={i} className="h-6 w-1 rounded-sm bg-gain opacity-80" />)}</div>;
@@ -16,7 +16,7 @@ function Bars() {
 
 function Page() {
   return (
-    <ContentPage image={IMG.marketsGlobe} eyebrow="Support" title="System status" sub="Live view of the services that power the demo platform." crumbs={["Support", "Status"]} cta={false}>
+    <ContentPage image={IMG.marketsGlobe} eyebrow="Support" title="System status" sub="Live view of the services that power the platform." crumbs={["Support", "Status"]} cta={false}>
       <Section>
         <div className="panel mb-8 flex items-center gap-3 border-gain p-5"><CheckCircle2 className="h-6 w-6 text-gain" /><div><div className="font-semibold">All systems operational</div><div className="text-sm text-muted-foreground">No incidents reported.</div></div></div>
         <div className="panel divide-y">

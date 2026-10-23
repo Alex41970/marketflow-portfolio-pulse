@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { IMG } from "@/lib/images";
 
 export const Route = createFileRoute("/education")({
-  head: () => pageHead("Education", "Free trading courses, learning paths, webinars, glossary and articles, with hands-on practice in the simulator.", "/education"),
+  head: () => pageHead("Education", "Free trading courses, learning paths, webinars, glossary and articles, with hands-on practice in the platform.", "/education"),
   component: Page,
 });
 
@@ -51,7 +51,7 @@ function Page() {
   const [lvl, setLvl] = useState("All");
   const [q, setQ] = useState("");
   return (
-    <ContentPage eyebrow="Education" title="Learn it. Then practise it." sub="Free courses, learning paths and live sessions — each paired with a simulator where you can try every concept immediately." image={IMG.educationStudy}>
+    <ContentPage eyebrow="Education" title="Learn it. Then practise it." sub="Free courses, learning paths and live sessions — each paired with a platform where you can try every concept immediately." image={IMG.educationStudy}>
       <Stats items={[["9", "Free courses"], ["58", "Lessons"], ["16", "Glossary terms"], ["Weekly", "Live webinars (sample)"]]} />
 
       <Section title="Learning paths" sub="Follow a structured path, or pick individual courses.">
@@ -82,7 +82,7 @@ function Page() {
       </Section>
 
       <Section>
-        <Split title="Learn by doing, not just reading" body="Every lesson ends with a short exercise in the simulator — place a limit order, rebalance a portfolio, read the depth ladder. You'll remember it because you did it." bullets={["Exercises linked directly to the workstation", "Track your trades against the lesson's goal", "No risk: everything uses virtual funds"]} visual={<Photo src={IMG.traderDesk} alt="Trader at multi-monitor desk" />} />
+        <Split title="Learn by doing, not just reading" body="Every lesson ends with a short exercise in the platform — place a limit order, rebalance a portfolio, read the depth ladder. You'll remember it because you did it." bullets={["Exercises linked directly to the workstation", "Track your trades against the lesson's goal", "No risk: everything uses virtual funds"]} visual={<Photo src={IMG.traderDesk} alt="Trader at multi-monitor desk" />} />
       </Section>
 
       <Section title="Upcoming webinars" sub="Live sessions with our education team (sample schedule)." muted>
@@ -111,7 +111,7 @@ function Page() {
 
       <Section title="What learners say">
         <Testimonials items={[
-          ["The limit order lesson finally made it click. Practising it straight away in the simulator was the key.", "Sam T.", "Beginner learner"],
+          ["The limit order lesson finally made it click. Practising it straight away in the platform was the key.", "Sam T.", "Beginner learner"],
           ["I use the portfolio builder path with my students. Being able to see allocation change live is brilliant.", "Dr. M. Okafor", "University lecturer"],
           ["The depth and time & sales course taught me more in 25 minutes than months of reading.", "Priya R.", "Active trader"],
         ]} />
@@ -121,7 +121,7 @@ function Page() {
         <FeatureGrid cols={3} items={[
           { icon: Users, title: "For classrooms", body: "Teachers can run trading competitions with practice bonuses awarded by administrators." },
           { icon: GraduationCap, title: "Certificates (coming soon)", body: "Complete a learning path and earn a shareable certificate." },
-          { icon: BookOpen, title: "Always free", body: "Every course, article and webinar is free for demo account holders." },
+          { icon: BookOpen, title: "Always free", body: "Every course, article and webinar is free for account holders." },
         ]} />
         <div className="mt-8 text-center"><Button asChild size="lg"><Link to="/auth" search={{ mode: "signup" }}>Start learning free</Link></Button></div>
       </Section>

@@ -13,7 +13,7 @@ export function Brand({ className = "" }: { className?: string }) {
 export function DemoBanner() {
   return (
     <div className="bg-warning px-3 py-1 text-center text-[11px] font-medium text-warning-foreground">
-      DEMO ENVIRONMENT · Virtual funds only · Simulated prices · Not a brokerage
+      PRACTICE ENVIRONMENT · Indicative prices · Not a brokerage
     </div>
   );
 }
@@ -29,5 +29,5 @@ export function Sparkline({ data, up, w = 80, h = 24 }: { data: number[]; up: bo
 }
 
 export function SimTag() {
-  return <span className="rounded-sm border px-1 py-px text-[9px] font-medium uppercase tracking-wider text-muted-foreground">Simulated</span>;
+  return <span className="rounded-sm border px-1 py-px text-[9px] font-medium uppercase tracking-wider text-muted-foreground">Indicative</span>;
 }
