@@ -26,13 +26,23 @@ function Branding() {
   async function save() {
     if (!f.name.trim()) { toast.error("Brand name is required"); return; }
     setSaving(true);
-    const { error } = await supabase.from("site_settings").update({
+    const base = {
       brand_name: f.name.trim(), brand_suffix: f.suffix.trim(), brand_mark: f.mark.trim().slice(0, 3) || f.name.trim().slice(0, 1),
-      tagline: f.tagline, footer_text: f.disclaimer, copyright: f.copyright,
-      awards_enabled: f.awardsEnabled, awards_heading: f.awardsHeading, awards: f.awards.filter((a) => a.title.trim()) as unknown as import("@/integrations/supabase/types").Json, updated_at: new Date().toISOString(),
+      tagline: f.tagline, footer_text: f.disclaimer, copyright: f.copyright, updated_at: new Date().toISOString(),
+    };
+    let { error } = await supabase.from("site_settings").update({
+      ...base,
+      awards_enabled: f.awardsEnabled, awards_heading: f.awardsHeading, awards: f.awards.filter((a) => a.title.trim()) as unknown as import("@/integrations/supabase/types").Json,
     }).eq("id", 1);
+    let awardsSkipped = false;
+    // Older databases may lack the awards columns: save the brand text anyway.
+    if (error && /awards/i.test(error.message)) {
+      ({ error } = await supabase.from("site_settings").update(base).eq("id", 1));
+      awardsSkipped = !error;
+    }
     setSaving(false);
     if (error) { toast.error(error.message); return; }
+    if (awardsSkipped) toast.info("Brand text saved. Award edits aren't supported on this server yet, so the built-in awards stay.");
     await qc.invalidateQueries({ queryKey: brandQueryKey });
     toast.success("Branding saved");
   }
